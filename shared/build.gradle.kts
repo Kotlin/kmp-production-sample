@@ -15,6 +15,26 @@ kotlin {
             }
         }
     }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                //Network
+                implementation("io.ktor:ktor-client-core:${properties["version.ktor"]}")
+                implementation("io.ktor:ktor-client-logging:${properties["version.ktor"]}")
+                //Coroutines
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${properties["version.kotlinx.coroutines"]}")
+                //Logger
+                implementation("com.github.aakira:napier:${properties["version.napier"]}")
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                //Network
+                implementation("io.ktor:ktor-client-okhttp:${properties["version.ktor"]}")
+            }
+        }
+    }
 }
 
 android {

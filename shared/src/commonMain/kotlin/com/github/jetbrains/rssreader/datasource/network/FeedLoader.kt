@@ -1,21 +1,16 @@
 package com.github.jetbrains.rssreader.datasource.network
 
-import com.github.jetbrains.rssreader.entity.Channel
 import com.github.jetbrains.rssreader.entity.Feed
-import com.github.jetbrains.rssreader.entity.Post
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 
-internal class FeedLoader {
-    fun getFeed(link: String): Feed {
-        return Feed(
-            Channel("ch_title", link, "ch_description"),
-            listOf(
-                Post("p_title", "p_link", "p_description", null, "p_date"),
-                Post("p_title", "p_link", "p_description", null, "p_date"),
-                Post("p_title", "p_link", "p_description", null, "p_date"),
-                Post("p_title", "p_link", "p_description", null, "p_date"),
-                Post("p_title", "p_link", "p_description", null, "p_date"),
-                Post("p_title", "p_link", "p_description", null, "p_date"),
-            )
-        )
+internal class FeedLoader(
+    private val httpClient: HttpClient,
+    private val parser: FeedParser
+) {
+    suspend fun getFeed(link: String): Feed {
+        val xml = httpClient.get<HttpResponse>(link).readText()
+        return parser.parse(xml)
     }
 }
