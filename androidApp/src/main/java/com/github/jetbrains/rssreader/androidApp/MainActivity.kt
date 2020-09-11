@@ -2,12 +2,8 @@ package com.github.jetbrains.rssreader.androidApp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.github.jetbrains.rssreader.shared.Greeting
 import android.widget.TextView
-
-fun greet(): String {
-    return Greeting().greeting()
-}
+import com.github.jetbrains.rssreader.RssReader
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +11,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val tv: TextView = findViewById(R.id.text_view)
-        tv.text = greet()
+        tv.text = RssReader().getFeed("https://blog.jetbrains.com/kotlin/feed/").toString()
     }
 }
