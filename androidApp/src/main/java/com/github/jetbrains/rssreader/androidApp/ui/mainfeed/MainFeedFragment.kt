@@ -1,5 +1,7 @@
 package com.github.jetbrains.rssreader.androidApp.ui.mainfeed
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +28,16 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
         vb.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            adapter = FastAdapter.with(itemsAdapter)
+            adapter = FastAdapter.with(itemsAdapter).apply {
+                onClickListener = { view, adapter, item, position ->
+                    if (item is PostItem) {
+                        item.post.link?.let {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
+                        }
+                    }
+                    false
+                }
+            }
         }
         vb.swipeRefreshLayout.setOnRefreshListener { store.onRefresh() }
     }
@@ -44,7 +55,7 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
             itemsAdapter.clear()
             state.feed.posts.forEach { post ->
                 itemsAdapter.add(
-                    PostItem(state.feed.title, state.feed.link, post)
+                    PostItem(state.feed.title, post)
                 )
             }
             vb.swipeRefreshLayout.isRefreshing = false

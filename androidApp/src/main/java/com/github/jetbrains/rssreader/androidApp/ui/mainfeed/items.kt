@@ -12,7 +12,6 @@ import com.mikepenz.fastadapter.items.AbstractItem
 
 class PostItem(
     val feedTitle: String,
-    val feedLink: String,
     val post: Post
 ) : AbstractItem<PostItem.ViewHolder>() {
     override val layoutRes = R.layout.item_post
