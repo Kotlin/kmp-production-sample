@@ -11,6 +11,8 @@ import org.xmlpull.v1.XmlPullParser
 
 internal class AndroidFeedParser : FeedParser {
     private val imgReg = Regex("<img[^>]+\\bsrc=[\"']([^\"']+)[\"']")
+    private val htmlTag = Regex("<.+?>")
+    private val blankLine = Regex("(?m)^[ \t]*\r?\n")
 
     override suspend fun parse(xml: String): Feed = withContext(Dispatchers.IO) {
         val parser = Xml.newPullParser().apply {
@@ -104,7 +106,10 @@ internal class AndroidFeedParser : FeedParser {
         return Post(
             title,
             link,
-            description,
+            description
+                ?.replace(htmlTag, "")
+                ?.replace(blankLine, "")
+                ?.trim(),
             imageUrl,
             date ?: System.currentTimeMillis().toString()
         )
