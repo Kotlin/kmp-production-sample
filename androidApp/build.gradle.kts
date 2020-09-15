@@ -21,6 +21,18 @@ android {
             isMinifyEnabled = false
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -29,6 +41,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${properties["version.androidx.appcompat"]}")
     implementation("com.google.android.material:material:${properties["version.androidx.material"]}")
     implementation("androidx.constraintlayout:constraintlayout:${properties["version.androidx.constraintlayout"]}")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:${properties["version.androidx.swiperefreshlayout"]}")
+    implementation("androidx.core:core-ktx:${properties["version.androidx.ktx"]}")
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${properties["version.kotlinx.coroutines"]}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${properties["version.kotlinx.coroutines"]}")
@@ -37,4 +51,10 @@ dependencies {
     //DI
     implementation("org.koin:koin-core:${properties["version.koin"]}")
     implementation("org.koin:koin-androidx-scope:${properties["version.koin"]}")
+    //Recycler utils
+    implementation("com.mikepenz:fastadapter:${properties["version.fastadapter"]}")
+    //Image load
+    implementation("io.coil-kt:coil:${properties["version.coil"]}")
+    //ViewBinding delegate
+    implementation("com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:${properties["version.viewbindingpropertydelegate"]}")
 }

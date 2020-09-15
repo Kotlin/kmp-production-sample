@@ -24,10 +24,15 @@ sealed class MainFeedEffect : Effect {
 class MainFeed(
     private val rssReader: RssReader
 ) : Store<MainFeedState, MainFeedAction, MainFeedEffect>(MainFeedState.Empty) {
+    private val feedUrl = "https://blog.jetbrains.com/kotlin/feed/"
 
     override fun start() {
         super.start()
-        reduce(MainFeedAction.Refresh("https://blog.jetbrains.com/kotlin/feed/"))
+        onRefresh()
+    }
+
+    fun onRefresh() {
+        reduce(MainFeedAction.Refresh(feedUrl))
     }
 
     override fun reducer(
