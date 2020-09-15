@@ -1,8 +1,0 @@
-<resources>
-
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">#f8873c</item>
-        <item name="colorSecondary">#6b70fc</item>
-    </style>
-
-</resources>

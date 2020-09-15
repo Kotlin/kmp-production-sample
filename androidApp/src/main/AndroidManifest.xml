@@ -5,7 +5,7 @@
     <application
         android:name=".App"
         android:allowBackup="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.Splash">
         <activity
             android:name=".AppActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"

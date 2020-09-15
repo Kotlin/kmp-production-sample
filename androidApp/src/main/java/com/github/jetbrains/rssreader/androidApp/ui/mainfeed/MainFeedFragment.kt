@@ -11,6 +11,7 @@ import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBin
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
 import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
+import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import org.koin.android.ext.android.getKoin
@@ -26,6 +27,7 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vb.recyclerView.apply {
+            addSystemPadding()
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = FastAdapter.with(itemsAdapter).apply {
