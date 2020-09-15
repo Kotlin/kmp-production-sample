@@ -1,8 +1,9 @@
-package com.github.jetbrains.rssreader.androidApp.ui
+package com.github.jetbrains.rssreader.androidApp.ui.mainfeed
 
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
+import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
 import org.koin.android.ext.android.getKoin
 import org.koin.core.scope.Scope
 import timber.log.Timber

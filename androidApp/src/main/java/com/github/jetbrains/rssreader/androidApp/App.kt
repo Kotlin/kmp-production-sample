@@ -3,7 +3,7 @@ package com.github.jetbrains.rssreader.androidApp
 import android.app.Application
 import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
-import com.github.jetbrains.rssreader.androidApp.ui.MainFeedFragment
+import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.create
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
