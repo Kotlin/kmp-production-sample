@@ -25,12 +25,16 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("com.google.android.material:material:1.2.1")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+    //UI
+    implementation("androidx.appcompat:appcompat:${properties["version.androidx.appcompat"]}")
+    implementation("com.google.android.material:material:${properties["version.androidx.material"]}")
+    implementation("androidx.constraintlayout:constraintlayout:${properties["version.androidx.constraintlayout"]}")
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${properties["version.kotlinx.coroutines"]}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${properties["version.kotlinx.coroutines"]}")
     //Log
-    implementation("com.jakewharton.timber:timber:4.7.1")
+    implementation("com.jakewharton.timber:timber:${properties["version.timber"]}")
+    //DI
+    implementation("org.koin:koin-core:${properties["version.koin"]}")
+    implementation("org.koin:koin-androidx-scope:${properties["version.koin"]}")
 }
