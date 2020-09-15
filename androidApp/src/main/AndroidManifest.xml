@@ -6,7 +6,11 @@
         android:name=".App"
         android:allowBackup="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".AppActivity">
+        <activity
+            android:name=".AppActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
