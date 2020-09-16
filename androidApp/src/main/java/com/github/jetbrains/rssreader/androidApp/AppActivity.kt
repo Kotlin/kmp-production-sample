@@ -26,7 +26,7 @@ class AppActivity : AppCompatActivity(R.layout.container) {
         applyAppTheme()
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null) {
+        if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFeedFragment())
                 .commit()
