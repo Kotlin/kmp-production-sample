@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    kotlin("plugin.serialization")
 }
 
 
@@ -26,6 +27,10 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${properties["version.kotlinx.coroutines"]}")
                 //Logger
                 implementation("com.github.aakira:napier:${properties["version.napier"]}")
+                //JSON
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${properties["version.kotlinx.serialization"]}")
+                //Key-Value storage
+                implementation("com.russhwolf:multiplatform-settings:${properties["version.settings"]}")
             }
         }
         val androidMain by getting {

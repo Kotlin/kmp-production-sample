@@ -28,7 +28,7 @@ class App : Application() {
 
     private val appModule = module {
         single {
-            RssReader.create(BuildConfig.DEBUG)
+            RssReader.create(get(), BuildConfig.DEBUG)
         }
 
         scope<MainFeedFragment> {
