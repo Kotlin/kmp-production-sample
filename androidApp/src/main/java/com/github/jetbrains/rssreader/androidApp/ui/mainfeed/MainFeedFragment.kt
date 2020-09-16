@@ -11,20 +11,22 @@ import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBinding
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
+import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
 import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.entity.Feed
 import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
-import com.mikepenz.fastadapter.diff.DiffCallback
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
+import org.koin.core.parameter.parametersOf
 import org.koin.core.scope.Scope
 
 class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_feed) {
     private val scope: Scope by lazy { getKoin().getOrCreateScope<MainFeedFragment>(runId) }
-    override val store by lazy { scope.get<MainFeed>() }
+    override val store by lazy {
+        scope.get<MainFeed> { parametersOf(requireArguments().getString(ARG_URL)) }
+    }
 
     private val vb by viewBinding(FragmentMainFeedBinding::bind)
     private val itemsAdapter = GenericItemAdapter()
@@ -80,28 +82,17 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
 
     private fun Feed.postItems() = posts.map { PostItem(title, it) }
 
-    private object GenericDiffCallback : DiffCallback<GenericItem> {
-
-        override fun areItemsTheSame(
-            oldItem: GenericItem,
-            newItem: GenericItem
-        ) = oldItem.type == newItem.type
-
-        override fun areContentsTheSame(
-            oldItem: GenericItem,
-            newItem: GenericItem
-        ) = oldItem == newItem
-
-        override fun getChangePayload(
-            oldItem: GenericItem,
-            oldItemPosition: Int,
-            newItem: GenericItem,
-            newItemPosition: Int
-        ) = Any()
-    }
-
     override fun onFinalDestroy() {
         super.onFinalDestroy()
         scope.close()
+    }
+
+    companion object {
+        private const val ARG_URL = "arg_url"
+        fun create(url: String) = MainFeedFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_URL, url)
+            }
+        }
     }
 }

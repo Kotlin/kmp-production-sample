@@ -28,6 +28,14 @@ class FeedList(
         reduce(FeedListAction.Load)
     }
 
+    fun addFeed(url: String) {
+        reduce(FeedListAction.Add(url))
+    }
+
+    fun removeFeed(url: String) {
+        reduce(FeedListAction.Remove(url))
+    }
+
     override fun reducer(
         currentState: FeedListState,
         action: FeedListAction,
