@@ -53,6 +53,7 @@ dependencies {
     implementation("org.koin:koin-androidx-scope:${properties["version.koin"]}")
     //Recycler utils
     implementation("com.mikepenz:fastadapter:${properties["version.fastadapter"]}")
+    implementation("com.mikepenz:fastadapter-extensions-diff:${properties["version.fastadapter"]}")
     //Image load
     implementation("io.coil-kt:coil:${properties["version.coil"]}")
     //ViewBinding delegate

@@ -10,7 +10,7 @@ import com.github.jetbrains.rssreader.entity.Post
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 
-class PostItem(
+data class PostItem(
     val feedTitle: String,
     val post: Post
 ) : AbstractItem<PostItem.ViewHolder>() {
@@ -36,7 +36,7 @@ class PostItem(
     }
 }
 
-class ErrorItem(
+data class ErrorItem(
     val error: Throwable
 ) : AbstractItem<ErrorItem.ViewHolder>() {
     override val layoutRes = R.layout.item_error

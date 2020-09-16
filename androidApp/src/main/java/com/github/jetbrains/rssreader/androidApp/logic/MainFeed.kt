@@ -6,9 +6,9 @@ import kotlinx.coroutines.launch
 
 sealed class MainFeedState : State {
     object Empty : MainFeedState()
-    data class Progress(val feedUrl: String) : MainFeedState()
-    data class Data(val feedUrl: String, val feed: Feed) : MainFeedState()
-    data class Error(val feedUrl: String, val error: Throwable) : MainFeedState()
+    data class Progress(val feed: Feed?) : MainFeedState()
+    data class Data(val feed: Feed) : MainFeedState()
+    data class Error(val error: Throwable, val feed: Feed?) : MainFeedState()
 }
 
 sealed class MainFeedAction : Action {
@@ -40,21 +40,33 @@ class MainFeed(
         action: MainFeedAction,
         sideEffects: (effect: MainFeedEffect) -> Unit
     ) = when (currentState) {
-        is MainFeedState.Empty,
-        is MainFeedState.Data,
+        is MainFeedState.Empty -> when (action) {
+            is MainFeedAction.Refresh -> {
+                sideEffects(MainFeedEffect.Load(action.feedUrl, action.forceLoad))
+                MainFeedState.Progress(null)
+            }
+            else -> currentState
+        }
+        is MainFeedState.Data -> when (action) {
+            is MainFeedAction.Refresh -> {
+                sideEffects(MainFeedEffect.Load(action.feedUrl, action.forceLoad))
+                MainFeedState.Progress(currentState.feed)
+            }
+            else -> currentState
+        }
         is MainFeedState.Error -> when (action) {
             is MainFeedAction.Refresh -> {
                 sideEffects(MainFeedEffect.Load(action.feedUrl, action.forceLoad))
-                MainFeedState.Progress(action.feedUrl)
+                MainFeedState.Progress(currentState.feed)
             }
             else -> currentState
         }
         is MainFeedState.Progress -> when (action) {
             is MainFeedAction.Data -> {
-                MainFeedState.Data(currentState.feedUrl, action.feed)
+                MainFeedState.Data(action.feed)
             }
             is MainFeedAction.Error -> {
-                MainFeedState.Error(currentState.feedUrl, action.error)
+                MainFeedState.Error(action.error, currentState.feed)
             }
             else -> currentState
         }

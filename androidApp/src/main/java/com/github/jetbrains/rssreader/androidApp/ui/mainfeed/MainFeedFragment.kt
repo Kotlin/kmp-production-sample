@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.rssreader.androidApp.R
@@ -12,8 +13,12 @@ import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
 import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
+import com.github.jetbrains.rssreader.entity.Feed
 import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
+import com.mikepenz.fastadapter.diff.DiffCallback
+import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
 import org.koin.core.scope.Scope
 
@@ -50,23 +55,49 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
             vb.swipeRefreshLayout.isRefreshing = false
         }
         is MainFeedState.Progress -> {
-            itemsAdapter.clear()
+            if (state.feed != null) {
+                FastAdapterDiffUtil.set(itemsAdapter, state.feed.postItems(), GenericDiffCallback)
+            } else {
+                itemsAdapter.clear()
+            }
             vb.swipeRefreshLayout.isRefreshing = true
         }
         is MainFeedState.Data -> {
-            itemsAdapter.clear()
-            state.feed.posts.forEach { post ->
-                itemsAdapter.add(
-                    PostItem(state.feed.title, post)
-                )
-            }
+            FastAdapterDiffUtil.set(itemsAdapter, state.feed.postItems(), GenericDiffCallback)
             vb.swipeRefreshLayout.isRefreshing = false
         }
         is MainFeedState.Error -> {
-            itemsAdapter.clear()
-            itemsAdapter.add(ErrorItem(state.error))
+            if (state.feed != null) {
+                FastAdapterDiffUtil.set(itemsAdapter, state.feed.postItems(), GenericDiffCallback)
+                Toast.makeText(requireContext(), state.error.message, Toast.LENGTH_SHORT).show()
+            } else {
+                itemsAdapter.clear()
+                itemsAdapter.add(ErrorItem(state.error))
+            }
             vb.swipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    private fun Feed.postItems() = posts.map { PostItem(title, it) }
+
+    private object GenericDiffCallback : DiffCallback<GenericItem> {
+
+        override fun areItemsTheSame(
+            oldItem: GenericItem,
+            newItem: GenericItem
+        ) = oldItem.type == newItem.type
+
+        override fun areContentsTheSame(
+            oldItem: GenericItem,
+            newItem: GenericItem
+        ) = oldItem == newItem
+
+        override fun getChangePayload(
+            oldItem: GenericItem,
+            oldItemPosition: Int,
+            newItem: GenericItem,
+            newItemPosition: Int
+        ) = Any()
     }
 
     override fun onFinalDestroy() {

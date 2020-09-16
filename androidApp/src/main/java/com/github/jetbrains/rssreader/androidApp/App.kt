@@ -32,7 +32,7 @@ class App : Application() {
         }
 
         scope<MainFeedFragment> {
-            scoped { MainFeed(get()) }
+            scoped { MainFeed(get(), "https://blog.jetbrains.com/kotlin/feed/") }
         }
     }
 
