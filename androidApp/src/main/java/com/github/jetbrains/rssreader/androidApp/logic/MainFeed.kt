@@ -12,27 +12,27 @@ sealed class MainFeedState : State {
 }
 
 sealed class MainFeedAction : Action {
-    data class Refresh(val feedUrl: String) : MainFeedAction()
+    data class Refresh(val feedUrl: String, val forceLoad: Boolean) : MainFeedAction()
     data class Data(val feed: Feed) : MainFeedAction()
     data class Error(val error: Throwable) : MainFeedAction()
 }
 
 sealed class MainFeedEffect : Effect {
-    data class Load(val feedUrl: String) : MainFeedEffect()
+    data class Load(val feedUrl: String, val forceLoad: Boolean) : MainFeedEffect()
 }
 
 class MainFeed(
-    private val rssReader: RssReader
+    private val rssReader: RssReader,
+    private val feedUrl: String
 ) : Store<MainFeedState, MainFeedAction, MainFeedEffect>(MainFeedState.Empty) {
-    private val feedUrl = "https://blog.jetbrains.com/kotlin/feed/"
 
     override fun start() {
         super.start()
-        onRefresh()
+        reduce(MainFeedAction.Refresh(feedUrl, false))
     }
 
     fun onRefresh() {
-        reduce(MainFeedAction.Refresh(feedUrl))
+        reduce(MainFeedAction.Refresh(feedUrl, true))
     }
 
     override fun reducer(
@@ -44,7 +44,7 @@ class MainFeed(
         is MainFeedState.Data,
         is MainFeedState.Error -> when (action) {
             is MainFeedAction.Refresh -> {
-                sideEffects(MainFeedEffect.Load(action.feedUrl))
+                sideEffects(MainFeedEffect.Load(action.feedUrl, action.forceLoad))
                 MainFeedState.Progress(action.feedUrl)
             }
             else -> currentState
@@ -65,7 +65,7 @@ class MainFeed(
             try {
                 when (effect) {
                     is MainFeedEffect.Load -> {
-                        val feed = rssReader.getFeed(effect.feedUrl)
+                        val feed = rssReader.getFeed(effect.feedUrl, effect.forceLoad)
                         reduce(MainFeedAction.Data(feed))
                     }
                 }
