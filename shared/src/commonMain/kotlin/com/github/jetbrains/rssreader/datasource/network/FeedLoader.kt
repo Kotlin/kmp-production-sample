@@ -9,8 +9,8 @@ internal class FeedLoader(
     private val httpClient: HttpClient,
     private val parser: FeedParser
 ) {
-    suspend fun getFeed(link: String): Feed {
-        val xml = httpClient.get<HttpResponse>(link).readText()
+    suspend fun getFeed(url: String): Feed {
+        val xml = httpClient.get<HttpResponse>(url).readText()
         return parser.parse(xml)
     }
 }
