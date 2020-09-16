@@ -43,7 +43,7 @@ class FeedStorage(
         diskCache = memCache
     }
 
-    suspend fun getAllFeedUrls(): Set<String> = memCache.keys
+    suspend fun getAllFeedUrls(): Set<String> = memCache.keys.toSet()
 }
 
 @Serializable

@@ -109,7 +109,8 @@ internal class AndroidFeedParser : FeedParser {
             description
                 ?.replace(htmlTag, "")
                 ?.replace(blankLine, "")
-                ?.trim(),
+                ?.trim()
+                ?.take(300),
             imageUrl,
             date ?: System.currentTimeMillis().toString()
         )
