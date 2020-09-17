@@ -9,6 +9,10 @@ import com.github.jetbrains.rssreader.androidApp.databinding.ItemPostBinding
 import com.github.jetbrains.rssreader.entity.Post
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
+import java.text.SimpleDateFormat
+import java.util.*
+
+private val dateFormatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
 
 data class PostItem(
     val post: Post
@@ -22,7 +26,7 @@ data class PostItem(
     ) : FastAdapter.ViewHolder<PostItem>(vb.root) {
         override fun bindView(item: PostItem, payloads: List<Any>) {
             vb.titleTextView.text = item.post.title
-            vb.dateTextView.text = item.post.date
+            vb.dateTextView.text = dateFormatter.format(Date(item.post.date))
 
             vb.descriptionTextView.text = item.post.description
             vb.descriptionTextView.isVisible = item.post.description != null

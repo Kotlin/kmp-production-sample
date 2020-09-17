@@ -1,6 +1,7 @@
 package com.github.jetbrains.rssreader
 
 import android.util.Xml
+import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.datasource.network.FeedParser
 import com.github.jetbrains.rssreader.entity.Feed
 import com.github.jetbrains.rssreader.entity.Post
@@ -8,8 +9,12 @@ import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 internal class AndroidFeedParser : FeedParser {
+    private val dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US)
     private val imgReg = Regex("<img[^>]+\\bsrc=[\"']([^\"']+)[\"']")
     private val htmlTag = Regex("<.+?>")
     private val blankLine = Regex("(?m)^[ \t]*\r?\n")
@@ -103,6 +108,15 @@ internal class AndroidFeedParser : FeedParser {
                 ?: content?.let { findImageUrl(l, it) }
         }
 
+        val dateLong: Long = date?.let {
+            try {
+                ZonedDateTime.parse(date, dateFormat).toEpochSecond() * 1000
+            } catch (e: Throwable) {
+                Napier.e("Parse date error: ${e.message}")
+                null
+            }
+        } ?: System.currentTimeMillis()
+
         return Post(
             title ?: feedTitle,
             link,
@@ -112,7 +126,7 @@ internal class AndroidFeedParser : FeedParser {
                 ?.trim()
                 ?.take(300),
             imageUrl,
-            date ?: System.currentTimeMillis().toString()
+            dateLong
         )
     }
 

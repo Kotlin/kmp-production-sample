@@ -19,5 +19,5 @@ data class Post(
     @SerialName("link") val link: String?,
     @SerialName("description") val description: String?,
     @SerialName("imageUrl") val imageUrl: String?,
-    @SerialName("date") val date: String
+    @SerialName("date") val date: Long
 )

@@ -48,7 +48,7 @@ class RssReader internal constructor(
                 new
             }
         }
-        return feeds.flatMap { it.posts }.sortedBy { it.date }
+        return feeds.flatMap { it.posts }.sortedByDescending { it.date }
     }
 
     suspend fun getAllFeedUrls(): Set<String> =
