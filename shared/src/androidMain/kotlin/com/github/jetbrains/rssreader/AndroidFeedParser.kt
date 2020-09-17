@@ -14,7 +14,7 @@ internal class AndroidFeedParser : FeedParser {
     private val htmlTag = Regex("<.+?>")
     private val blankLine = Regex("(?m)^[ \t]*\r?\n")
 
-    override suspend fun parse(xml: String): Feed = withContext(Dispatchers.IO) {
+    override suspend fun parse(sourceUrl: String, xml: String): Feed = withContext(Dispatchers.IO) {
         val parser = Xml.newPullParser().apply {
             setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
         }
@@ -31,13 +31,13 @@ internal class AndroidFeedParser : FeedParser {
             }
             parser.nextTag()
 
-            feed = readFeed(parser)
+            feed = readFeed(sourceUrl, parser)
         }
 
         return@withContext feed
     }
 
-    private fun readFeed(parser: XmlPullParser): Feed {
+    private fun readFeed(sourceUrl: String, parser: XmlPullParser): Feed {
         parser.require(XmlPullParser.START_TAG, null, "channel")
 
         var title: String? = null
@@ -53,12 +53,12 @@ internal class AndroidFeedParser : FeedParser {
                 "link" -> link = readTagText("link", parser)
                 "description" -> description = readTagText("description", parser)
                 "image" -> imageUrl = readImageUrl(parser)
-                "item" -> posts.add(readPost(parser))
+                "item" -> posts.add(readPost(title!!, parser))
                 else -> skip(parser)
             }
         }
 
-        return Feed(title!!, link!!, description!!, imageUrl, posts)
+        return Feed(title!!, link!!, description!!, imageUrl, posts, sourceUrl)
     }
 
     private fun readImageUrl(parser: XmlPullParser): String? {
@@ -77,7 +77,7 @@ internal class AndroidFeedParser : FeedParser {
         return url
     }
 
-    private fun readPost(parser: XmlPullParser): Post {
+    private fun readPost(feedTitle: String, parser: XmlPullParser): Post {
         parser.require(XmlPullParser.START_TAG, null, "item")
 
         var title: String? = null
@@ -104,7 +104,7 @@ internal class AndroidFeedParser : FeedParser {
         }
 
         return Post(
-            title,
+            title ?: feedTitle,
             link,
             description
                 ?.replace(htmlTag, "")

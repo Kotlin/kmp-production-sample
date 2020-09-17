@@ -34,7 +34,7 @@ class App : Application() {
         }
 
         scope<MainFeedFragment> {
-            scoped { (url: String) -> MainFeed(get(), url) }
+            scoped { MainFeed(get()) }
         }
 
         scope<FeedListFragment> {

@@ -14,19 +14,15 @@ import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
 import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
 import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
-import com.github.jetbrains.rssreader.entity.Feed
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
-import org.koin.core.parameter.parametersOf
 import org.koin.core.scope.Scope
 
 class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_feed) {
     private val scope: Scope by lazy { getKoin().getOrCreateScope<MainFeedFragment>(runId) }
-    override val store by lazy {
-        scope.get<MainFeed> { parametersOf(requireArguments().getString(ARG_URL)) }
-    }
+    override val store by lazy { scope.get<MainFeed>() }
 
     private val vb by viewBinding(FragmentMainFeedBinding::bind)
     private val itemsAdapter = GenericItemAdapter()
@@ -57,20 +53,28 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
             vb.swipeRefreshLayout.isRefreshing = false
         }
         is MainFeedState.Progress -> {
-            if (state.feed != null) {
-                FastAdapterDiffUtil.set(itemsAdapter, state.feed.postItems(), GenericDiffCallback)
-            } else {
-                itemsAdapter.clear()
-            }
+            FastAdapterDiffUtil.set(
+                itemsAdapter,
+                state.posts.map { PostItem(it) },
+                GenericDiffCallback
+            )
             vb.swipeRefreshLayout.isRefreshing = true
         }
         is MainFeedState.Data -> {
-            FastAdapterDiffUtil.set(itemsAdapter, state.feed.postItems(), GenericDiffCallback)
+            FastAdapterDiffUtil.set(
+                itemsAdapter,
+                state.posts.map { PostItem(it) },
+                GenericDiffCallback
+            )
             vb.swipeRefreshLayout.isRefreshing = false
         }
         is MainFeedState.Error -> {
-            if (state.feed != null) {
-                FastAdapterDiffUtil.set(itemsAdapter, state.feed.postItems(), GenericDiffCallback)
+            if (state.posts.isNotEmpty()) {
+                FastAdapterDiffUtil.set(
+                    itemsAdapter,
+                    state.posts.map { PostItem(it) },
+                    GenericDiffCallback
+                )
                 Toast.makeText(requireContext(), state.error.message, Toast.LENGTH_SHORT).show()
             } else {
                 itemsAdapter.clear()
@@ -80,19 +84,8 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
         }
     }
 
-    private fun Feed.postItems() = posts.map { PostItem(title, it) }
-
     override fun onFinalDestroy() {
         super.onFinalDestroy()
         scope.close()
-    }
-
-    companion object {
-        private const val ARG_URL = "arg_url"
-        fun create(url: String) = MainFeedFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_URL, url)
-            }
-        }
     }
 }

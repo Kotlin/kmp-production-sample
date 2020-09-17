@@ -11,7 +11,6 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 
 data class PostItem(
-    val feedTitle: String,
     val post: Post
 ) : AbstractItem<PostItem.ViewHolder>() {
     override val layoutRes = R.layout.item_post
@@ -22,7 +21,7 @@ data class PostItem(
         private val vb: ItemPostBinding
     ) : FastAdapter.ViewHolder<PostItem>(vb.root) {
         override fun bindView(item: PostItem, payloads: List<Any>) {
-            vb.titleTextView.text = item.post.title ?: item.feedTitle
+            vb.titleTextView.text = item.post.title
             vb.dateTextView.text = item.post.date
 
             vb.descriptionTextView.text = item.post.description

@@ -1,14 +1,12 @@
 package com.github.jetbrains.rssreader.androidApp.ui.feedlist
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentFeedListBinding
-import com.github.jetbrains.rssreader.androidApp.databinding.LayoutNewFeedUrlBinding
 import com.github.jetbrains.rssreader.androidApp.logic.FeedList
 import com.github.jetbrains.rssreader.androidApp.logic.FeedListState
 import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
@@ -45,25 +43,7 @@ class FeedListFragment : ReduxFragment<FeedListState>(R.layout.fragment_feed_lis
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
-            adapter = FastAdapter.with(itemsAdapter).apply {
-                onClickListener = { view, adapter, item, position ->
-                    if (item is FeedUrlItem) {
-                        showFeed(item.url)
-                    } else if (item is NewFeedUrlItem) {
-                        val dialogVB = LayoutNewFeedUrlBinding.inflate(LayoutInflater.from(context))
-                        AlertDialog.Builder(context)
-                            .setView(dialogVB.root)
-                            .setPositiveButton(context.getString(R.string.add)) { d, i ->
-                                val input = dialogVB.textInput.editText?.text.toString()
-                                store.addFeed(input.replace("http://", "https://"))
-                                d.dismiss()
-                            }
-                            .setNegativeButton(context.getString(R.string.cancel)) { d, i -> d.dismiss() }
-                            .show()
-                    }
-                    false
-                }
-            }
+            adapter = FastAdapter.with(itemsAdapter)
         }
     }
 
@@ -74,19 +54,9 @@ class FeedListFragment : ReduxFragment<FeedListState>(R.layout.fragment_feed_lis
             GenericDiffCallback
         )
         if (childFragmentManager.fragments.isEmpty()) {
-            state.urls.firstOrNull()?.let { showFeed(it) }
-        } else {
-            childFragmentManager.findFragmentById(R.id.container)?.tag?.let { tag ->
-                if (!state.urls.contains(tag)) {
-                    state.urls.firstOrNull()?.let { showFeed(it) }
-                }
-            }
+            childFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFeedFragment())
+                .commit()
         }
-    }
-
-    private fun showFeed(url: String) {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.container, MainFeedFragment.create(url), url)
-            .commit()
     }
 }

@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
-import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
+import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import kotlin.math.roundToInt
 
@@ -28,7 +28,7 @@ class AppActivity : AppCompatActivity(R.layout.container) {
 
         if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, FeedListFragment())
+                .replace(R.id.container, MainFeedFragment())
                 .commit()
         }
 
