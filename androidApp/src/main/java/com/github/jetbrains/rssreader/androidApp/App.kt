@@ -18,6 +18,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        INSTANCE = this
         initLogger()
         initKoin()
     }
@@ -49,5 +50,10 @@ class App : Application() {
             androidContext(this@App)
             modules(appModule)
         }
+    }
+
+    companion object {
+        internal lateinit var INSTANCE: App
+            private set
     }
 }

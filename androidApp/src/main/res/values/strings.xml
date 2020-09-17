@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="new_feed_url">Add new feed</string>
     <string name="rss_feed_url">Rss feed url</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>

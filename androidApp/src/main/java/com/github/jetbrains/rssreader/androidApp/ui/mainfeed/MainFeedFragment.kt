@@ -4,16 +4,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.updateMargins
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.jetbrains.rssreader.androidApp.AppActivity
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBinding
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
 import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
 import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
+import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
+import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
+import com.github.jetbrains.rssreader.androidApp.ui.util.dp
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
@@ -29,6 +35,15 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        vb.editFab.setOnClickListener {
+            (activity as? AppActivity)?.showFragment(FeedListFragment())
+        }
+        vb.editFab.doOnApplyWindowInsets { v, insets, initialPadding ->
+            val lp = v.layoutParams as ViewGroup.MarginLayoutParams
+            lp.updateMargins(bottom = 16.dp + insets.systemWindowInsetBottom)
+            v.layoutParams = lp
+            insets
+        }
         vb.recyclerView.apply {
             addSystemPadding()
             layoutManager = LinearLayoutManager(requireContext())

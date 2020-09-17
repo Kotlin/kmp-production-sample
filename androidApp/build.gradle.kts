@@ -52,6 +52,7 @@ dependencies {
     implementation("org.koin:koin-core:${properties["version.koin"]}")
     implementation("org.koin:koin-androidx-scope:${properties["version.koin"]}")
     //Recycler utils
+    implementation("com.google.android:flexbox:${properties["version.flexbox"]}")
     implementation("com.mikepenz:fastadapter:${properties["version.fastadapter"]}")
     implementation("com.mikepenz:fastadapter-extensions-diff:${properties["version.fastadapter"]}")
     //Image load
