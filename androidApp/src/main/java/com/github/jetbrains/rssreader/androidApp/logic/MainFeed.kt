@@ -8,7 +8,7 @@ sealed class MainFeedState : State {
     object Empty : MainFeedState()
     data class Progress(val posts: List<Post>) : MainFeedState()
     data class Data(val posts: List<Post>) : MainFeedState()
-    data class Error(val error: Throwable, val posts: List<Post>) : MainFeedState()
+    data class Error(val error: Throwable) : MainFeedState()
 }
 
 sealed class MainFeedAction : Action {
@@ -19,6 +19,7 @@ sealed class MainFeedAction : Action {
 
 sealed class MainFeedEffect : Effect {
     data class Load(val forceLoad: Boolean) : MainFeedEffect()
+    data class Error(val error: Throwable) : MainFeedEffect()
 }
 
 class MainFeed(
@@ -56,7 +57,7 @@ class MainFeed(
         is MainFeedState.Error -> when (action) {
             is MainFeedAction.Refresh -> {
                 sideEffects(MainFeedEffect.Load(action.forceLoad))
-                MainFeedState.Progress(currentState.posts)
+                MainFeedState.Progress(emptyList())
             }
             else -> currentState
         }
@@ -65,7 +66,12 @@ class MainFeed(
                 MainFeedState.Data(action.posts)
             }
             is MainFeedAction.Error -> {
-                MainFeedState.Error(action.error, currentState.posts)
+                if (currentState.posts.isEmpty()) {
+                    MainFeedState.Error(action.error)
+                } else {
+                    sideEffects(MainFeedEffect.Error(action.error))
+                    MainFeedState.Data(currentState.posts)
+                }
             }
             else -> currentState
         }
@@ -78,6 +84,9 @@ class MainFeed(
                     is MainFeedEffect.Load -> {
                         val feed = rssReader.getAllPosts(effect.forceLoad)
                         reduce(MainFeedAction.Data(feed))
+                    }
+                    is MainFeedEffect.Error -> {
+                        screenEffect(effect)
                     }
                 }
             } catch (e: Throwable) {

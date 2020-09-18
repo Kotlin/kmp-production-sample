@@ -17,6 +17,7 @@ sealed class FeedListEffect : Effect {
     object Load : FeedListEffect()
     data class Add(val url: String) : FeedListEffect()
     data class Remove(val url: String) : FeedListEffect()
+    data class Error(val error: Throwable) : FeedListEffect()
 }
 
 class FeedList(
@@ -79,6 +80,7 @@ class FeedList(
                 }
             } catch (e: Throwable) {
                 Timber.e(e)
+                screenEffect(FeedListEffect.Error(e))
             }
         }
     }

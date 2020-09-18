@@ -9,8 +9,9 @@ interface State
 interface Action
 interface Effect
 
-interface Screen<T : State> {
+interface Screen<T : State, E : Effect> {
     fun render(state: T)
+    fun effect(effect: E) {}
 }
 
 abstract class Store<S : State, A : Action, E : Effect>(
@@ -28,14 +29,14 @@ abstract class Store<S : State, A : Action, E : Effect>(
             }
         }
 
-    private var screen: Screen<S>? = null
+    private var screen: Screen<S, E>? = null
 
     protected open fun start() {
         Timber.d("$storeName start($state)")
         isStarted = true
     }
 
-    fun attach(screen: Screen<S>) {
+    fun attach(screen: Screen<S, E>) {
         if (!isStarted) start()
         Timber.d("$storeName attach")
         if (this.screen != screen) {
@@ -61,6 +62,10 @@ abstract class Store<S : State, A : Action, E : Effect>(
     }
 
     protected abstract fun reducer(currentState: S, action: A, sideEffects: (effect: E) -> Unit): S
+
+    protected fun screenEffect(effect: E) {
+        screen?.effect(effect)
+    }
 
     protected open fun effect(effect: E) {
         Timber.d("$storeName effect($effect)")

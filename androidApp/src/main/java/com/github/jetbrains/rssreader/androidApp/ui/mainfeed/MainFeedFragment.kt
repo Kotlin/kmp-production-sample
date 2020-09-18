@@ -13,6 +13,7 @@ import com.github.jetbrains.rssreader.androidApp.AppActivity
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBinding
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
+import com.github.jetbrains.rssreader.androidApp.logic.MainFeedEffect
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
 import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
 import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
@@ -26,7 +27,7 @@ import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
 import org.koin.core.scope.Scope
 
-class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_feed) {
+class MainFeedFragment : ReduxFragment<MainFeedState, MainFeedEffect>(R.layout.fragment_main_feed) {
     private val scope: Scope by lazy { getKoin().getOrCreateScope<MainFeedFragment>(runId) }
     override val store by lazy { scope.get<MainFeed>() }
 
@@ -84,18 +85,15 @@ class MainFeedFragment : ReduxFragment<MainFeedState>(R.layout.fragment_main_fee
             vb.swipeRefreshLayout.isRefreshing = false
         }
         is MainFeedState.Error -> {
-            if (state.posts.isNotEmpty()) {
-                FastAdapterDiffUtil.set(
-                    itemsAdapter,
-                    state.posts.map { PostItem(it) },
-                    GenericDiffCallback
-                )
-                Toast.makeText(requireContext(), state.error.message, Toast.LENGTH_SHORT).show()
-            } else {
-                itemsAdapter.clear()
-                itemsAdapter.add(ErrorItem(state.error))
-            }
+            itemsAdapter.clear()
+            itemsAdapter.add(ErrorItem(state.error))
             vb.swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
+    override fun effect(effect: MainFeedEffect) {
+        if (effect is MainFeedEffect.Error) {
+            Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
         }
     }
 

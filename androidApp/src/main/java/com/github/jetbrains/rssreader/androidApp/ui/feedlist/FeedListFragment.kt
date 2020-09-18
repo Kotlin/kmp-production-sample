@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.updateMargins
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -11,6 +12,7 @@ import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentFeedListBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.LayoutNewFeedUrlBinding
 import com.github.jetbrains.rssreader.androidApp.logic.FeedList
+import com.github.jetbrains.rssreader.androidApp.logic.FeedListEffect
 import com.github.jetbrains.rssreader.androidApp.logic.FeedListState
 import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
 import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
@@ -26,7 +28,7 @@ import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
 import org.koin.core.scope.Scope
 
-class FeedListFragment : ReduxFragment<FeedListState>(R.layout.fragment_feed_list) {
+class FeedListFragment : ReduxFragment<FeedListState, FeedListEffect>(R.layout.fragment_feed_list) {
     private val scope: Scope by lazy { getKoin().getOrCreateScope<FeedListFragment>(runId) }
     override val store by lazy { scope.get<FeedList>() }
 
@@ -84,5 +86,11 @@ class FeedListFragment : ReduxFragment<FeedListState>(R.layout.fragment_feed_lis
             state.urls.map { FeedUrlItem(it) },
             GenericDiffCallback
         )
+    }
+
+    override fun effect(effect: FeedListEffect) {
+        if (effect is FeedListEffect.Error) {
+            Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
+        }
     }
 }
