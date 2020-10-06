@@ -18,7 +18,7 @@ kotlin {
     }
 
     sourceSets {
-        commonMain {
+        val commonMain by getting {
             dependencies {
                 //Network
                 implementation("io.ktor:ktor-client-core:${properties["version.ktor"]}")
@@ -33,13 +33,23 @@ kotlin {
                 implementation("com.russhwolf:multiplatform-settings:${properties["version.settings"]}")
             }
         }
+
+        val mobileMain by creating {
+            dependsOn(commonMain)
+        }
+
         val androidMain by getting {
+            dependsOn(mobileMain)
             dependencies {
                 //Network
                 implementation("io.ktor:ktor-client-okhttp:${properties["version.ktor"]}")
                 //desugar utils
                 compileOnly("com.android.tools:desugar_jdk_libs:1.0.10")
             }
+        }
+
+        val iosMain by getting {
+            dependsOn(mobileMain)
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.github.jetbrains.rssreader.androidApp
 
 import android.app.Application
+import com.github.jetbrains.app.FeedEngine
+import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.androidApp.logic.FeedList
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
@@ -30,9 +32,9 @@ class App : Application() {
     }
 
     private val appModule = module {
-        single {
-            RssReader.create(get(), BuildConfig.DEBUG)
-        }
+        single { RssReader.create(get(), BuildConfig.DEBUG) }
+        single { FeedStore() }
+        single { FeedEngine(get(), get()) }
 
         scope<MainFeedFragment> {
             scoped { MainFeed(get()) }

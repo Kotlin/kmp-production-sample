@@ -8,14 +8,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.updateMargins
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.jetbrains.app.FeedSideEffect
+import com.github.jetbrains.app.FeedState
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentFeedListBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.LayoutNewFeedUrlBinding
 import com.github.jetbrains.rssreader.androidApp.logic.FeedList
-import com.github.jetbrains.rssreader.androidApp.logic.FeedListEffect
-import com.github.jetbrains.rssreader.androidApp.logic.FeedListState
 import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
-import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
+import com.github.jetbrains.rssreader.androidApp.ui.base.MvpFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.jetbrains.rssreader.androidApp.ui.util.dp
@@ -28,9 +28,9 @@ import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
 import org.koin.core.scope.Scope
 
-class FeedListFragment : ReduxFragment<FeedListState, FeedListEffect>(R.layout.fragment_feed_list) {
+class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragment_feed_list) {
     private val scope: Scope by lazy { getKoin().getOrCreateScope<FeedListFragment>(runId) }
-    override val store by lazy { scope.get<FeedList>() }
+    override val presenter by lazy { scope.get<FeedList>() }
 
     private val vb by viewBinding(FragmentFeedListBinding::bind)
     private val itemsAdapter = GenericItemAdapter()
@@ -49,7 +49,7 @@ class FeedListFragment : ReduxFragment<FeedListState, FeedListEffect>(R.layout.f
                 .setView(dialogVB.root)
                 .setPositiveButton(getString(R.string.add)) { d, i ->
                     val input = dialogVB.textInput.editText?.text.toString()
-                    store.addFeed(input.replace("http://", "https://"))
+                    presenter.addFeed(input.replace("http://", "https://"))
                     d.dismiss()
                 }
                 .setNegativeButton(getString(R.string.cancel)) { d, i -> d.dismiss() }
@@ -68,7 +68,7 @@ class FeedListFragment : ReduxFragment<FeedListState, FeedListEffect>(R.layout.f
                         AlertDialog.Builder(requireContext())
                             .setMessage(url)
                             .setPositiveButton(getString(R.string.remove)) { d, i ->
-                                store.removeFeed(url)
+                                presenter.removeFeed(url)
                                 d.dismiss()
                             }
                             .setNegativeButton(getString(R.string.cancel)) { d, i -> d.dismiss() }
@@ -80,16 +80,18 @@ class FeedListFragment : ReduxFragment<FeedListState, FeedListEffect>(R.layout.f
         }
     }
 
-    override fun render(state: FeedListState) {
+    override fun render(state: FeedState) {
+        super.render(state)
         FastAdapterDiffUtil.set(
             itemsAdapter,
-            state.urls.map { FeedUrlItem(it) },
+            state.feeds.map { FeedUrlItem(it.sourceUrl) },
             GenericDiffCallback
         )
     }
 
-    override fun effect(effect: FeedListEffect) {
-        if (effect is FeedListEffect.Error) {
+    override fun effect(effect: FeedSideEffect) {
+        super.effect(effect)
+        if (effect is FeedSideEffect.Error) {
             Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
         }
     }

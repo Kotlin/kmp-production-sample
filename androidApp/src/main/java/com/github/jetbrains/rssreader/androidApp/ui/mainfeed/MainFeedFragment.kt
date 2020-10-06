@@ -9,14 +9,14 @@ import android.widget.Toast
 import androidx.core.view.updateMargins
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.jetbrains.app.FeedSideEffect
+import com.github.jetbrains.app.FeedState
 import com.github.jetbrains.rssreader.androidApp.AppActivity
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBinding
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
-import com.github.jetbrains.rssreader.androidApp.logic.MainFeedEffect
-import com.github.jetbrains.rssreader.androidApp.logic.MainFeedState
 import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
-import com.github.jetbrains.rssreader.androidApp.ui.base.ReduxFragment
+import com.github.jetbrains.rssreader.androidApp.ui.base.MvpFragment
 import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
@@ -27,12 +27,22 @@ import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
 import org.koin.core.scope.Scope
 
-class MainFeedFragment : ReduxFragment<MainFeedState, MainFeedEffect>(R.layout.fragment_main_feed) {
+class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragment_main_feed) {
     private val scope: Scope by lazy { getKoin().getOrCreateScope<MainFeedFragment>(runId) }
-    override val store by lazy { scope.get<MainFeed>() }
+    override val presenter by lazy { scope.get<MainFeed>() }
 
     private val vb by viewBinding(FragmentMainFeedBinding::bind)
     private val itemsAdapter = GenericItemAdapter()
+    private val fastAdapter = FastAdapter.with(itemsAdapter).apply {
+        onClickListener = { view, adapter, item, position ->
+            if (item is PostItem) {
+                item.post.link?.let {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
+                }
+            }
+            false
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,50 +59,24 @@ class MainFeedFragment : ReduxFragment<MainFeedState, MainFeedEffect>(R.layout.f
             addSystemPadding()
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            adapter = FastAdapter.with(itemsAdapter).apply {
-                onClickListener = { view, adapter, item, position ->
-                    if (item is PostItem) {
-                        item.post.link?.let {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
-                        }
-                    }
-                    false
-                }
-            }
+            adapter = fastAdapter
         }
-        vb.swipeRefreshLayout.setOnRefreshListener { store.onRefresh() }
+        vb.swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
     }
 
-    override fun render(state: MainFeedState): Unit = when (state) {
-        is MainFeedState.Empty -> {
-            itemsAdapter.clear()
-            vb.swipeRefreshLayout.isRefreshing = false
-        }
-        is MainFeedState.Progress -> {
-            FastAdapterDiffUtil.set(
-                itemsAdapter,
-                state.posts.map { PostItem(it) },
-                GenericDiffCallback
-            )
-            vb.swipeRefreshLayout.isRefreshing = true
-        }
-        is MainFeedState.Data -> {
-            FastAdapterDiffUtil.set(
-                itemsAdapter,
-                state.posts.map { PostItem(it) },
-                GenericDiffCallback
-            )
-            vb.swipeRefreshLayout.isRefreshing = false
-        }
-        is MainFeedState.Error -> {
-            itemsAdapter.clear()
-            itemsAdapter.add(ErrorItem(state.error))
-            vb.swipeRefreshLayout.isRefreshing = false
-        }
+    override fun render(state: FeedState) {
+        super.render(state)
+        vb.swipeRefreshLayout.isRefreshing = state.progress
+        FastAdapterDiffUtil.set(
+            itemsAdapter,
+            state.feeds.flatMap { it.posts }.sortedByDescending { it.date }.map { PostItem(it) },
+            GenericDiffCallback
+        )
     }
 
-    override fun effect(effect: MainFeedEffect) {
-        if (effect is MainFeedEffect.Error) {
+    override fun effect(effect: FeedSideEffect) {
+        super.effect(effect)
+        if (effect is FeedSideEffect.Error) {
             Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
         }
     }

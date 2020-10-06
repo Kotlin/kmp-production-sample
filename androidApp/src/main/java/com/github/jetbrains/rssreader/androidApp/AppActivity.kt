@@ -14,22 +14,28 @@ import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.jetbrains.app.FeedEngine
 import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
 import com.github.jetbrains.rssreader.androidApp.ui.base.BaseFragment
-import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
 import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
+import kotlinx.coroutines.cancel
+import org.koin.android.ext.android.inject
 import kotlin.math.roundToInt
 
 class AppActivity : AppCompatActivity(R.layout.container) {
     private val vb by viewBinding(ContainerBinding::bind, R.id.container)
+    private val feedEngine: FeedEngine by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applyAppTheme()
         super.onCreate(savedInstanceState)
 
-        if (supportFragmentManager.fragments.isEmpty()) {
-            showFragment(MainFeedFragment())
+        if (savedInstanceState == null) {
+            feedEngine.start()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFeedFragment())
+                .commit()
         }
 
         handleLeftAndRightInsets()
@@ -84,16 +90,15 @@ class AppActivity : AppCompatActivity(R.layout.container) {
     fun showFragment(fragment: BaseFragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
-    override fun onBackPressed() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
-        if (currentFragment is FeedListFragment) {
-            showFragment(MainFeedFragment())
-        } else {
-            super.onBackPressed()
+    override fun onDestroy() {
+        if (isFinishing) {
+            feedEngine.cancel()
         }
+        super.onDestroy()
     }
 
     @ColorInt
