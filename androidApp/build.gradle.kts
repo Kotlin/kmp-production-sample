@@ -27,6 +27,8 @@ android {
     }
 
     compileOptions {
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -37,6 +39,8 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    //desugar utils
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
     //UI
     implementation("androidx.appcompat:appcompat:${properties["version.androidx.appcompat"]}")
     implementation("com.google.android.material:material:${properties["version.androidx.material"]}")

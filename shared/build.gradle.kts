@@ -43,8 +43,6 @@ kotlin {
             dependencies {
                 //Network
                 implementation("io.ktor:ktor-client-okhttp:${properties["version.ktor"]}")
-                //desugar utils
-                compileOnly("com.android.tools:desugar_jdk_libs:1.0.10")
             }
         }
 
@@ -62,13 +60,6 @@ android {
         targetSdkVersion((properties["android.targetSdk"] as String).toInt())
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
-    compileOptions {
-        // Flag to enable support for the new language APIs
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 }
 
 val packForXcode by tasks.creating(Sync::class) {
