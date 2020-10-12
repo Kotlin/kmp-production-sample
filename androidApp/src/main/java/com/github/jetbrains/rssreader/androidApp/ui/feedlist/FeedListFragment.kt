@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.updateMargins
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedState
@@ -19,9 +21,6 @@ import com.github.jetbrains.rssreader.androidApp.ui.base.MvpFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.jetbrains.rssreader.androidApp.ui.util.dp
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
@@ -57,14 +56,11 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
         }
         vb.recyclerView.apply {
             addSystemPadding()
-            layoutManager = FlexboxLayoutManager(requireContext()).apply {
-                flexDirection = FlexDirection.ROW
-                justifyContent = JustifyContent.FLEX_START
-            }
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             setHasFixedSize(true)
             adapter = FastAdapter.with(itemsAdapter).apply {
                 onClickListener = { view, adapter, item, position ->
-                    (item as? FeedUrlItem)?.url?.let { url ->
+                    (item as? FeedUrlItem)?.feed?.sourceUrl?.let { url ->
                         AlertDialog.Builder(requireContext())
                             .setMessage(url)
                             .setPositiveButton(getString(R.string.remove)) { d, i ->
@@ -84,7 +80,7 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
         super.render(state)
         FastAdapterDiffUtil.set(
             itemsAdapter,
-            state.feeds.map { FeedUrlItem(it.sourceUrl) },
+            state.feeds.map { FeedUrlItem(it) },
             GenericDiffCallback
         )
     }

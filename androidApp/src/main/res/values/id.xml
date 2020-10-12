@@ -2,6 +2,5 @@
 <resources>
     <item name="fa_type_post" type="id" />
     <item name="fa_type_error" type="id" />
-    <item name="fa_type_feed_url" type="id" />
-    <item name="fa_type_new_feed_url" type="id" />
+    <item name="fa_type_feed" type="id" />
 </resources>
