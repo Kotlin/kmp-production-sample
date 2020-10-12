@@ -42,25 +42,28 @@ dependencies {
     //desugar utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
     //UI
-    implementation("androidx.appcompat:appcompat:${properties["version.androidx.appcompat"]}")
-    implementation("com.google.android.material:material:${properties["version.androidx.material"]}")
-    implementation("androidx.constraintlayout:constraintlayout:${properties["version.androidx.constraintlayout"]}")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:${properties["version.androidx.swiperefreshlayout"]}")
-    implementation("androidx.core:core-ktx:${properties["version.androidx.ktx"]}")
+    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("com.google.android.material:material:1.2.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.core:core-ktx:1.3.2")
     //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${properties["version.kotlinx.coroutines"]}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${properties["version.kotlinx.coroutines"]}")
+    val coroutinesVersion = properties["version.kotlinx.coroutines"]
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     //Log
-    implementation("com.jakewharton.timber:timber:${properties["version.timber"]}")
+    implementation("com.jakewharton.timber:timber:4.7.1")
     //DI
-    implementation("org.koin:koin-core:${properties["version.koin"]}")
-    implementation("org.koin:koin-androidx-scope:${properties["version.koin"]}")
+    val koinVersion = "2.1.6"
+    implementation("org.koin:koin-core:$koinVersion")
+    implementation("org.koin:koin-androidx-scope:$koinVersion")
     //Recycler utils
-    implementation("com.google.android:flexbox:${properties["version.flexbox"]}")
-    implementation("com.mikepenz:fastadapter:${properties["version.fastadapter"]}")
-    implementation("com.mikepenz:fastadapter-extensions-diff:${properties["version.fastadapter"]}")
+    implementation("com.google.android:flexbox:2.0.1")
+    val fastadapterVersion = "5.2.3"
+    implementation("com.mikepenz:fastadapter:$fastadapterVersion")
+    implementation("com.mikepenz:fastadapter-extensions-diff:$fastadapterVersion")
     //Image load
-    implementation("io.coil-kt:coil:${properties["version.coil"]}")
+    implementation("io.coil-kt:coil:0.13.0")
     //ViewBinding delegate
-    implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:${properties["version.viewbindingpropertydelegate"]}")
+    implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.2.2")
 }

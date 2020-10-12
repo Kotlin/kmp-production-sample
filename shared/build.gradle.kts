@@ -26,11 +26,11 @@ kotlin {
                 //Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${properties["version.kotlinx.coroutines"]}")
                 //Logger
-                implementation("com.github.aakira:napier:${properties["version.napier"]}")
+                implementation("com.github.aakira:napier:1.4.1")
                 //JSON
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${properties["version.kotlinx.serialization"]}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${properties["version.kotlinx.serialization"]}")
                 //Key-Value storage
-                implementation("com.russhwolf:multiplatform-settings:${properties["version.settings"]}")
+                implementation("com.russhwolf:multiplatform-settings:0.6.2")
             }
         }
 
