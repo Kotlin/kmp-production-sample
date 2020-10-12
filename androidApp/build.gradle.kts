@@ -62,5 +62,5 @@ dependencies {
     //Image load
     implementation("io.coil-kt:coil:${properties["version.coil"]}")
     //ViewBinding delegate
-    implementation("com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:${properties["version.viewbindingpropertydelegate"]}")
+    implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:${properties["version.viewbindingpropertydelegate"]}")
 }

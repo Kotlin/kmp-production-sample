@@ -16,7 +16,7 @@ interface View<S : State, E : Effect> {
 abstract class Presenter<S : State, E : Effect>(
     private val store: Store<S, *, E>
 ) : CoroutineScope by CoroutineScope(Dispatchers.Main) {
-    private val presenterName = javaClass.simpleName
+    private val presenterName by lazy { "${javaClass.simpleName}[${hashCode()}]" }
     private var isStarted = false
 
     private var view: View<S, E>? = null
@@ -55,7 +55,7 @@ abstract class Presenter<S : State, E : Effect>(
 abstract class MvpFragment<S : State, E : Effect>(
     @LayoutRes contentLayoutId: Int
 ) : BaseFragment(contentLayoutId), View<S, E> {
-    private val viewName = javaClass.simpleName
+    private val viewName by lazy { "${javaClass.simpleName}[${hashCode()}]" }
     abstract val presenter: Presenter<S, E>
 
     override fun onStart() {

@@ -19,7 +19,6 @@ import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
 import com.github.jetbrains.rssreader.androidApp.ui.base.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
-import kotlinx.coroutines.cancel
 import org.koin.android.ext.android.inject
 import kotlin.math.roundToInt
 
@@ -33,9 +32,12 @@ class AppActivity : AppCompatActivity(R.layout.container) {
 
         if (savedInstanceState == null) {
             feedEngine.start()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFeedFragment())
-                .commit()
+            //cause feedEngine starts async
+            vb.root.post {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, MainFeedFragment())
+                    .commit()
+            }
         }
 
         handleLeftAndRightInsets()
@@ -96,7 +98,7 @@ class AppActivity : AppCompatActivity(R.layout.container) {
 
     override fun onDestroy() {
         if (isFinishing) {
-            feedEngine.cancel()
+            feedEngine.stop()
         }
         super.onDestroy()
     }
