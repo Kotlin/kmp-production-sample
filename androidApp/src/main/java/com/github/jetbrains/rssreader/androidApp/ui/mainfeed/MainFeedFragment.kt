@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.updateMargins
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedState
@@ -49,7 +50,7 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
         vb.editFab.setOnClickListener {
             (activity as? AppActivity)?.showFragment(FeedListFragment())
         }
-        vb.editFab.doOnApplyWindowInsets { v, insets, initialPadding ->
+        vb.editFab.doOnApplyWindowInsets { v, insets, _ ->
             val lp = v.layoutParams as ViewGroup.MarginLayoutParams
             lp.updateMargins(bottom = 16.dp + insets.systemWindowInsetBottom)
             v.layoutParams = lp
@@ -62,6 +63,14 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             adapter = fastAdapter
         }
         vb.swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
+        vb.swipeRefreshLayout.doOnApplyWindowInsets { v, insets, _ ->
+            (v as SwipeRefreshLayout).setProgressViewOffset(
+                false,
+                0,
+                insets.systemWindowInsetTop + 16.dp
+            )
+            insets
+        }
     }
 
     override fun render(state: FeedState) {
@@ -70,7 +79,8 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
         FastAdapterDiffUtil.set(
             itemsAdapter,
             state.feeds.flatMap { it.posts }.sortedByDescending { it.date }.map { PostItem(it) },
-            GenericDiffCallback
+            GenericDiffCallback,
+            false
         )
     }
 
