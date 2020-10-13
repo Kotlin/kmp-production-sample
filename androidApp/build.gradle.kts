@@ -69,8 +69,6 @@ dependencies {
     val koinVersion = "2.1.6"
     implementation("org.koin:koin-core:$koinVersion")
     implementation("org.koin:koin-androidx-scope:$koinVersion")
-    //Recycler utils
-    implementation("com.google.android:flexbox:2.0.1")
     val fastadapterVersion = "5.2.3"
     implementation("com.mikepenz:fastadapter:$fastadapterVersion")
     implementation("com.mikepenz:fastadapter-extensions-diff:$fastadapterVersion")
