@@ -1,4 +1,5 @@
 import UIKit
+import RssReader
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,6 +8,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        let rss = RssReader.Companion.init().create(withLog: true)
+        rss.getAllFeeds(forceUpdate: false) { f, e in
+            if e != nil {
+                print("catch! E " + e.debugDescription)
+            }
+            if let feeds = f {
+                print("catch! F " + feeds.count.description)
+            }
+        }
+        
         return true
     }
 

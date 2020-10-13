@@ -11,6 +11,7 @@ class RssReader internal constructor(
     private val feedLoader: FeedLoader,
     private val feedStorage: FeedStorage
 ) {
+    @Throws(Exception::class)
     suspend fun getAllFeeds(
         forceUpdate: Boolean = false
     ): List<Feed> {
@@ -40,11 +41,13 @@ class RssReader internal constructor(
         return feeds
     }
 
+    @Throws(Exception::class)
     suspend fun addFeed(url: String) {
         val feed = feedLoader.getFeed(url)
         feedStorage.saveFeed(feed)
     }
 
+    @Throws(Exception::class)
     suspend fun deleteFeed(url: String) {
         feedStorage.deleteFeed(url)
     }

@@ -12,7 +12,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                baseName = "shared"
+                baseName = "RssReader"
             }
         }
     }
@@ -48,6 +48,15 @@ kotlin {
 
         val iosMain by getting {
             dependsOn(mobileMain)
+            dependencies {
+                //Network
+                implementation("io.ktor:ktor-client-ios:${properties["version.ktor"]}")
+            }
+        }
+
+        all {
+            languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            languageSettings.useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
         }
     }
 }
