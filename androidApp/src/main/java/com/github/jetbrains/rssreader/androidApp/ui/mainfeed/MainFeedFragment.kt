@@ -75,7 +75,9 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
 
     override fun render(state: FeedState) {
         super.render(state)
-        vb.swipeRefreshLayout.isRefreshing = state.progress
+        vb.swipeRefreshLayout.post {
+            vb.swipeRefreshLayout.isRefreshing = state.progress
+        }
         FastAdapterDiffUtil.set(
             itemsAdapter,
             state.feeds.flatMap { it.posts }.sortedByDescending { it.date }.map { PostItem(it) },
