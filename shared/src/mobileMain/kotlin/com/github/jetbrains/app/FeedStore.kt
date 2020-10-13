@@ -38,7 +38,7 @@ class FeedStore : Store<FeedState, FeedAction, FeedSideEffect> {
     override fun observeSideEffect(): Flow<FeedSideEffect> = sideEffectFlow
 
     override fun dispatch(action: FeedAction) {
-        Napier.d("Action: $action")
+        Napier.d(tag = "FeedStore", message = "Action: $action")
         val oldState = state.value
         val newState = if (oldState.progress) when (action) {
             is FeedAction.Refresh,
@@ -74,7 +74,7 @@ class FeedStore : Store<FeedState, FeedAction, FeedSideEffect> {
             }
         }
         if (newState != oldState) {
-            Napier.d("NewState: $newState")
+            Napier.d(tag = "FeedStore", message = "NewState: $newState")
             state.value = newState
         }
     }
@@ -84,10 +84,12 @@ class FeedEngine(
     private val rssReader: RssReader,
     private val store: FeedStore
 ) : CoroutineScope by CoroutineScope(Dispatchers.Main) {
+    private var job: Job? = null
+
     fun start() {
-        store.observeSideEffect().onEach { effect ->
+        job = store.observeSideEffect().onEach { effect ->
             try {
-                Napier.d("Effect: $effect")
+                Napier.d(tag = "FeedStore", message = "Effect: $effect")
                 when (effect) {
                     is FeedSideEffect.Load -> {
                         val allFeeds = rssReader.getAllFeeds(effect.forceLoad)
@@ -111,6 +113,6 @@ class FeedEngine(
     }
 
     fun stop() {
-        cancel()
+        job?.cancel()
     }
 }
