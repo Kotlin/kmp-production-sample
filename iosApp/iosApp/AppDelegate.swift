@@ -7,17 +7,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
         
         let rss = RssReader.Companion.init().create(withLog: true)
-        rss.getAllFeeds(forceUpdate: false) { f, e in
-            if e != nil {
-                print("catch! E " + e.debugDescription)
-            }
-            if let feeds = f {
-                print("catch! F " + feeds.count.description)
-            }
+    
+        let store = FeedStore.init()
+        let engine = FeedEngine.init(rssReader: rss, store: store)
+        engine.start()
+        
+        store.watchState().watch { state in
+            print("New state: " + state!.description())
+        }
+        
+        DispatchQueue.main.async {
+            store.dispatch(action: FeedAction.Refresh.init(forceLoad: true))
         }
         
         return true
