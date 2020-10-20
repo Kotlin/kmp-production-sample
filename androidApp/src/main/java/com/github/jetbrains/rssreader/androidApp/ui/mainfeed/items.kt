@@ -57,7 +57,7 @@ data class FeedIconItem(
         override fun bindView(item: FeedIconItem, payloads: List<Any>) {
             vb.selectionImageView.isVisible = item.isSelectedFeed
             vb.shortTextView.text = item.feed?.shortName()
-                ?: vb.root.resources.getString(R.string.main)
+                ?: vb.root.resources.getString(R.string.all)
             vb.shortTextView.isVisible = item.feed?.imageUrl == null
             vb.imageView.load(item.feed?.imageUrl) {
                 crossfade(true)

@@ -27,6 +27,7 @@
         android:layout_gravity="center"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
+        android:textAllCaps="true"
         android:textColor="?attr/colorOnPrimary"
         tools:text="Main" />
 

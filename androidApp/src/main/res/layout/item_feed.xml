@@ -68,6 +68,7 @@
         android:layout_height="0dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
+        android:textAllCaps="true"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
