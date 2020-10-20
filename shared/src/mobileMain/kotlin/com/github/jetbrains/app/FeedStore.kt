@@ -50,7 +50,7 @@ class FeedStore : Store<FeedState, FeedAction, FeedSideEffect> {
                     oldState
                 } else {
                     sideEffect.offer(FeedSideEffect.Load(action.forceLoad))
-                    FeedState(true, oldState.feeds)
+                    oldState.copy(progress = true)
                 }
             }
             is FeedAction.Add ->  {
