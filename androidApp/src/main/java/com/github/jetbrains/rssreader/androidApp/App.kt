@@ -9,6 +9,7 @@ import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
 import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.create
+import com.github.terrakok.cicerone.Cicerone
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -36,12 +37,16 @@ class App : Application() {
         single { FeedStore() }
         single { FeedEngine(get(), get()) }
 
+        val cicerone = Cicerone.create()
+        single { cicerone.router }
+        single { cicerone.getNavigatorHolder() }
+
         scope<MainFeedFragment> {
-            scoped { MainFeed(get()) }
+            scoped { MainFeed(get(), get()) }
         }
 
         scope<FeedListFragment> {
-            scoped { FeedList(get()) }
+            scoped { FeedList(get(), get()) }
         }
     }
 

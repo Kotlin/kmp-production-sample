@@ -88,4 +88,9 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        presenter.onBackPressed()
+    }
 }

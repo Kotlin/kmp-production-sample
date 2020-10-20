@@ -17,14 +17,19 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.app.FeedEngine
 import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
 import com.github.jetbrains.rssreader.androidApp.ui.base.BaseFragment
-import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import org.koin.android.ext.android.inject
 import kotlin.math.roundToInt
 
 class AppActivity : AppCompatActivity(R.layout.container) {
     private val vb by viewBinding(ContainerBinding::bind, R.id.container)
     private val feedEngine: FeedEngine by inject()
+    private val navigatorHolder: NavigatorHolder by inject()
+    private val router: Router by inject()
+    private val navigator = AppNavigator(this, R.id.container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applyAppTheme()
@@ -34,9 +39,7 @@ class AppActivity : AppCompatActivity(R.layout.container) {
             feedEngine.start()
             //cause feedEngine starts async
             vb.root.post {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFeedFragment())
-                    .commit()
+                router.newRootScreen(Screens.MainFeed())
             }
         }
 
@@ -89,11 +92,14 @@ class AppActivity : AppCompatActivity(R.layout.container) {
         }
     }
 
-    fun showFragment(fragment: BaseFragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(null)
-            .commit()
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        navigatorHolder.removeNavigator()
+        super.onPause()
     }
 
     override fun onDestroy() {
@@ -101,6 +107,11 @@ class AppActivity : AppCompatActivity(R.layout.container) {
             feedEngine.stop()
         }
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
+        (currentFragment as? BaseFragment)?.onBackPressed() ?: super.onBackPressed()
     }
 
     @ColorInt

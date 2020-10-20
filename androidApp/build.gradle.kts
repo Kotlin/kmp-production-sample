@@ -74,6 +74,8 @@ dependencies {
     implementation("com.mikepenz:fastadapter-extensions-diff:$fastadapterVersion")
     //Image load
     implementation("io.coil-kt:coil:0.13.0")
+    //Navigation
+    implementation("com.github.terrakok:cicerone:6.0")
     //ViewBinding delegate
     implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.2.2")
 }

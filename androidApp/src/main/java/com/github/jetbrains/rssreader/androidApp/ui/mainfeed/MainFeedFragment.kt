@@ -11,12 +11,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedState
-import com.github.jetbrains.rssreader.androidApp.AppActivity
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBinding
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.ui.base.MvpFragment
-import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemBottomPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
@@ -35,12 +33,8 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
     private val iconsFastAdapter = FastAdapter.with(iconsAdapter).apply {
         onClickListener = { view, adapter, item, position ->
             when (item) {
-                is FeedIconItem -> {
-                    presenter.onSelectFeed(item.feed)
-                }
-                is EditIconItem -> {
-                    (activity as? AppActivity)?.showFragment(FeedListFragment())
-                }
+                is FeedIconItem -> presenter.onSelectFeed(item.feed)
+                is EditIconItem -> presenter.onEditFeedList()
             }
             false
         }
@@ -130,5 +124,10 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
     override fun onFinalDestroy() {
         super.onFinalDestroy()
         scope.close()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        presenter.onBackPressed()
     }
 }
