@@ -17,13 +17,23 @@
             android:clipToPadding="false" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/editFab"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/feedsFrameLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_edit"
-        tools:ignore="ContentDescription" />
+        android:layout_gravity="bottom"
+        android:background="?attr/colorSurface"
+        android:elevation="32dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feedsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            tools:itemCount="5"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_feed_short"
+            tools:orientation="horizontal" />
+
+    </FrameLayout>
 
 </FrameLayout>

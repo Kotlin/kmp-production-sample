@@ -11,7 +11,22 @@ data class Feed(
     @SerialName("imageUrl") val imageUrl: String?,
     @SerialName("posts") val posts: List<Post>,
     @SerialName("sourceUrl") val sourceUrl: String
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Feed
+
+        if (sourceUrl != other.sourceUrl) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return sourceUrl.hashCode()
+    }
+}
 
 @Serializable
 data class Post(

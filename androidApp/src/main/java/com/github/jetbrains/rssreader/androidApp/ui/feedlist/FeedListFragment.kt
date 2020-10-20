@@ -16,14 +16,12 @@ import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentFeedListBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.LayoutNewFeedUrlBinding
 import com.github.jetbrains.rssreader.androidApp.logic.FeedList
-import com.github.jetbrains.rssreader.androidApp.ui.base.GenericDiffCallback
 import com.github.jetbrains.rssreader.androidApp.ui.base.MvpFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.jetbrains.rssreader.androidApp.ui.util.dp
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
-import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import org.koin.android.ext.android.getKoin
 import org.koin.core.scope.Scope
 
@@ -58,6 +56,7 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             addSystemPadding()
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             setHasFixedSize(true)
+            itemAnimator = null
             adapter = FastAdapter.with(itemsAdapter).apply {
                 onClickListener = { view, adapter, item, position ->
                     (item as? FeedUrlItem)?.feed?.sourceUrl?.let { url ->
@@ -78,10 +77,8 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
 
     override fun render(state: FeedState) {
         super.render(state)
-        FastAdapterDiffUtil.set(
-            itemsAdapter,
-            state.feeds.map { FeedUrlItem(it) },
-            GenericDiffCallback
+        itemsAdapter.setNewList(
+            state.feeds.map { FeedUrlItem(it) }
         )
     }
 

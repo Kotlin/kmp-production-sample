@@ -3,9 +3,13 @@ package com.github.jetbrains.rssreader.androidApp.ui.mainfeed
 import android.view.View
 import androidx.core.view.isVisible
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.github.jetbrains.rssreader.androidApp.R
-import com.github.jetbrains.rssreader.androidApp.databinding.ItemErrorBinding
+import com.github.jetbrains.rssreader.androidApp.databinding.ItemEditBinding
+import com.github.jetbrains.rssreader.androidApp.databinding.ItemFeedShortBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.ItemPostBinding
+import com.github.jetbrains.rssreader.androidApp.ui.util.shortName
+import com.github.jetbrains.rssreader.entity.Feed
 import com.github.jetbrains.rssreader.entity.Post
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
@@ -39,20 +43,42 @@ data class PostItem(
     }
 }
 
-data class ErrorItem(
-    val error: Throwable
-) : AbstractItem<ErrorItem.ViewHolder>() {
-    override val layoutRes = R.layout.item_error
-    override val type = R.id.fa_type_error
-    override fun getViewHolder(v: View) = ViewHolder(ItemErrorBinding.bind(v))
+data class FeedIconItem(
+    val feed: Feed?,
+    val isSelectedFeed: Boolean
+) : AbstractItem<FeedIconItem.ViewHolder>() {
+    override val layoutRes = R.layout.item_feed_short
+    override val type = R.id.fa_type_feed_short
+    override fun getViewHolder(v: View) = ViewHolder(ItemFeedShortBinding.bind(v))
 
     class ViewHolder(
-        private val vb: ItemErrorBinding
-    ) : FastAdapter.ViewHolder<ErrorItem>(vb.root) {
-        override fun bindView(item: ErrorItem, payloads: List<Any>) {
-            vb.root.text = item.error.toString()
+        private val vb: ItemFeedShortBinding
+    ) : FastAdapter.ViewHolder<FeedIconItem>(vb.root) {
+        override fun bindView(item: FeedIconItem, payloads: List<Any>) {
+            vb.selectionImageView.isVisible = item.isSelectedFeed
+            vb.shortTextView.text = item.feed?.shortName()
+                ?: vb.root.resources.getString(R.string.main)
+            vb.shortTextView.isVisible = item.feed?.imageUrl == null
+            vb.imageView.load(item.feed?.imageUrl) {
+                crossfade(true)
+                placeholder(R.drawable.ic_round)
+                transformations(CircleCropTransformation())
+            }
         }
 
-        override fun unbindView(item: ErrorItem) {}
+        override fun unbindView(item: FeedIconItem) {}
+    }
+}
+
+class EditIconItem : AbstractItem<EditIconItem.ViewHolder>() {
+    override val layoutRes = R.layout.item_edit
+    override val type = R.id.fa_type_edit
+    override fun getViewHolder(v: View) = ViewHolder(ItemEditBinding.bind(v))
+
+    class ViewHolder(
+        private val vb: ItemEditBinding
+    ) : FastAdapter.ViewHolder<EditIconItem>(vb.root) {
+        override fun bindView(item: EditIconItem, payloads: List<Any>) {}
+        override fun unbindView(item: EditIconItem) {}
     }
 }

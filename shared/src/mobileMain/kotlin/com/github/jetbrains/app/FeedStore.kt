@@ -9,13 +9,15 @@ import kotlinx.coroutines.flow.*
 
 data class FeedState(
     val progress: Boolean,
-    val feeds: List<Feed>
+    val feeds: List<Feed>,
+    val selectedFeed: Feed? = null //null means selected all
 ) : State
 
 sealed class FeedAction : Action {
     data class Refresh(val forceLoad: Boolean) : FeedAction()
     data class Add(val url: String) : FeedAction()
     data class Delete(val url: String) : FeedAction()
+    data class SelectFeed(val feed: Feed?) : FeedAction()
     data class Data(val feeds: List<Feed>) : FeedAction()
     data class Error(val error: Exception) : FeedAction()
 }
@@ -40,39 +42,65 @@ class FeedStore : Store<FeedState, FeedAction, FeedSideEffect> {
     override fun dispatch(action: FeedAction) {
         Napier.d(tag = "FeedStore", message = "Action: $action")
         val oldState = state.value
-        val newState = if (oldState.progress) when (action) {
-            is FeedAction.Refresh,
-            is FeedAction.Add,
-            is FeedAction.Delete -> {
-                sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
-                oldState
+
+        val newState = when (action) {
+            is FeedAction.Refresh -> {
+                if (oldState.progress) {
+                    sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
+                    oldState
+                } else {
+                    sideEffect.offer(FeedSideEffect.Load(action.forceLoad))
+                    FeedState(true, oldState.feeds)
+                }
+            }
+            is FeedAction.Add ->  {
+                if (oldState.progress) {
+                    sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
+                    oldState
+                } else {
+                    sideEffect.offer(FeedSideEffect.Add(action.url))
+                    FeedState(true, oldState.feeds)
+                }
+            }
+            is FeedAction.Delete ->  {
+                if (oldState.progress) {
+                    sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
+                    oldState
+                } else {
+                    sideEffect.offer(FeedSideEffect.Delete(action.url))
+                    FeedState(true, oldState.feeds)
+                }
+            }
+            is FeedAction.SelectFeed -> {
+                if (action.feed == null || oldState.feeds.contains(action.feed)) {
+                    oldState.copy(selectedFeed = action.feed)
+                } else {
+                    sideEffect.offer(FeedSideEffect.Error(Exception("Unknown feed")))
+                    oldState
+                }
             }
             is FeedAction.Data -> {
-                FeedState(false, action.feeds)
+                if (oldState.progress) {
+                    val selected = oldState.selectedFeed?.let {
+                        if (action.feeds.contains(it)) it else null
+                    }
+                    FeedState(false, action.feeds, selected)
+                } else {
+                    sideEffect.offer(FeedSideEffect.Error(Exception("Unexpected action")))
+                    oldState
+                }
             }
             is FeedAction.Error -> {
-                sideEffect.offer(FeedSideEffect.Error(action.error))
-                FeedState(false, oldState.feeds)
-            }
-        } else when (action) {
-            is FeedAction.Refresh -> {
-                sideEffect.offer(FeedSideEffect.Load(action.forceLoad))
-                FeedState(true, oldState.feeds)
-            }
-            is FeedAction.Add -> {
-                sideEffect.offer(FeedSideEffect.Add(action.url))
-                FeedState(true, oldState.feeds)
-            }
-            is FeedAction.Delete -> {
-                sideEffect.offer(FeedSideEffect.Delete(action.url))
-                FeedState(true, oldState.feeds)
-            }
-            is FeedAction.Data,
-            is FeedAction.Error -> {
-                sideEffect.offer(FeedSideEffect.Error(Exception("Unexpected action")))
-                oldState
+                if (oldState.progress) {
+                    sideEffect.offer(FeedSideEffect.Error(action.error))
+                    FeedState(false, oldState.feeds)
+                } else {
+                    sideEffect.offer(FeedSideEffect.Error(Exception("Unexpected action")))
+                    oldState
+                }
             }
         }
+
         if (newState != oldState) {
             Napier.d(tag = "FeedStore", message = "NewState: $newState")
             state.value = newState
