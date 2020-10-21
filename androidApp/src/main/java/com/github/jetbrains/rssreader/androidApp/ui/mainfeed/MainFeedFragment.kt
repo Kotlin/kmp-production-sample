@@ -33,7 +33,10 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
     private val iconsFastAdapter = FastAdapter.with(iconsAdapter).apply {
         onClickListener = { view, adapter, item, position ->
             when (item) {
-                is FeedIconItem -> presenter.onSelectFeed(item.feed)
+                is FeedIconItem -> {
+                    vb.recyclerView.scrollToPosition(0)
+                    presenter.onSelectFeed(item.feed)
+                }
                 is EditIconItem -> presenter.onEditFeedList()
             }
             false
