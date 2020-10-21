@@ -78,4 +78,6 @@ dependencies {
     implementation("com.github.terrakok:cicerone:6.0")
     //ViewBinding delegate
     implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.2.2")
+    //WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.4.0")
 }

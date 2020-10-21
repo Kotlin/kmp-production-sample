@@ -6,6 +6,7 @@ import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.androidApp.logic.FeedList
 import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
+import com.github.jetbrains.rssreader.androidApp.sync.RefreshWorker
 import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
 import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.create
@@ -24,6 +25,7 @@ class App : Application() {
         INSTANCE = this
         initLogger()
         initKoin()
+        launchBackgroundSync()
     }
 
     private fun initLogger() {
@@ -57,6 +59,10 @@ class App : Application() {
             androidContext(this@App)
             modules(appModule)
         }
+    }
+
+    private fun launchBackgroundSync() {
+        RefreshWorker.enqueue(this)
     }
 
     companion object {
