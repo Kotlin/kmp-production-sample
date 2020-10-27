@@ -13,11 +13,8 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-internal class AndroidFeedParser : FeedParser {
+internal class AndroidFeedParser : FeedParser() {
     private val dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US)
-    private val imgReg = Regex("<img[^>]+\\bsrc=[\"']([^\"']+)[\"']")
-    private val htmlTag = Regex("<.+?>")
-    private val blankLine = Regex("(?m)^[ \t]*\r?\n")
 
     override suspend fun parse(sourceUrl: String, xml: String): Feed = withContext(Dispatchers.IO) {
         val parser = Xml.newPullParser().apply {
@@ -103,10 +100,6 @@ internal class AndroidFeedParser : FeedParser {
                 else -> skip(parser)
             }
         }
-        val imageUrl = link?.let { l ->
-            description?.let { findImageUrl(l, it) }
-                ?: content?.let { findImageUrl(l, it) }
-        }
 
         val dateLong: Long = date?.let {
             try {
@@ -120,26 +113,11 @@ internal class AndroidFeedParser : FeedParser {
         return Post(
             title ?: feedTitle,
             link,
-            description
-                ?.replace(htmlTag, "")
-                ?.replace(blankLine, "")
-                ?.trim()
-                ?.take(300),
-            imageUrl,
+            clean(description),
+            pullPostImageUrl(link, description, content),
             dateLong
         )
     }
-
-    private fun findImageUrl(ownerLink: String, text: String): String? =
-        imgReg.find(text)?.value?.let { v ->
-            val i = v.indexOf("src=") + 5 //after src="
-            val url = v.substring(i, v.length - 1)
-            if (url.startsWith("http")) url else {
-                URLBuilder(ownerLink).apply {
-                    encodedPath = url
-                }.buildString()
-            }
-        }
 
     private fun readTagText(tagName: String, parser: XmlPullParser): String {
         parser.require(XmlPullParser.START_TAG, null, tagName)

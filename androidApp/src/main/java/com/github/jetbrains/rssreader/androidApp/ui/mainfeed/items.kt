@@ -32,8 +32,8 @@ data class PostItem(
             vb.titleTextView.text = item.post.title
             vb.dateTextView.text = dateFormatter.format(Date(item.post.date))
 
-            vb.descriptionTextView.text = item.post.description
-            vb.descriptionTextView.isVisible = item.post.description != null
+            vb.descriptionTextView.text = item.post.desc
+            vb.descriptionTextView.isVisible = item.post.desc != null
 
             vb.imageView.load(item.post.imageUrl)
             vb.imageView.isVisible = item.post.imageUrl != null

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class Feed(
     @SerialName("title") val title: String,
     @SerialName("link") val link: String,
-    @SerialName("description") val description: String,
+    @SerialName("description") val desc: String,
     @SerialName("imageUrl") val imageUrl: String?,
     @SerialName("posts") val posts: List<Post>,
     @SerialName("sourceUrl") val sourceUrl: String
@@ -32,7 +32,7 @@ data class Feed(
 data class Post(
     @SerialName("title") val title: String,
     @SerialName("link") val link: String?,
-    @SerialName("description") val description: String?,
+    @SerialName("description") val desc: String?,
     @SerialName("imageUrl") val imageUrl: String?,
     @SerialName("date") val date: Long
 )

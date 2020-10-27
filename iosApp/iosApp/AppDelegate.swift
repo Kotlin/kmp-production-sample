@@ -4,24 +4,9 @@ import RssReader
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let rss = RssReader.Companion.init().create(withLog: true)
-    
-        let store = FeedStore.init()
-        let engine = FeedEngine.init(rssReader: rss, store: store)
-        engine.start()
-        
-        store.watchState().watch { state in
-            print("New state: " + state!.description())
-        }
-        
-        DispatchQueue.main.async {
-            store.dispatch(action: FeedAction.Refresh.init(forceLoad: true))
-        }
-        
+
         return true
     }
 

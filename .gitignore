@@ -8,3 +8,5 @@ captures
 .externalNativeBuild
 .cxx
 local.properties
+xcuserdata/
+Pods/

@@ -1,18 +1,29 @@
 import UIKit
 import SwiftUI
+import RssReader
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    
+    let rss = RssReader.Companion().create(withLog: true)
+    let store = FeedStore()
+    
+    lazy var engine = FeedEngine(rssReader: rss, store: store)
 
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-
+        
+        engine.start()
+        
+        store.watchState().watch { state in
+            print("New state: " + state!.description())
+        }
+        
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView()
+        let contentView = ContentView(viewModel: .init(store: store))
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

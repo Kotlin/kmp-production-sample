@@ -24,7 +24,7 @@ data class FeedUrlItem(
 
         override fun bindView(item: FeedUrlItem, payloads: List<Any>) {
             vb.titleTextView.text = item.feed.title
-            vb.descriptionTextView.text = item.feed.description
+            vb.descriptionTextView.text = item.feed.desc
             vb.shortTextView.text = item.feed.shortName()
 
             vb.shortTextView.isVisible = item.feed.imageUrl == null
