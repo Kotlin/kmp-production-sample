@@ -94,7 +94,7 @@ internal class IosFeedParser : FeedParser() {
             val description = rssMap["description"]
             val content = rssMap["content:encoded"]
             return  Post(
-                rssMap["title"]!!,
+                clean(rssMap["title"])!!,
                 link,
                 clean(description),
                 pullPostImageUrl(link, description, content),

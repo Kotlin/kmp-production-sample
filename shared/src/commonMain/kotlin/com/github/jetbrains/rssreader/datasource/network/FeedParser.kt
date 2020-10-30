@@ -19,8 +19,8 @@ abstract class FeedParser {
             }
         }
 
-    internal fun clean(description: String?) : String? =
-        description?.replace(htmlTag, "")
+    internal fun clean(text: String?) : String? =
+        text?.replace(htmlTag, "")
             ?.replace(blankLine, "")
             ?.trim()
             ?.take(300)

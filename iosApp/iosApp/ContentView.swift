@@ -3,15 +3,21 @@ import RssReader
 
 struct ContentView: View {
   @ObservedObject private(set) var viewModel: ViewModel
+    
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+        UITableView.appearance().backgroundColor = .white
+    }
 
     var body: some View {
         NavigationView {
             List(viewModel.items, rowContent: RssRow.init)
-            .navigationBarTitle("RSS Feed")
-            .navigationBarItems(trailing:
-                Button("Reload") {
+                .padding(.horizontal, 0)
+                .navigationBarTitle("RSS Feed")
+                .navigationBarItems(trailing: Button("Reload") {
                     self.viewModel.loadFeed(forceReload: true)
-            })
+                })
+                .listStyle(PlainListStyle())
         }
     }
 }
