@@ -10,8 +10,8 @@ import SwiftUI
 import RssReader
 import URLImage
 
-struct RssRow: View {
-    var post: Post
+struct PostRow: View {
+    let post: Post
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10.0) {
@@ -48,6 +48,6 @@ extension Post {
 
 struct RssRow_Previews: PreviewProvider {
     static var previews: some View {
-        RssRow(post: Post(title: "Introducing StateFlow and SharedFlow", link: "Today we’re pleased to announce the release of version 1.4.0 of the Kotlin Coroutines library. The highlights of the release are StateFlow and SharedFlow, which are being promoted to stable API. StateFlow and SharedFlow are designed to be used in cases where state management is required in an asynch", desc: "test", imageUrl: "https://blog.jetbrains.com/wp-content/uploads/2020/10/kotlin_blog_coroutines140.png", date: 1604048455))
+        PostRow(post: Post(title: "Introducing StateFlow and SharedFlow", link: "Today we’re pleased to announce the release of version 1.4.0 of the Kotlin Coroutines library. The highlights of the release are StateFlow and SharedFlow, which are being promoted to stable API. StateFlow and SharedFlow are designed to be used in cases where state management is required in an asynch", desc: "test", imageUrl: "https://blog.jetbrains.com/wp-content/uploads/2020/10/kotlin_blog_coroutines140.png", date: 1604048455))
     }
 }

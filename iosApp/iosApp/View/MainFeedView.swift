@@ -1,8 +1,8 @@
 import SwiftUI
 import RssReader
 
-struct ContentView: View {
-  @ObservedObject private(set) var viewModel: ViewModel
+struct MainFeedView: View {
+    @ObservedObject private(set) var viewModel: ViewModel
     
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -11,18 +11,22 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.items, rowContent: RssRow.init)
-                .padding(.horizontal, 0)
-                .navigationBarTitle("RSS Feed")
-                .navigationBarItems(trailing: Button("Reload") {
-                    self.viewModel.loadFeed(forceReload: true)
-                })
-                .listStyle(PlainListStyle())
+            List(viewModel.items, rowContent: PostRow.init)
+            .padding(.horizontal, 0)
+            .navigationBarTitle("RSS Feed")
+            .navigationBarTitleDisplayMode(.large)
+            .navigationBarItems(trailing: Button(action: { print("tapped") }) {
+                Image(systemName: "pencil.circle").imageScale(.large)
+            })
+            .listStyle(PlainListStyle())
+            .pullToRefresh(isShowing: $viewModel.loading) {
+                self.viewModel.loadFeed(forceReload: true)
+            }
         }
     }
 }
 
-extension ContentView {
+extension MainFeedView {
     
     class ViewModel: ObservableObject {
         let store: FeedStore
