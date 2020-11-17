@@ -9,24 +9,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.jetbrains.app.FeedAction
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedState
+import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.androidApp.R
+import com.github.jetbrains.rssreader.androidApp.Screens
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBinding
-import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
-import com.github.jetbrains.rssreader.androidApp.ui.base.MvpFragment
+import com.github.jetbrains.rssreader.androidApp.ui.base.AppFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemBottomPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.jetbrains.rssreader.androidApp.ui.util.dp
+import com.github.terrakok.cicerone.Router
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
-import org.koin.android.ext.android.getKoin
-import org.koin.core.scope.Scope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
 
-class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragment_main_feed) {
-    private val scope: Scope by lazy { getKoin().getOrCreateScope<MainFeedFragment>(runId) }
-    override val presenter by lazy { scope.get<MainFeed>() }
+class MainFeedFragment : AppFragment<FeedState, FeedSideEffect>(R.layout.fragment_main_feed) {
+    override val store: FeedStore by inject()
+    private val router: Router by inject()
 
     private val vb by viewBinding(FragmentMainFeedBinding::bind)
     private val iconsAdapter = GenericItemAdapter()
@@ -35,9 +39,11 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             when (item) {
                 is FeedIconItem -> {
                     vb.recyclerView.scrollToPosition(0)
-                    presenter.onSelectFeed(item.feed)
+                    store.dispatch(FeedAction.SelectFeed(item.feed))
                 }
-                is EditIconItem -> presenter.onEditFeedList()
+                is EditIconItem -> {
+                    router.navigateTo(Screens.FeedList())
+                }
             }
             false
         }
@@ -52,6 +58,11 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             }
             false
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        store.dispatch(FeedAction.Refresh(false))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,7 +95,7 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             itemAnimator = null
             adapter = iconsFastAdapter
         }
-        vb.swipeRefreshLayout.setOnRefreshListener { presenter.onRefresh() }
+        vb.swipeRefreshLayout.setOnRefreshListener { store.dispatch(FeedAction.Refresh(true)) }
         vb.swipeRefreshLayout.doOnApplyWindowInsets { v, insets, _ ->
             (v as SwipeRefreshLayout).setProgressViewOffset(
                 false,
@@ -93,6 +104,11 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             )
             insets
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        store.observeState().onEach {  }.launchIn(this)
     }
 
     @OptIn(ExperimentalStdlibApi::class)
@@ -124,13 +140,8 @@ class MainFeedFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
         }
     }
 
-    override fun onFinalDestroy() {
-        super.onFinalDestroy()
-        scope.close()
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
-        presenter.onBackPressed()
+        router.exit()
     }
 }

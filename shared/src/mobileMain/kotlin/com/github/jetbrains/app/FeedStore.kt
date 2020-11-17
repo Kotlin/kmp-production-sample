@@ -5,7 +5,9 @@ import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.entity.Feed
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asFlow
 
 data class FeedState(
     val progress: Boolean,
@@ -23,14 +25,15 @@ sealed class FeedAction : Action {
 }
 
 sealed class FeedSideEffect : Effect {
-    data class Load(val forceLoad: Boolean) : FeedSideEffect()
-    data class Add(val url: String) : FeedSideEffect()
-    data class Delete(val url: String) : FeedSideEffect()
     data class Error(val error: Exception) : FeedSideEffect()
 }
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-class FeedStore : Store<FeedState, FeedAction, FeedSideEffect> {
+class FeedStore(
+    private val rssReader: RssReader
+) : Store<FeedState, FeedAction, FeedSideEffect>,
+    CoroutineScope by CoroutineScope(Dispatchers.Main) {
+
     private val state = MutableStateFlow(FeedState(false, emptyList()))
     private val sideEffect = BroadcastChannel<FeedSideEffect>(1)
 
@@ -49,25 +52,25 @@ class FeedStore : Store<FeedState, FeedAction, FeedSideEffect> {
                     sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
                     oldState
                 } else {
-                    sideEffect.offer(FeedSideEffect.Load(action.forceLoad))
+                    launch { loadAllFeeds(action.forceLoad) }
                     oldState.copy(progress = true)
                 }
             }
-            is FeedAction.Add ->  {
+            is FeedAction.Add -> {
                 if (oldState.progress) {
                     sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
                     oldState
                 } else {
-                    sideEffect.offer(FeedSideEffect.Add(action.url))
+                    launch { addFeed(action.url) }
                     FeedState(true, oldState.feeds)
                 }
             }
-            is FeedAction.Delete ->  {
+            is FeedAction.Delete -> {
                 if (oldState.progress) {
                     sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
                     oldState
                 } else {
-                    sideEffect.offer(FeedSideEffect.Delete(action.url))
+                    launch { deleteFeed(action.url) }
                     FeedState(true, oldState.feeds)
                 }
             }
@@ -106,41 +109,33 @@ class FeedStore : Store<FeedState, FeedAction, FeedSideEffect> {
             state.value = newState
         }
     }
-}
 
-class FeedEngine(
-    private val rssReader: RssReader,
-    private val store: FeedStore
-) : CoroutineScope by CoroutineScope(Dispatchers.Main) {
-    private var job: Job? = null
-
-    fun start() {
-        job = store.observeSideEffect().onEach { effect ->
-            try {
-                Napier.d(tag = "FeedStore", message = "Effect: $effect")
-                when (effect) {
-                    is FeedSideEffect.Load -> {
-                        val allFeeds = rssReader.getAllFeeds(effect.forceLoad)
-                        store.dispatch(FeedAction.Data(allFeeds))
-                    }
-                    is FeedSideEffect.Add -> {
-                        rssReader.addFeed(effect.url)
-                        val allFeeds = rssReader.getAllFeeds(false)
-                        store.dispatch(FeedAction.Data(allFeeds))
-                    }
-                    is FeedSideEffect.Delete -> {
-                        rssReader.deleteFeed(effect.url)
-                        val allFeeds = rssReader.getAllFeeds(false)
-                        store.dispatch(FeedAction.Data(allFeeds))
-                    }
-                }
-            } catch (e: Exception) {
-                store.dispatch(FeedAction.Error(e))
-            }
-        }.launchIn(this)
+    private suspend fun loadAllFeeds(forceLoad: Boolean) {
+        try {
+            val allFeeds = rssReader.getAllFeeds(forceLoad)
+            dispatch(FeedAction.Data(allFeeds))
+        } catch (e: Exception) {
+            dispatch(FeedAction.Error(e))
+        }
     }
 
-    fun stop() {
-        job?.cancel()
+    private suspend fun addFeed(url: String) {
+        try {
+            rssReader.addFeed(url)
+            val allFeeds = rssReader.getAllFeeds(false)
+            dispatch(FeedAction.Data(allFeeds))
+        } catch (e: Exception) {
+            dispatch(FeedAction.Error(e))
+        }
+    }
+
+    private suspend fun deleteFeed(url: String) {
+        try {
+            rssReader.deleteFeed(url)
+            val allFeeds = rssReader.getAllFeeds(false)
+            dispatch(FeedAction.Data(allFeeds))
+        } catch (e: Exception) {
+            dispatch(FeedAction.Error(e))
+        }
     }
 }

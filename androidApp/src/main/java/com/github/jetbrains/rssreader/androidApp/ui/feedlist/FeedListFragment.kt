@@ -10,24 +10,25 @@ import androidx.core.view.updateMargins
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.jetbrains.app.FeedAction
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedState
+import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentFeedListBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.LayoutNewFeedUrlBinding
-import com.github.jetbrains.rssreader.androidApp.logic.FeedList
-import com.github.jetbrains.rssreader.androidApp.ui.base.MvpFragment
+import com.github.jetbrains.rssreader.androidApp.ui.base.AppFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.addSystemPadding
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.jetbrains.rssreader.androidApp.ui.util.dp
+import com.github.terrakok.cicerone.Router
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
-import org.koin.android.ext.android.getKoin
-import org.koin.core.scope.Scope
+import org.koin.android.ext.android.inject
 
-class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragment_feed_list) {
-    private val scope: Scope by lazy { getKoin().getOrCreateScope<FeedListFragment>(runId) }
-    override val presenter by lazy { scope.get<FeedList>() }
+class FeedListFragment : AppFragment<FeedState, FeedSideEffect>(R.layout.fragment_feed_list) {
+    override val store: FeedStore by inject()
+    private val router: Router by inject()
 
     private val vb by viewBinding(FragmentFeedListBinding::bind)
     private val itemsAdapter = GenericItemAdapter()
@@ -46,7 +47,7 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
                 .setView(dialogVB.root)
                 .setPositiveButton(getString(R.string.add)) { d, i ->
                     val input = dialogVB.textInput.editText?.text.toString()
-                    presenter.addFeed(input.replace("http://", "https://"))
+                    store.dispatch(FeedAction.Add(input.replace("http://", "https://")))
                     d.dismiss()
                 }
                 .setNegativeButton(getString(R.string.cancel)) { d, i -> d.dismiss() }
@@ -63,7 +64,7 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
                         AlertDialog.Builder(requireContext())
                             .setMessage(url)
                             .setPositiveButton(getString(R.string.remove)) { d, i ->
-                                presenter.removeFeed(url)
+                                store.dispatch(FeedAction.Delete(url))
                                 d.dismiss()
                             }
                             .setNegativeButton(getString(R.string.cancel)) { d, i -> d.dismiss() }
@@ -91,6 +92,6 @@ class FeedListFragment : MvpFragment<FeedState, FeedSideEffect>(R.layout.fragmen
 
     override fun onBackPressed() {
         super.onBackPressed()
-        presenter.onBackPressed()
+        router.exit()
     }
 }

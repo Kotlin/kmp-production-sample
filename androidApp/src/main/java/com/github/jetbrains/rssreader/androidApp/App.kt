@@ -1,14 +1,9 @@
 package com.github.jetbrains.rssreader.androidApp
 
 import android.app.Application
-import com.github.jetbrains.app.FeedEngine
 import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.RssReader
-import com.github.jetbrains.rssreader.androidApp.logic.FeedList
-import com.github.jetbrains.rssreader.androidApp.logic.MainFeed
 import com.github.jetbrains.rssreader.androidApp.sync.RefreshWorker
-import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
-import com.github.jetbrains.rssreader.androidApp.ui.mainfeed.MainFeedFragment
 import com.github.jetbrains.rssreader.create
 import com.github.terrakok.cicerone.Cicerone
 import org.koin.android.ext.koin.androidContext
@@ -36,20 +31,11 @@ class App : Application() {
 
     private val appModule = module {
         single { RssReader.create(get(), BuildConfig.DEBUG) }
-        single { FeedStore() }
-        single { FeedEngine(get(), get()) }
+        single { FeedStore(get()) }
 
         val cicerone = Cicerone.create()
         single { cicerone.router }
         single { cicerone.getNavigatorHolder() }
-
-        scope<MainFeedFragment> {
-            scoped { MainFeed(get(), get()) }
-        }
-
-        scope<FeedListFragment> {
-            scoped { FeedList(get(), get()) }
-        }
     }
 
     private fun initKoin() {

@@ -14,7 +14,6 @@ import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.jetbrains.app.FeedEngine
 import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
 import com.github.jetbrains.rssreader.androidApp.ui.base.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
@@ -26,7 +25,6 @@ import kotlin.math.roundToInt
 
 class AppActivity : AppCompatActivity(R.layout.container) {
     private val vb by viewBinding(ContainerBinding::bind, R.id.container)
-    private val feedEngine: FeedEngine by inject()
     private val navigatorHolder: NavigatorHolder by inject()
     private val router: Router by inject()
     private val navigator = AppNavigator(this, R.id.container)
@@ -36,7 +34,6 @@ class AppActivity : AppCompatActivity(R.layout.container) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            feedEngine.start()
             //cause feedEngine starts async
             vb.root.post {
                 router.newRootScreen(Screens.MainFeed())
@@ -100,13 +97,6 @@ class AppActivity : AppCompatActivity(R.layout.container) {
     override fun onPause() {
         navigatorHolder.removeNavigator()
         super.onPause()
-    }
-
-    override fun onDestroy() {
-        if (isFinishing) {
-            feedEngine.stop()
-        }
-        super.onDestroy()
     }
 
     override fun onBackPressed() {
