@@ -52,11 +52,11 @@ android {
 dependencies {
     implementation(project(":shared"))
     //desugar utils
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.1")
     //UI
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("com.google.android.material:material:1.2.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-ktx:1.3.2")
     //Coroutines
@@ -73,9 +73,9 @@ dependencies {
     implementation("com.mikepenz:fastadapter:$fastadapterVersion")
     implementation("com.mikepenz:fastadapter-extensions-diff:$fastadapterVersion")
     //Image load
-    implementation("io.coil-kt:coil:0.13.0")
+    implementation("io.coil-kt:coil:1.0.0")
     //Navigation
-    implementation("com.github.terrakok:cicerone:6.4")
+    implementation("com.github.terrakok:cicerone:6.5")
     //ViewBinding delegate
     implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.2.2")
     //WorkManager
