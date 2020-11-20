@@ -13,12 +13,10 @@ import RssReader
 @main
 class RSSApp: App {
     let rss = RssReader.Companion().create(withLog: true)
-    let store = FeedStore()
-    lazy var engine = FeedEngine(rssReader: rss, store: store)
+    lazy var store = FeedStore(rssReader: rss)
     lazy var viewModelFactory = ViewModelFactory(store: store)
     
     required init() {
-        engine.start()
     }
   
     var body: some Scene {
