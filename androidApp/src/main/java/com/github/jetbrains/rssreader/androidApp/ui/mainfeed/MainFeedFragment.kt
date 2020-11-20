@@ -1,7 +1,5 @@
 package com.github.jetbrains.rssreader.androidApp.ui.mainfeed
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -52,9 +50,7 @@ class MainFeedFragment : AppFragment<FeedState, FeedSideEffect>(R.layout.fragmen
     private val itemsFastAdapter = FastAdapter.with(itemsAdapter).apply {
         onClickListener = { view, adapter, item, position ->
             if (item is PostItem) {
-                item.post.link?.let {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
-                }
+                item.post.link?.let { router.navigateTo(Screens.WebView(it)) }
             }
             false
         }
