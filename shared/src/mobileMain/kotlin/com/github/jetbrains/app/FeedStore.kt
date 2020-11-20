@@ -7,6 +7,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
 
 data class FeedState(
@@ -37,7 +38,7 @@ class FeedStore(
     private val state = MutableStateFlow(FeedState(false, emptyList()))
     private val sideEffect = BroadcastChannel<FeedSideEffect>(1)
 
-    override fun observeState(): Flow<FeedState> = state
+    override fun observeState(): StateFlow<FeedState> = state
 
     private val sideEffectFlow = sideEffect.asFlow()
     override fun observeSideEffect(): Flow<FeedSideEffect> = sideEffectFlow
