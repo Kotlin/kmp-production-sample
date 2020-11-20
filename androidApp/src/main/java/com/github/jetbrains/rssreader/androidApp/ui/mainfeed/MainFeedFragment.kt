@@ -11,6 +11,7 @@ import com.github.jetbrains.app.FeedAction
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedState
 import com.github.jetbrains.app.FeedStore
+import com.github.jetbrains.app.mainFeedPosts
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.Screens
 import com.github.jetbrains.rssreader.androidApp.databinding.FragmentMainFeedBinding
@@ -122,11 +123,7 @@ class MainFeedFragment : AppFragment<FeedState, FeedSideEffect>(R.layout.fragmen
             add(EditIconItem())
         }
         iconsAdapter.setNewList(feedIcons)
-
-        val posts = state.selectedFeed?.posts ?: state.feeds.flatMap { it.posts }
-        itemsAdapter.setNewList(
-            posts.sortedByDescending { it.date }.map { PostItem(it) }
-        )
+        itemsAdapter.setNewList(state.mainFeedPosts().map { PostItem(it) })
     }
 
     override fun effect(effect: FeedSideEffect) {

@@ -3,6 +3,7 @@ package com.github.jetbrains.app
 import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.entity.Post
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,8 @@ data class FeedState(
     val feeds: List<Feed>,
     val selectedFeed: Feed? = null //null means selected all
 ) : State
+
+fun FeedState.mainFeedPosts() = (selectedFeed?.posts ?: feeds.flatMap { it.posts }).sortedByDescending { it.date }
 
 sealed class FeedAction : Action {
     data class Refresh(val forceLoad: Boolean) : FeedAction()
