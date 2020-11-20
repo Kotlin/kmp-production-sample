@@ -13,8 +13,7 @@ import kotlin.coroutines.suspendCoroutine
 import platform.Foundation.NSDateFormatter
 
 internal class IosFeedParser : FeedParser() {
-    override suspend fun parse(sourceUrl: String, xml: String): Feed =
-        withContext(Dispatchers.Main) {
+    override suspend fun parse(sourceUrl: String, xml: String): Feed = withContext(Dispatchers.Default) {
             Napier.v(tag = "IosFeedParser", message = "Start parse $sourceUrl")
             return@withContext suspendCoroutine { continuation ->
                 RssFeedParser(xml, sourceUrl) {
@@ -36,7 +35,7 @@ internal class IosFeedParser : FeedParser() {
         private var currentData: MutableMap<String, String>? = null
         private var currentElement: String? = null
 
-        private var dateFormatter = {
+        private val dateFormatter = {
             val formatter = NSDateFormatter()
             formatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
             formatter

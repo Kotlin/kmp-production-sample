@@ -8,21 +8,19 @@ struct MainFeedView: View {
         self.viewModel = viewModel
         UITableView.appearance().backgroundColor = .white
     }
-
+    
     var body: some View {
         NavigationView {
             List(viewModel.items, rowContent: PostRow.init)
-            .padding(.horizontal, 0)
-            .navigationBarTitle("RSS Feed")
-            .navigationBarTitleDisplayMode(.large)
-            .navigationBarItems(trailing: Button(action: { print("tapped") }) {
-                Image(systemName: "pencil.circle").imageScale(.large)
-            })
-            .listStyle(PlainListStyle())
-            .pullToRefresh(isShowing: $viewModel.loading) {
-                self.viewModel.loadFeed(forceReload: true)
-            }
+                .navigationBarTitle("RSS Feed")
+                .navigationBarItems(trailing: NavigationLink(destination: viewModel.viewForFeeds()) {
+                    Image(systemName: "pencil.circle").imageScale(.large)
+                })
+                .pullToRefresh(isShowing: $viewModel.loading) {
+                    self.viewModel.loadFeed(forceReload: true)
+                }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -31,11 +29,14 @@ extension MainFeedView {
     class ViewModel: ObservableObject {
         let store: FeedStore
         
+        let viewForFeeds: () -> FeedsList
+        
         @Published var loading = false
         @Published var items: [Post] = []
-
-        init(store: FeedStore) {
+        
+        init(store: FeedStore, viewForFeeds: @escaping () -> FeedsList ) {
             self.store = store
+            self.viewForFeeds = viewForFeeds
             
             store.watchState().watch { [weak self] state in
                 guard let state = state  else {
@@ -43,10 +44,9 @@ extension MainFeedView {
                     return
                 }
                 self?.loading = state.progress
-                self?.items = state.feeds.flatMap{ $0.posts }.sorted(by: { $0.date > $1.date })
+                self?.items = state.mainFeedPosts()
                 
             }
-            
             loadFeed(forceReload: true)
         }
         
@@ -55,7 +55,7 @@ extension MainFeedView {
                 self.store.dispatch(action: FeedAction.Refresh(forceLoad: true))
             }
         }
-    
+        
     }
 }
 
