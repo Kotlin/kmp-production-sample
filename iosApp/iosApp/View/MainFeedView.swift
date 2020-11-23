@@ -47,13 +47,11 @@ extension MainFeedView {
                 self?.items = state.mainFeedPosts()
                 
             }
-            loadFeed(forceReload: true)
+            loadFeed(forceReload: false)
         }
         
         func loadFeed(forceReload: Bool) {
-            DispatchQueue.main.async { [self] in
-                self.store.dispatch(action: FeedAction.Refresh(forceLoad: true))
-            }
+            store.dispatch(action: FeedAction.Refresh(forceLoad: forceReload))
         }
         
     }

@@ -34,10 +34,7 @@ class AppActivity : AppCompatActivity(R.layout.container) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            //cause feedEngine starts async
-            vb.root.post {
-                router.newRootScreen(Screens.MainFeed())
-            }
+            router.newRootScreen(Screens.MainFeed())
         }
 
         handleLeftAndRightInsets()

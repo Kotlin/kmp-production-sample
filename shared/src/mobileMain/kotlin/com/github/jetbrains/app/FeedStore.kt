@@ -3,13 +3,11 @@ package com.github.jetbrains.app
 import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.entity.Feed
-import com.github.jetbrains.rssreader.entity.Post
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
 
 data class FeedState(
     val progress: Boolean,
@@ -39,12 +37,11 @@ class FeedStore(
     CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     private val state = MutableStateFlow(FeedState(false, emptyList()))
-    private val sideEffect = BroadcastChannel<FeedSideEffect>(1)
+    private val sideEffect = MutableSharedFlow<FeedSideEffect>()
 
     override fun observeState(): StateFlow<FeedState> = state
 
-    private val sideEffectFlow = sideEffect.asFlow()
-    override fun observeSideEffect(): Flow<FeedSideEffect> = sideEffectFlow
+    override fun observeSideEffect(): Flow<FeedSideEffect> = sideEffect
 
     override fun dispatch(action: FeedAction) {
         Napier.d(tag = "FeedStore", message = "Action: $action")
@@ -53,7 +50,7 @@ class FeedStore(
         val newState = when (action) {
             is FeedAction.Refresh -> {
                 if (oldState.progress) {
-                    sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
+                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("In progress")))
                     oldState
                 } else {
                     launch { loadAllFeeds(action.forceLoad) }
@@ -62,7 +59,7 @@ class FeedStore(
             }
             is FeedAction.Add -> {
                 if (oldState.progress) {
-                    sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
+                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("In progress")))
                     oldState
                 } else {
                     launch { addFeed(action.url) }
@@ -71,7 +68,7 @@ class FeedStore(
             }
             is FeedAction.Delete -> {
                 if (oldState.progress) {
-                    sideEffect.offer(FeedSideEffect.Error(Exception("In progress")))
+                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("In progress")))
                     oldState
                 } else {
                     launch { deleteFeed(action.url) }
@@ -82,7 +79,7 @@ class FeedStore(
                 if (action.feed == null || oldState.feeds.contains(action.feed)) {
                     oldState.copy(selectedFeed = action.feed)
                 } else {
-                    sideEffect.offer(FeedSideEffect.Error(Exception("Unknown feed")))
+                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("Unknown feed")))
                     oldState
                 }
             }
@@ -93,16 +90,16 @@ class FeedStore(
                     }
                     FeedState(false, action.feeds, selected)
                 } else {
-                    sideEffect.offer(FeedSideEffect.Error(Exception("Unexpected action")))
+                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("Unexpected action")))
                     oldState
                 }
             }
             is FeedAction.Error -> {
                 if (oldState.progress) {
-                    sideEffect.offer(FeedSideEffect.Error(action.error))
+                    sideEffect.tryEmit(FeedSideEffect.Error(action.error))
                     FeedState(false, oldState.feeds)
                 } else {
-                    sideEffect.offer(FeedSideEffect.Error(Exception("Unexpected action")))
+                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("Unexpected action")))
                     oldState
                 }
             }
