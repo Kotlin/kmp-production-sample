@@ -10,24 +10,22 @@ import platform.Foundation.*
 import platform.darwin.NSObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-import platform.Foundation.NSDateFormatter
 
-internal class IosFeedParser : FeedParser() {
-    override suspend fun parse(sourceUrl: String, xml: String): Feed = withContext(Dispatchers.Default) {
-            Napier.v(tag = "IosFeedParser", message = "Start parse $sourceUrl")
-            return@withContext suspendCoroutine { continuation ->
-                RssFeedParser(xml, sourceUrl) {
-                    continuation.resume(it)
-                }
+internal class IosFeedParser : FeedParser {
+    override suspend fun parse(sourceUrl: String, xml: String): Feed =
+        withContext(Dispatchers.Default) {
+            suspendCoroutine { continuation ->
+                Napier.v(tag = "IosFeedParser", message = "Start parse $sourceUrl")
+                NSXMLParser((xml as NSString).dataUsingEncoding(NSUTF8StringEncoding)!!).apply {
+                    delegate = RssFeedParser(sourceUrl) { continuation.resume(it) }
+                }.parse()
             }
         }
 
-    internal inner class RssFeedParser(
-        xml: String,
+    private class RssFeedParser(
         private val sourceUrl: String,
-        val onEnd: (Feed) -> Unit
+        private val onEnd: (Feed) -> Unit
     ) : NSObject(), NSXMLParserDelegateProtocol {
-
         private val posts = mutableListOf<Post>()
 
         private var currentChannelData: MutableMap<String, String> = mutableMapOf()
@@ -35,17 +33,8 @@ internal class IosFeedParser : FeedParser() {
         private var currentData: MutableMap<String, String>? = null
         private var currentElement: String? = null
 
-        private val dateFormatter = {
-            val formatter = NSDateFormatter()
-            formatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
-            formatter
-        }()
-
-        init {
-            val data = (xml as NSString).dataUsingEncoding(NSUTF8StringEncoding)!!
-            val parser = NSXMLParser(data = data)
-            parser.delegate = this
-            parser.parse()
+        private val dateFormatter = NSDateFormatter().apply {
+            dateFormat = "E, d MMM yyyy HH:mm:ss Z"
         }
 
         override fun parser(
@@ -88,26 +77,35 @@ internal class IosFeedParser : FeedParser() {
 
         private fun Post.Companion.withMap(rssMap: Map<String, String>): Post {
             val pubDate = rssMap["pubDate"]
-            val date = if (pubDate != null) dateFormatter.dateFromString(pubDate.trim())?.timeIntervalSince1970 else null
+            val date =
+                if (pubDate != null)
+                    dateFormatter.dateFromString(pubDate.trim())?.timeIntervalSince1970
+                else
+                    null
             val link = rssMap["link"]
             val description = rssMap["description"]
             val content = rssMap["content:encoded"]
-            return  Post(
-                clean(rssMap["title"])!!,
+            return Post(
+                FeedParser.cleanText(rssMap["title"])!!,
                 link,
-                clean(description),
-                pullPostImageUrl(link, description, content),
-                date?.toLong() ?: 0)
+                FeedParser.cleanText(description),
+                FeedParser.pullPostImageUrl(link, description, content),
+                date?.toLong() ?: 0
+            )
         }
 
-        private fun Feed.Companion.withMap(rssMap: Map<String, String>, posts: List<Post>, sourceUrl: String) =
-            Feed(
-                rssMap["title"]!!,
-                rssMap["link"]!!,
-                rssMap["description"]!!,
-                null,
-                posts,
-                sourceUrl)
+        private fun Feed.Companion.withMap(
+            rssMap: Map<String, String>,
+            posts: List<Post>,
+            sourceUrl: String
+        ) = Feed(
+            rssMap["title"]!!,
+            rssMap["link"]!!,
+            rssMap["description"]!!,
+            null,
+            posts,
+            sourceUrl
+        )
     }
 }
 

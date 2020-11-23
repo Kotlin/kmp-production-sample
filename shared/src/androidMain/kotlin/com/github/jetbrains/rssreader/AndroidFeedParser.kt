@@ -13,7 +13,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-internal class AndroidFeedParser : FeedParser() {
+internal class AndroidFeedParser : FeedParser {
     private val dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US)
 
     override suspend fun parse(sourceUrl: String, xml: String): Feed = withContext(Dispatchers.IO) {
@@ -113,8 +113,8 @@ internal class AndroidFeedParser : FeedParser() {
         return Post(
             title ?: feedTitle,
             link,
-            clean(description),
-            pullPostImageUrl(link, description, content),
+            FeedParser.cleanText(description),
+            FeedParser.pullPostImageUrl(link, description, content),
             dateLong
         )
     }
