@@ -47,7 +47,7 @@ extension MainFeedView {
                 self?.items = state.mainFeedPosts()
                 
             }
-            loadFeed(forceReload: false)
+            loadFeed(forceReload: true)
         }
         
         func loadFeed(forceReload: Bool) {

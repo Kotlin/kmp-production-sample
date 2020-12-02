@@ -12,11 +12,21 @@ import RssReader
 struct FeedsList: View {
     @ObservedObject private(set) var viewModel: ViewModel
     
+    @SwiftUI.State var showsAlert: Bool = false
+        
+    
     var body: some View {
         List(viewModel.feeds, rowContent: FeedRow.init)
+            .alert(isPresented: $showsAlert, TextAlert(title: "Title") {
+                if let link = $0 {
+                    viewModel.addFeed(url: link)
+                }
+            })
             .navigationTitle("Feeds list")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button(action: { print("add item")} ) {
+            .navigationBarItems(trailing: Button(action: {
+                showsAlert = true
+            }) {
                 Image(systemName: "plus.circle").imageScale(.large)
             })
     }
@@ -38,16 +48,21 @@ extension FeedsList {
                     return
                 }
                 self?.feeds = state.feeds
-                
             }
         }
         
         func loadFeed(forceReload: Bool) {
-            DispatchQueue.main.async { [self] in
-                self.store.dispatch(action: FeedAction.Refresh(forceLoad: true))
-            }
+            store.dispatch(action: .Refresh(forceLoad: true))
         }
-    
+        
+        func addFeed(url: String) {
+            store.dispatch(action: .Add(url: url))
+        }
+        
+        func removeFeed(url: String) {
+            store.dispatch(action: .Delete(url: url))
+        }
+
     }
 }
 
