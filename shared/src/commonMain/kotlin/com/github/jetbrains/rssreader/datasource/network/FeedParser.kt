@@ -22,11 +22,12 @@ interface FeedParser {
                 }
             }
 
-        internal fun cleanText(text: String?) : String? =
+        internal fun cleanText(text: String?): String? =
             text?.replace(htmlTag, "")
                 ?.replace(blankLine, "")
                 ?.trim()
-                ?.take(300)
+
+        internal fun cleanTextCompact(text: String?) = cleanText(text)?.take(300)
 
         internal fun pullPostImageUrl(postLink: String?, description: String?, content: String?): String? =
             postLink?.let { l ->

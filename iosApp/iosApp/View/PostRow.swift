@@ -14,6 +14,14 @@ struct PostRow: View {
     let post: Post
     
     var body: some View {
+        if let postURL = post.linkURL {
+            Link(destination: postURL) { content }
+        } else {
+            content
+        }
+    }
+    
+    var content: some View {
         VStack(alignment: .leading, spacing: 10.0) {
             Text(post.title).bold().font(.title3)
             if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
@@ -43,6 +51,14 @@ extension Post {
     
     var dateString: String {
         return Post.dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(date)))
+    }
+    
+    var linkURL: URL? {
+        if let link = link {
+            return URL(string: link)
+        } else {
+            return nil
+        }
     }
 }
 

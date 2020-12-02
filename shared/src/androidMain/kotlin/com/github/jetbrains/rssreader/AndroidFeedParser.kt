@@ -113,7 +113,7 @@ internal class AndroidFeedParser : FeedParser {
         return Post(
             title ?: feedTitle,
             link,
-            FeedParser.cleanText(description),
+            FeedParser.cleanTextCompact(description),
             FeedParser.pullPostImageUrl(link, description, content),
             dateLong
         )
