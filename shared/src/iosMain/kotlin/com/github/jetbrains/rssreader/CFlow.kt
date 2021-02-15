@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class CFlow<T> internal constructor(private val origin: Flow<T>) : Flow<T> by origin {
+class CFlow<T: Any> internal constructor(private val origin: Flow<T>) : Flow<T> by origin {
     fun watch(block: (T) -> Unit): Closeable {
         val job = Job()
 
@@ -24,4 +24,5 @@ class CFlow<T> internal constructor(private val origin: Flow<T>) : Flow<T> by or
     }
 }
 
-internal fun <T> Flow<T>.wrap(): CFlow<T> = CFlow(this)
+internal fun <T: Any> Flow<T>.wrap(): CFlow<T> = CFlow(this)
+

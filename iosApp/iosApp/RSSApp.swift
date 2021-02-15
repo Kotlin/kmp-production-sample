@@ -16,12 +16,12 @@ class RSSApp: App {
     lazy var store = FeedStore(rssReader: rss)
     lazy var viewModelFactory = ViewModelFactory(store: store)
     
-    required init() {
-    }
+    required init() { }
   
     var body: some Scene {
         WindowGroup {
-            MainFeedView(viewModel: viewModelFactory.mainFeedViewModel)
+            RootView(viewModel: viewModelFactory.rootViewModel,
+                     mainFeedView: MainFeedView(viewModel: viewModelFactory.mainFeedViewModel))
         }
     }
 }
@@ -37,6 +37,10 @@ class ViewModelFactory {
         return .init(store: store) {
             FeedsList(viewModel: .init(store: self.store))
         }
+    }
+    
+    var rootViewModel: RootView.ViewModel {
+        return .init(store: store)
     }
 }
 

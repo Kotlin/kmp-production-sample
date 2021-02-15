@@ -13,22 +13,30 @@ struct FeedsList: View {
     @ObservedObject private(set) var viewModel: ViewModel
     
     @SwiftUI.State var showsAlert: Bool = false
-        
     
     var body: some View {
-        List(viewModel.feeds, rowContent: FeedRow.init)
-            .alert(isPresented: $showsAlert, TextAlert(title: "Title") {
-                if let link = $0 {
-                    viewModel.addFeed(url: link)
-                }
-            })
-            .navigationTitle("Feeds list")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button(action: {
-                showsAlert = true
-            }) {
-                Image(systemName: "plus.circle").imageScale(.large)
-            })
+        List {
+            ForEach(viewModel.feeds) { feed in
+                FeedRow(feed: feed)
+            }
+            .onDelete( perform: delete )
+        }
+        .alert(isPresented: $showsAlert, TextAlert(title: "Title") {
+            if let link = $0 {
+                viewModel.addFeed(url: link)
+            }
+        })
+        .navigationTitle("Feeds list")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing: Button(action: {
+            showsAlert = true
+        }) {
+            Image(systemName: "plus.circle").imageScale(.large)
+        })
+    }
+    
+    func delete(at offsets: IndexSet) {
+        viewModel.feeds.forEach { viewModel.removeFeed(url: $0.sourceUrl) }
     }
 }
 
@@ -38,17 +46,14 @@ extension FeedsList {
         let store: FeedStore
         
         @Published var feeds: [Feed] = []
-
+        
         init(store: FeedStore) {
             self.store = store
             
             store.watchState().watch { [weak self] state in
-                guard let state = state  else {
-                    // TODO: handle error
-                    return
-                }
                 self?.feeds = state.feeds
             }
+            
         }
         
         func loadFeed(forceReload: Bool) {
@@ -62,14 +67,9 @@ extension FeedsList {
         func removeFeed(url: String) {
             store.dispatch(action: .Delete(url: url))
         }
-
+        
     }
 }
 
 extension Feed: Identifiable { }
 
-//struct FeedsList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FeedsList(v)
-//    }
-//}

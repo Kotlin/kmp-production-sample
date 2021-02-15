@@ -38,10 +38,5 @@ struct FeedRow: View {
     }
 }
 
-struct FeedRow_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedRow(feed: Feed(title: "Feed", link: "", desc: "kSecAttrDescription", imageUrl: "", posts: [Post](), sourceUrl: ""))
-    }
-}
 
 
