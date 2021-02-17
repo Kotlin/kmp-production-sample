@@ -50,7 +50,7 @@ class FeedStore(
         val newState = when (action) {
             is FeedAction.Refresh -> {
                 if (oldState.progress) {
-                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("In progress")))
+                    launch { sideEffect.emit(FeedSideEffect.Error(Exception("In progress"))) }
                     oldState
                 } else {
                     launch { loadAllFeeds(action.forceLoad) }
@@ -59,7 +59,7 @@ class FeedStore(
             }
             is FeedAction.Add -> {
                 if (oldState.progress) {
-                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("In progress")))
+                    launch { sideEffect.emit(FeedSideEffect.Error(Exception("In progress"))) }
                     oldState
                 } else {
                     launch { addFeed(action.url) }
@@ -68,7 +68,7 @@ class FeedStore(
             }
             is FeedAction.Delete -> {
                 if (oldState.progress) {
-                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("In progress")))
+                    launch { sideEffect.emit(FeedSideEffect.Error(Exception("In progress"))) }
                     oldState
                 } else {
                     launch { deleteFeed(action.url) }
@@ -79,7 +79,7 @@ class FeedStore(
                 if (action.feed == null || oldState.feeds.contains(action.feed)) {
                     oldState.copy(selectedFeed = action.feed)
                 } else {
-                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("Unknown feed")))
+                    launch { sideEffect.emit(FeedSideEffect.Error(Exception("Unknown feed"))) }
                     oldState
                 }
             }
@@ -90,16 +90,16 @@ class FeedStore(
                     }
                     FeedState(false, action.feeds, selected)
                 } else {
-                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("Unexpected action")))
+                    launch { sideEffect.emit(FeedSideEffect.Error(Exception("Unexpected action"))) }
                     oldState
                 }
             }
             is FeedAction.Error -> {
                 if (oldState.progress) {
-                    sideEffect.tryEmit(FeedSideEffect.Error(action.error))
+                    launch { sideEffect.emit(FeedSideEffect.Error(action.error)) }
                     FeedState(false, oldState.feeds)
                 } else {
-                    sideEffect.tryEmit(FeedSideEffect.Error(Exception("Unexpected action")))
+                    launch { sideEffect.emit(FeedSideEffect.Error(Exception("Unexpected action"))) }
                     oldState
                 }
             }
