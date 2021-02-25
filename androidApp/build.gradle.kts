@@ -36,6 +36,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     compileOptions {
@@ -47,12 +48,23 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.0.0-beta01"
+    }
 }
 
 dependencies {
     implementation(project(":shared"))
     //desugar utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    //Compose
+    implementation("androidx.compose.ui:ui:1.0.0-beta01")
+    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta01")
+    implementation("androidx.compose.foundation:foundation:1.0.0-beta01")
+    implementation("androidx.compose.material:material:1.0.0-beta01")
+    //Compose Utils
+    implementation("dev.chrisbanes.accompanist:accompanist-coil:0.6.0")
+    implementation("dev.chrisbanes.accompanist:accompanist-insets:0.6.0")
     //UI
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("com.google.android.material:material:1.3.0")
