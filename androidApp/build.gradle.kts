@@ -52,10 +52,10 @@ android {
 dependencies {
     implementation(project(":shared"))
     //desugar utils
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     //UI
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.2.1")
+    implementation("com.google.android.material:material:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.core:core-ktx:1.3.2")
@@ -66,18 +66,17 @@ dependencies {
     //Log
     implementation("com.jakewharton.timber:timber:4.7.1")
     //DI
-    val koinVersion = "2.1.6"
-    implementation("org.koin:koin-core:$koinVersion")
-    implementation("org.koin:koin-androidx-scope:$koinVersion")
-    val fastadapterVersion = "5.2.3"
-    implementation("com.mikepenz:fastadapter:$fastadapterVersion")
-    implementation("com.mikepenz:fastadapter-extensions-diff:$fastadapterVersion")
+    implementation("org.koin:koin-core:2.2.2")
+    implementation("org.koin:koin-androidx-scope:2.2.2")
+    //Adapter
+    implementation("com.mikepenz:fastadapter:5.3.2")
+    implementation("com.mikepenz:fastadapter-extensions-diff:5.2.3")
     //Image load
     implementation("io.coil-kt:coil:1.0.0")
     //Navigation
     implementation("com.github.terrakok:cicerone:6.5")
     //ViewBinding delegate
-    implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.2.2")
+    implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.4.1")
     //WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.4.0")
+    implementation("androidx.work:work-runtime-ktx:2.5.0")
 }
