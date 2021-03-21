@@ -2,31 +2,77 @@ import SwiftUI
 import RssReader
 import URLImage
 
-struct MainFeedView: View {
-    @ObservedObject private(set) var viewModel: ViewModel
+struct MainFeedView: ConnectedView {
+    
+    struct Props {
+        let loading: Bool
+        let items: [Post]
+        let feedOptions: [FeedPickerOption]
+        let selectedFeedOption: FeedPickerOption
+        
+        let onReloadFeed: (Bool) -> Void
+        let onSelectFeed: (Feed?) -> Void
+    }
+    
+    enum FeedPickerOption: Hashable {
+        case all, feed(Feed)
+        
+        var title: String {
+            return String((self.feed?.title ?? "All").prefix(20))
+        }
+        
+        var feed: Feed? {
+            switch self {
+            case .all:
+                return nil
+            case .feed(let feed):
+                return feed
+            }
+        }
+    }
+    
+    func map(state: FeedState, dispatch: @escaping DispatchFunction) -> Props {
+        let selectedFeedOption: FeedPickerOption
+        if let selectedFeed = state.selectedFeed {
+            selectedFeedOption = .feed(selectedFeed)
+        } else {
+            selectedFeedOption = .all
+        }
+        return Props(loading: state.progress,
+              items: state.mainFeedPosts(),
+              feedOptions: [.all] + state.feeds.map { FeedPickerOption.feed($0)},
+              selectedFeedOption: selectedFeedOption,
+              onReloadFeed: { reload in
+                dispatch(FeedAction.Refresh(forceLoad: reload))
+              },
+              onSelectFeed: { feed in
+                dispatch(FeedAction.SelectFeed(feed: feed))
+              })
+    }
+    
+    
     @SwiftUI.State private var showSelectFeed = false
     
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+    init() {
         UITableView.appearance().backgroundColor = .white
     }
     
-    var body: some View{
+    func body(props: Props) -> some View {
         VStack {
             if showSelectFeed {
-                feedPicker.transition(.move(edge: .top))
+                feedPicker(props: props).transition(.move(edge: .top))
             }
-            List(viewModel.items, rowContent: PostRow.init)
+            List(props.items, rowContent: PostRow.init)
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(leading: refreshButton, trailing: editFeedLink)
+        .navigationBarItems(leading: refreshButton(props: props), trailing: editFeedLink)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                navigationTitle
+                navigationTitle(props: props)
             }
         }
         .onAppear {
-            viewModel.loadFeed(forceReload: true)
+            props.onReloadFeed(true)
         }
     }
     
@@ -34,7 +80,7 @@ struct MainFeedView: View {
         Animation.linear(duration: 0.8).repeatForever(autoreverses: false)
     }
     
-    var navigationTitle: some View {
+    func navigationTitle(props: Props) -> some View {
         VStack {
             HStack {
                 Text("RSS Reader").font(.headline)
@@ -44,17 +90,17 @@ struct MainFeedView: View {
                     Image(systemName: showSelectFeed ? "chevron.up" : "chevron.down").imageScale(.small)
                 }
             }
-            Text(viewModel.selectedFeedOption.title).font(.subheadline).lineLimit(1)
+            Text(props.selectedFeedOption.title).font(.subheadline).lineLimit(1)
         }
     }
     
-    var feedPicker: some View {
+    func feedPicker(props: Props) -> some View {
         let binding = Binding<FeedPickerOption>(
-            get: { self.viewModel.selectedFeedOption },
-            set: { self.viewModel.selectFeed(feedOption: $0) }
+            get: { props.selectedFeedOption },
+            set: { props.onSelectFeed($0.feed) }
         )
         return Picker("", selection: binding) {
-            ForEach(viewModel.feedOptions, id: \.self) { option in
+            ForEach(props.feedOptions, id: \.self) { option in
                 HStack {
                     if let imageUrl = option.feed?.imageUrl, let url = URL(string: imageUrl) {
                         
@@ -75,79 +121,22 @@ struct MainFeedView: View {
         .pickerStyle(WheelPickerStyle())
     }
     
-    var refreshButton: some View {
+    func refreshButton(props: Props) -> some View {
         Button(action: {
-            viewModel.loadFeed(forceReload: true)
+            props.onReloadFeed(true)
         }) {
             Image(systemName: "arrow.clockwise")
                 .imageScale(.large)
-                .rotationEffect(Angle.degrees(viewModel.loading ? 360 : 0)).animation( viewModel.loading ? refreshButtionAnimation : .default)
+                .rotationEffect(Angle.degrees(props.loading ? 360 : 0)).animation( props.loading ? refreshButtionAnimation : .default)
         }
     }
     
     var editFeedLink: some View {
-        NavigationLink(destination: NavigationLazyView<FeedsList>(viewModel.viewForFeeds())) {
+        NavigationLink(destination: NavigationLazyView<FeedsList>(FeedsList())) {
             Image(systemName: "pencil.circle").imageScale(.large)
         }
     }
     
-}
-
-extension MainFeedView {
-    
-    class ViewModel: ObservableObject {
-        
-        let store: FeedStore
-        
-        let viewForFeeds: () -> FeedsList
-        
-        @Published var loading = false
-        @Published var items: [Post] = []
-        @Published var feedOptions: [FeedPickerOption] = []
-        @Published var selectedFeedOption = FeedPickerOption.all
-        
-        init(store: FeedStore, viewForFeeds: @escaping () -> FeedsList ) {
-            self.store = store
-            self.viewForFeeds = viewForFeeds
-            
-            store.watchState().watch { [weak self] state in
-                self?.loading = state.progress
-                self?.items = state.mainFeedPosts()
-                self?.feedOptions = [.all] + state.feeds.map { FeedPickerOption.feed($0)}
-                if let selectedFeed = state.selectedFeed {
-                    self?.selectedFeedOption = .feed(selectedFeed)
-                } else {
-                    self?.selectedFeedOption = .all
-                }
-            }
-            loadFeed(forceReload: false)
-        }
-        
-        func loadFeed(forceReload: Bool) {
-            self.store.dispatch(action: FeedAction.Refresh(forceLoad: forceReload))
-        }
-        
-        func selectFeed(feedOption: FeedPickerOption) {
-            store.dispatch(action: FeedAction.SelectFeed(feed: feedOption.feed))
-        }
-    }
-    
-    enum FeedPickerOption: Hashable {
-        case all, feed(Feed)
-        
-        var title: String {
-            return String((self.feed?.title ?? "All").prefix(20))
-        }
-        
-        var feed: Feed? {
-            switch self {
-            case .all:
-                return nil
-            case .feed(let feed):
-                return feed
-            }
-        }
-    }
 }
 
 extension Post: Identifiable { }

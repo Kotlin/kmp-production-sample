@@ -9,21 +9,36 @@
 import SwiftUI
 import RssReader
 
-struct FeedsList: View {
-    @ObservedObject private(set) var viewModel: ViewModel
+struct FeedsList: ConnectedView {
+    
+    struct Props {
+        let feeds: [Feed]
+        let onAdd: (String) -> ()
+        let onRemove: (String) -> ()
+    }
+    
+    func map(state: FeedState, dispatch: @escaping DispatchFunction) -> Props {
+        return Props(feeds: state.feeds, onAdd: { url in
+            dispatch(FeedAction.Add(url: url))
+        }, onRemove: { url in
+            dispatch(FeedAction.Delete(url: url))
+        })
+    }
     
     @SwiftUI.State var showsAlert: Bool = false
     
-    var body: some View {
+    func body(props: Props) -> some View {
         List {
-            ForEach(viewModel.feeds) { feed in
+            ForEach(props.feeds) { feed in
                 FeedRow(feed: feed)
             }
-            .onDelete( perform: delete )
+            .onDelete( perform: { set in
+                set.map { props.feeds[$0] }.forEach { props.onRemove($0.sourceUrl) }
+            })
         }
         .alert(isPresented: $showsAlert, TextAlert(title: "Title") {
-            if let link = $0 {
-                viewModel.addFeed(url: link)
+            if let url = $0 {
+                props.onAdd(url)
             }
         })
         .navigationTitle("Feeds list")
@@ -33,41 +48,6 @@ struct FeedsList: View {
         }) {
             Image(systemName: "plus.circle").imageScale(.large)
         })
-    }
-    
-    func delete(at offsets: IndexSet) {
-        viewModel.feeds.forEach { viewModel.removeFeed(url: $0.sourceUrl) }
-    }
-}
-
-extension FeedsList {
-    
-    class ViewModel: ObservableObject {
-        let store: FeedStore
-        
-        @Published var feeds: [Feed] = []
-        
-        init(store: FeedStore) {
-            self.store = store
-            
-            store.watchState().watch { [weak self] state in
-                self?.feeds = state.feeds
-            }
-            
-        }
-        
-        func loadFeed(forceReload: Bool) {
-            store.dispatch(action: .Refresh(forceLoad: true))
-        }
-        
-        func addFeed(url: String) {
-            store.dispatch(action: .Add(url: url))
-        }
-        
-        func removeFeed(url: String) {
-            store.dispatch(action: .Delete(url: url))
-        }
-        
     }
 }
 

@@ -2,16 +2,15 @@ import SwiftUI
 import RssReader
 
 struct RootView: View {
-    @ObservedObject private(set) var viewModel: ViewModel
-    let mainFeedView: MainFeedView
+    @EnvironmentObject var store: ObservableFeedStore
     @SwiftUI.State var errorMessage: String?
     
-    var body: some View{
+    var body: some View {
         ZStack {
             NavigationView {
-                mainFeedView
+                MainFeedView()
             }.zIndex(0)
-            if let errorMessage = errorMessage {
+            if let errorMessage = self.errorMessage {
                 VStack {
                     Spacer()
                     Text(errorMessage)
@@ -20,37 +19,19 @@ struct RootView: View {
                         .background(Color.black)
                         .cornerRadius(3.0)
                 }
+                .padding(.bottom, 10)
                 .zIndex(1)
                 .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity) )
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onReceive(viewModel.$errorMessage) { value in
-            withAnimation {
-                self.errorMessage = value
-            }
-        }
-    }
-}
-
-extension RootView {
-    class ViewModel: ObservableObject {
-        let store: FeedStore
-        
-        @Published var errorMessage: String?
-        
-        init(store: FeedStore) {
-            self.store = store
-            
-            store.watchSideEffect().watch { [weak self] effect in
-                if let effect = effect as? FeedSideEffect.Error {
-                    self?.errorMessage = effect.error.message
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self?.errorMessage = nil
-                    }
+        .onReceive(store.$sideEffect) { value in
+            if let errorMessage = (value as? FeedSideEffect.Error)?.error.message {
+                withAnimation { self.errorMessage = errorMessage }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    withAnimation { self.errorMessage = nil }
                 }
             }
         }
     }
 }
-
