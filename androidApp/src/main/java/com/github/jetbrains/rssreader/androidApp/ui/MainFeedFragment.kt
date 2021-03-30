@@ -23,6 +23,7 @@ import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.android.launch
 import com.github.terrakok.modo.back
 import com.github.terrakok.modo.forward
+import com.puculek.pulltorefresh.PullToRefresh
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import kotlinx.coroutines.CoroutineScope
@@ -90,21 +91,27 @@ private fun MainScreen(
                 (state.value.selectedFeed?.posts ?: state.value.feeds.flatMap { it.posts })
                     .sortedByDescending { it.date }
             }
-            Column {
-                PostList(modifier = Modifier.weight(1f), posts = posts) { post ->
-                    post.link?.let { modo.launch(Screens.Browser(it)) }
+            PullToRefresh(
+                isRefreshing = state.value.progress,
+                onRefresh = { store.dispatch(FeedAction.Refresh(true)) }
+            ) {
+                Column {
+                    PostList(modifier = Modifier.weight(1f), posts = posts) { post ->
+                        post.link?.let { modo.launch(Screens.Browser(it)) }
+                    }
+
+                    MainFeedBottomBar(
+                        feeds = state.value.feeds,
+                        selectedFeed = state.value.selectedFeed,
+                        onFeedClick = { feed -> store.dispatch(FeedAction.SelectFeed(feed)) },
+                        onEditClick = { modo.forward(Screens.FeedList()) }
+                    )
+                    Spacer(
+                        Modifier
+                            .navigationBarsHeight()
+                            .fillMaxWidth()
+                    )
                 }
-                MainFeedBottomBar(
-                    feeds = state.value.feeds,
-                    selectedFeed = state.value.selectedFeed,
-                    onFeedClick = { feed -> store.dispatch(FeedAction.SelectFeed(feed)) },
-                    onEditClick = { modo.forward(Screens.FeedList()) }
-                )
-                Spacer(
-                    Modifier
-                        .navigationBarsHeight()
-                        .fillMaxWidth()
-                )
             }
         }
     }

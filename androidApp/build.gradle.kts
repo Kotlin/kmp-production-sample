@@ -67,6 +67,7 @@ dependencies {
     //Compose Utils
     implementation("dev.chrisbanes.accompanist:accompanist-coil:0.6.0")
     implementation("dev.chrisbanes.accompanist:accompanist-insets:0.6.0")
+    implementation("com.puculek.pulltorefresh:pull-to-refresh-compose:1.0.4")
     //UI
     implementation("androidx.appcompat:appcompat:1.3.0-rc01")
     implementation("com.google.android.material:material:1.3.0")
