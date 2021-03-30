@@ -4,12 +4,21 @@ import android.content.Intent
 import android.net.Uri
 import com.github.jetbrains.rssreader.androidApp.ui.FeedListFragment
 import com.github.jetbrains.rssreader.androidApp.ui.MainFeedFragment
-import com.github.terrakok.cicerone.androidx.ActivityScreen
-import com.github.terrakok.cicerone.androidx.FragmentScreen
+import com.github.terrakok.modo.android.AppScreen
+import com.github.terrakok.modo.android.ExternalScreen
+import kotlinx.parcelize.Parcelize
 
 @Suppress("FunctionName")
 object Screens {
-    fun MainFeed() = FragmentScreen { MainFeedFragment() }
-    fun FeedList() = FragmentScreen { FeedListFragment() }
-    fun WebView(url: String) = ActivityScreen { Intent(Intent.ACTION_VIEW, Uri.parse(url)) }
+    @Parcelize
+    class MainFeed : AppScreen("MainFeed") {
+        override fun create() = MainFeedFragment()
+    }
+
+    @Parcelize
+    class FeedList : AppScreen("FeedList") {
+        override fun create() = FeedListFragment()
+    }
+
+    fun Browser(url: String) = ExternalScreen { Intent(Intent.ACTION_VIEW, Uri.parse(url)) }
 }

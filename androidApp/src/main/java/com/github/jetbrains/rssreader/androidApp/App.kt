@@ -5,7 +5,8 @@ import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.androidApp.sync.RefreshWorker
 import com.github.jetbrains.rssreader.create
-import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.modo.Modo
+import com.github.terrakok.modo.android.AppReducer
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -32,10 +33,7 @@ class App : Application() {
     private val appModule = module {
         single { RssReader.create(get(), BuildConfig.DEBUG) }
         single { FeedStore(get()) }
-
-        val cicerone = Cicerone.create()
-        single { cicerone.router }
-        single { cicerone.getNavigatorHolder() }
+        single { Modo(AppReducer(this@App)) }
     }
 
     private fun initKoin() {

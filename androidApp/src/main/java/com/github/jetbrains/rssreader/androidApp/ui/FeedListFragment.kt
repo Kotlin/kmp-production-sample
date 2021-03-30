@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -23,21 +24,24 @@ import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.androidApp.databinding.LayoutNewFeedUrlBinding
-import com.github.jetbrains.rssreader.androidApp.ui.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.compose.AppTheme
 import com.github.jetbrains.rssreader.androidApp.ui.compose.FeedItemList
 import com.github.jetbrains.rssreader.entity.Feed
-import com.github.terrakok.cicerone.Router
+import com.github.terrakok.modo.Modo
+import com.github.terrakok.modo.back
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 
 class FeedListFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private val store: FeedStore by inject()
-    private val router: Router by inject()
+    private val modo: Modo by inject()
     private var effectJob: Job? = null
 
     override fun onCreateView(
@@ -99,7 +103,7 @@ class FeedListFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispat
 
     override fun onBackPressed() {
         super.onBackPressed()
-        router.exit()
+        modo.back()
     }
 }
 

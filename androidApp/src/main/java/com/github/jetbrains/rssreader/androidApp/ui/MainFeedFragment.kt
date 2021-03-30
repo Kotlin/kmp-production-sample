@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -14,11 +16,13 @@ import com.github.jetbrains.app.FeedAction
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.androidApp.Screens
-import com.github.jetbrains.rssreader.androidApp.ui.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.compose.AppTheme
 import com.github.jetbrains.rssreader.androidApp.ui.compose.MainFeedBottomBar
 import com.github.jetbrains.rssreader.androidApp.ui.compose.PostList
-import com.github.terrakok.cicerone.Router
+import com.github.terrakok.modo.Modo
+import com.github.terrakok.modo.android.launch
+import com.github.terrakok.modo.back
+import com.github.terrakok.modo.forward
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +35,7 @@ import org.koin.android.ext.android.inject
 
 class MainFeedFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private val store: FeedStore by inject()
-    private val router: Router by inject()
+    private val modo: Modo by inject()
     private var effectJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +50,7 @@ class MainFeedFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispat
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = ComposeView(requireContext()).apply {
-        setContent { MainScreen(store, router) }
+        setContent { MainScreen(store, modo) }
     }
 
     override fun onResume() {
@@ -70,14 +74,14 @@ class MainFeedFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispat
 
     override fun onBackPressed() {
         super.onBackPressed()
-        router.exit()
+        modo.back()
     }
 }
 
 @Composable
 private fun MainScreen(
     store: FeedStore,
-    router: Router
+    modo: Modo
 ) {
     AppTheme {
         ProvideWindowInsets {
@@ -88,13 +92,13 @@ private fun MainScreen(
             }
             Column {
                 PostList(modifier = Modifier.weight(1f), posts = posts) { post ->
-                    post.link?.let { router.navigateTo(Screens.WebView(it)) }
+                    post.link?.let { modo.launch(Screens.Browser(it)) }
                 }
                 MainFeedBottomBar(
                     feeds = state.value.feeds,
                     selectedFeed = state.value.selectedFeed,
                     onFeedClick = { feed -> store.dispatch(FeedAction.SelectFeed(feed)) },
-                    onEditClick = { router.navigateTo(Screens.FeedList()) }
+                    onEditClick = { modo.forward(Screens.FeedList()) }
                 )
                 Spacer(
                     Modifier

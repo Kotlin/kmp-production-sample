@@ -17,26 +17,22 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
 import com.github.jetbrains.rssreader.androidApp.ui.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
-import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
-import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.github.terrakok.modo.Modo
+import com.github.terrakok.modo.android.ModoRender
+import com.github.terrakok.modo.android.init
+import com.github.terrakok.modo.back
 import org.koin.android.ext.android.inject
 import kotlin.math.roundToInt
 
 class AppActivity : AppCompatActivity(R.layout.container) {
     private val vb by viewBinding(ContainerBinding::bind, R.id.container)
-    private val navigatorHolder: NavigatorHolder by inject()
-    private val router: Router by inject()
-    private val navigator = AppNavigator(this, R.id.container)
+    private val modoRender by lazy { ModoRender(this, R.id.container) }
+    private val modo: Modo by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applyAppTheme()
         super.onCreate(savedInstanceState)
-
-        if (savedInstanceState == null) {
-            router.newRootScreen(Screens.MainFeed())
-        }
-
+        modo.init(savedInstanceState, Screens.MainFeed())
         handleLeftAndRightInsets()
     }
 
@@ -88,17 +84,17 @@ class AppActivity : AppCompatActivity(R.layout.container) {
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        navigatorHolder.setNavigator(navigator)
+        modo.render = modoRender
     }
 
     override fun onPause() {
-        navigatorHolder.removeNavigator()
+        modo.render = null
         super.onPause()
     }
 
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
-        (currentFragment as? BaseFragment)?.onBackPressed() ?: super.onBackPressed()
+        (currentFragment as? BaseFragment)?.onBackPressed() ?: modo.back()
     }
 
     @ColorInt

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -87,7 +88,8 @@ dependencies {
     //Image load
     implementation("io.coil-kt:coil:1.0.0")
     //Navigation
-    implementation("com.github.terrakok:cicerone:6.5")
+    implementation("com.github.terrakok:modo:0.6.1")
+    implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
     //ViewBinding delegate
     implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.4.1")
     //WorkManager
