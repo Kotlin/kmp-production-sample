@@ -2,8 +2,8 @@ package com.github.jetbrains.rssreader.androidApp
 
 import android.content.Intent
 import android.net.Uri
-import com.github.jetbrains.rssreader.androidApp.ui.compose.MainFeedFragment
-import com.github.jetbrains.rssreader.androidApp.ui.feedlist.FeedListFragment
+import com.github.jetbrains.rssreader.androidApp.ui.FeedListFragment
+import com.github.jetbrains.rssreader.androidApp.ui.MainFeedFragment
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 

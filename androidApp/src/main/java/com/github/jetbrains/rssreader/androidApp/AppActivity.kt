@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
-import com.github.jetbrains.rssreader.androidApp.ui.base.BaseFragment
+import com.github.jetbrains.rssreader.androidApp.ui.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router

@@ -1,4 +1,4 @@
-package com.github.jetbrains.rssreader.androidApp.ui.base
+package com.github.jetbrains.rssreader.androidApp.ui
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes
