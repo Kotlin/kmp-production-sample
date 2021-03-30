@@ -8,7 +8,6 @@ import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @KoinApiExtension
@@ -19,8 +18,7 @@ class RefreshWorker(
     private val rssReader: RssReader by inject()
 
     override suspend fun doWork(): Result = withContext(Dispatchers.Main) {
-        val feeds = rssReader.getAllFeeds(true)
-        Timber.d("Loaded ${feeds.size} feeds")
+        rssReader.getAllFeeds(true)
         Result.success()
     }
 

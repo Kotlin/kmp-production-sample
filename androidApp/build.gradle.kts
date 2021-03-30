@@ -51,7 +51,7 @@ android {
         useIR = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta01"
+        kotlinCompilerExtensionVersion = "1.0.0-beta03"
     }
 }
 
@@ -60,33 +60,23 @@ dependencies {
     //desugar utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     //Compose
-    implementation("androidx.compose.ui:ui:1.0.0-beta01")
-    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta01")
-    implementation("androidx.compose.foundation:foundation:1.0.0-beta01")
-    implementation("androidx.compose.material:material:1.0.0-beta01")
+    implementation("androidx.compose.ui:ui:1.0.0-beta03")
+    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta03")
+    implementation("androidx.compose.foundation:foundation:1.0.0-beta03")
+    implementation("androidx.compose.material:material:1.0.0-beta03")
     //Compose Utils
     implementation("dev.chrisbanes.accompanist:accompanist-coil:0.6.0")
     implementation("dev.chrisbanes.accompanist:accompanist-insets:0.6.0")
     //UI
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.3.0-rc01")
     implementation("com.google.android.material:material:1.3.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.core:core-ktx:1.3.2")
     //Coroutines
     val coroutinesVersion = properties["version.kotlinx.coroutines"]
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-    //Log
-    implementation("com.jakewharton.timber:timber:4.7.1")
     //DI
     implementation("org.koin:koin-core:2.2.2")
     implementation("org.koin:koin-androidx-scope:2.2.2")
-    //Adapter
-    implementation("com.mikepenz:fastadapter:5.3.2")
-    implementation("com.mikepenz:fastadapter-extensions-diff:5.2.3")
-    //Image load
-    implementation("io.coil-kt:coil:1.0.0")
     //Navigation
     implementation("com.github.terrakok:modo:0.6.1")
     implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
