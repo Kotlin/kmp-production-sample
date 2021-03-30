@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.jetbrains.rssreader.androidApp.databinding.ContainerBinding
 import com.github.jetbrains.rssreader.androidApp.ui.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.terrakok.modo.Modo
@@ -25,7 +23,6 @@ import org.koin.android.ext.android.inject
 import kotlin.math.roundToInt
 
 class AppActivity : AppCompatActivity(R.layout.container) {
-    private val vb by viewBinding(ContainerBinding::bind, R.id.container)
     private val modoRender by lazy { ModoRender(this, R.id.container) }
     private val modo: Modo by inject()
 
@@ -66,7 +63,7 @@ class AppActivity : AppCompatActivity(R.layout.container) {
     }
 
     private fun handleLeftAndRightInsets() {
-        vb.container.doOnApplyWindowInsets { view, insets, initialPadding ->
+        findViewById<View>(R.id.container).doOnApplyWindowInsets { view, insets, initialPadding ->
             view.updatePadding(
                 left = initialPadding.left + insets.systemWindowInsetLeft,
                 right = initialPadding.right + insets.systemWindowInsetRight

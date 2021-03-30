@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -23,8 +21,9 @@ import com.github.jetbrains.app.FeedAction
 import com.github.jetbrains.app.FeedSideEffect
 import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.androidApp.R
-import com.github.jetbrains.rssreader.androidApp.databinding.LayoutNewFeedUrlBinding
+import com.github.jetbrains.rssreader.androidApp.ui.compose.AddFeedDialog
 import com.github.jetbrains.rssreader.androidApp.ui.compose.AppTheme
+import com.github.jetbrains.rssreader.androidApp.ui.compose.DeleteFeedDialog
 import com.github.jetbrains.rssreader.androidApp.ui.compose.FeedItemList
 import com.github.jetbrains.rssreader.entity.Feed
 import com.github.terrakok.modo.Modo
@@ -50,11 +49,7 @@ class FeedListFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispat
         savedInstanceState: Bundle?
     ) = ComposeView(requireContext()).apply {
         setContent {
-            FeedListScreen(
-                store,
-                { feed -> showDeleteFeedDialog(feed.sourceUrl) },
-                { showNewFeedDialog() },
-            )
+            FeedListScreen(store)
         }
     }
 
@@ -77,30 +72,6 @@ class FeedListFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispat
         cancel()
     }
 
-    private fun showNewFeedDialog() {
-        val dialogVB = LayoutNewFeedUrlBinding.inflate(LayoutInflater.from(context))
-        AlertDialog.Builder(requireContext())
-            .setView(dialogVB.root)
-            .setPositiveButton(getString(R.string.add)) { d, i ->
-                val input = dialogVB.textInput.editText?.text.toString()
-                store.dispatch(FeedAction.Add(input.replace("http://", "https://")))
-                d.dismiss()
-            }
-            .setNegativeButton(getString(R.string.cancel)) { d, i -> d.dismiss() }
-            .show()
-    }
-
-    private fun showDeleteFeedDialog(url: String) {
-        AlertDialog.Builder(requireContext())
-            .setMessage(url)
-            .setPositiveButton(getString(R.string.remove)) { d, i ->
-                store.dispatch(FeedAction.Delete(url))
-                d.dismiss()
-            }
-            .setNegativeButton(getString(R.string.cancel)) { d, i -> d.dismiss() }
-            .show()
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         modo.back()
@@ -109,26 +80,51 @@ class FeedListFragment : BaseFragment(), CoroutineScope by CoroutineScope(Dispat
 
 @Composable
 private fun FeedListScreen(
-    store: FeedStore,
-    onFeedClick: (Feed) -> Unit,
-    onAddClick: () -> Unit
+    store: FeedStore
 ) {
     AppTheme {
         ProvideWindowInsets {
             Box {
                 val state = store.observeState().collectAsState()
-                FeedItemList(feeds = state.value.feeds, onFeedClick)
+                val showAddDialog = remember { mutableStateOf(false) }
+                val feedForDelete = remember<MutableState<Feed?>> { mutableStateOf(null) }
+                FeedItemList(feeds = state.value.feeds) {
+                    feedForDelete.value = it
+                }
                 FloatingActionButton(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(16.dp)
                         .navigationBarsWithImePadding(),
-                    onClick = { onAddClick() }
+                    onClick = { showAddDialog.value = true }
                 ) {
                     Image(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_add),
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onSecondary),
                         contentDescription = null
+                    )
+                }
+                if (showAddDialog.value) {
+                    AddFeedDialog(
+                        onAdd = {
+                            store.dispatch(FeedAction.Add(it))
+                            showAddDialog.value = false
+                        },
+                        onDismiss = {
+                            showAddDialog.value = false
+                        }
+                    )
+                }
+                feedForDelete.value?.let { feed ->
+                    DeleteFeedDialog(
+                        feed = feed,
+                        onDelete = {
+                            store.dispatch(FeedAction.Delete(feed.sourceUrl))
+                            feedForDelete.value = null
+                        },
+                        onDismiss = {
+                            feedForDelete.value = null
+                        }
                     )
                 }
             }

@@ -70,7 +70,6 @@ dependencies {
     implementation("com.puculek.pulltorefresh:pull-to-refresh-compose:1.0.4")
     //UI
     implementation("androidx.appcompat:appcompat:1.3.0-rc01")
-    implementation("com.google.android.material:material:1.3.0")
     //Coroutines
     val coroutinesVersion = properties["version.kotlinx.coroutines"]
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
@@ -81,8 +80,6 @@ dependencies {
     //Navigation
     implementation("com.github.terrakok:modo:0.6.1")
     implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
-    //ViewBinding delegate
-    implementation("com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.4.1")
     //WorkManager
     implementation("androidx.work:work-runtime-ktx:2.5.0")
 }
