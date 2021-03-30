@@ -7,9 +7,11 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import com.github.jetbrains.app.FeedAction
@@ -26,10 +28,7 @@ import com.github.terrakok.modo.forward
 import com.puculek.pulltorefresh.PullToRefresh
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
@@ -96,14 +95,22 @@ private fun MainScreen(
                 onRefresh = { store.dispatch(FeedAction.Refresh(true)) }
             ) {
                 Column {
-                    PostList(modifier = Modifier.weight(1f), posts = posts) { post ->
+                    val coroutineScope = rememberCoroutineScope()
+                    val listState = rememberLazyListState()
+                    PostList(
+                        modifier = Modifier.weight(1f),
+                        posts = posts,
+                        listState = listState
+                    ) { post ->
                         post.link?.let { modo.launch(Screens.Browser(it)) }
                     }
-
                     MainFeedBottomBar(
                         feeds = state.value.feeds,
                         selectedFeed = state.value.selectedFeed,
-                        onFeedClick = { feed -> store.dispatch(FeedAction.SelectFeed(feed)) },
+                        onFeedClick = { feed ->
+                            coroutineScope.launch { listState.scrollToItem(0) }
+                            store.dispatch(FeedAction.SelectFeed(feed))
+                        },
                         onEditClick = { modo.forward(Screens.FeedList()) }
                     )
                     Spacer(
