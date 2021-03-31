@@ -2,8 +2,8 @@ package com.github.jetbrains.rssreader.androidApp
 
 import android.content.Intent
 import android.net.Uri
-import com.github.jetbrains.rssreader.androidApp.ui.FeedListFragment
-import com.github.jetbrains.rssreader.androidApp.ui.MainFeedFragment
+import com.github.jetbrains.rssreader.androidApp.ui.fragment.FeedListFragment
+import com.github.jetbrains.rssreader.androidApp.ui.fragment.MainFeedFragment
 import com.github.terrakok.modo.android.AppScreen
 import com.github.terrakok.modo.android.ExternalScreen
 import kotlinx.parcelize.Parcelize

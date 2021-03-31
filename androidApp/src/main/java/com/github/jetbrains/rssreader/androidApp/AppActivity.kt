@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import com.github.jetbrains.rssreader.androidApp.ui.BaseFragment
+import com.github.jetbrains.rssreader.androidApp.ui.fragment.BaseFragment
 import com.github.jetbrains.rssreader.androidApp.ui.util.doOnApplyWindowInsets
 import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.android.ModoRender

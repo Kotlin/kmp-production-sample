@@ -21,9 +21,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.androidApp.R
-import com.github.jetbrains.rssreader.androidApp.ui.util.shortName
 import com.github.jetbrains.rssreader.entity.Feed
 import dev.chrisbanes.accompanist.coil.CoilImage
+import java.util.*
 
 @Composable
 fun FeedIcon(
@@ -60,6 +60,12 @@ fun FeedIcon(
         }
     }
 }
+
+private fun Feed.shortName(): String =
+    title
+        .replace(" ", "")
+        .take(2)
+        .toUpperCase(Locale.getDefault())
 
 @Composable
 fun EditIcon(
