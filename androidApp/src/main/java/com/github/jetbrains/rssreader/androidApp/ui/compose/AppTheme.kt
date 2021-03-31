@@ -2,6 +2,7 @@ package com.github.jetbrains.rssreader.androidApp.ui.compose
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
@@ -30,6 +31,8 @@ fun AppTheme(
 ) {
     MaterialTheme(
         colors = if (isSystemInDarkTheme()) DarkColors else LightColors,
-        content = content
+        content = {
+            Surface(content = content)
+        }
     )
 }
