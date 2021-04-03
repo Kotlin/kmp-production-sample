@@ -52,12 +52,7 @@ kotlin {
             }
         }
 
-        val mobileMain by creating {
-            dependsOn(commonMain)
-        }
-
         val androidMain by getting {
-            dependsOn(mobileMain)
             dependencies {
                 //Network
                 implementation("io.ktor:ktor-client-okhttp:${properties["version.ktor"]}")
@@ -65,7 +60,6 @@ kotlin {
         }
 
         val iosMain by getting {
-            dependsOn(mobileMain)
             dependencies {
                 //Network
                 implementation("io.ktor:ktor-client-ios:${properties["version.ktor"]}")
