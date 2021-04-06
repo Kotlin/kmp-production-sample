@@ -1,10 +1,10 @@
 package com.github.jetbrains.rssreader.androidApp
 
 import android.app.Application
-import com.github.jetbrains.app.FeedStore
-import com.github.jetbrains.rssreader.RssReader
 import com.github.jetbrains.rssreader.androidApp.sync.RefreshWorker
-import com.github.jetbrains.rssreader.create
+import com.github.jetbrains.rssreader.app.FeedStore
+import com.github.jetbrains.rssreader.core.RssReader
+import com.github.jetbrains.rssreader.core.create
 import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.android.AppReducer
 import org.koin.android.ext.koin.androidContext

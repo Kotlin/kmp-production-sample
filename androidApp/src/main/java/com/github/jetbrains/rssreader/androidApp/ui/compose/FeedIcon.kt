@@ -21,7 +21,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.androidApp.R
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.core.entity.Feed
 import dev.chrisbanes.accompanist.coil.CoilImage
 import java.util.*
 

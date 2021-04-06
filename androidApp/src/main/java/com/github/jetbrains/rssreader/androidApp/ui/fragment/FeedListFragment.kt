@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
-import com.github.jetbrains.app.FeedSideEffect
-import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.androidApp.ui.compose.FeedListScreen
+import com.github.jetbrains.rssreader.app.FeedSideEffect
+import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.back
 import kotlinx.coroutines.CoroutineScope

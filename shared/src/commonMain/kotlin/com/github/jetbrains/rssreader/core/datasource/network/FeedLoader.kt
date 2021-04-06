@@ -1,6 +1,6 @@
-package com.github.jetbrains.rssreader.datasource.network
+package com.github.jetbrains.rssreader.core.datasource.network
 
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.core.entity.Feed
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*

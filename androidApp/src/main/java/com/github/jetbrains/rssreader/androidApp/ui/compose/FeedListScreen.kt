@@ -12,10 +12,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.github.jetbrains.app.FeedAction
-import com.github.jetbrains.app.FeedStore
 import com.github.jetbrains.rssreader.androidApp.R
-import com.github.jetbrains.rssreader.entity.Feed
+import com.github.jetbrains.rssreader.app.FeedAction
+import com.github.jetbrains.rssreader.app.FeedStore
+import com.github.jetbrains.rssreader.core.entity.Feed
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
 

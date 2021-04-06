@@ -1,10 +1,10 @@
-package com.github.jetbrains.rssreader
+package com.github.jetbrains.rssreader.core
 
 import android.content.Context
 import com.github.aakira.napier.DebugAntilog
 import com.github.aakira.napier.Napier
-import com.github.jetbrains.rssreader.datasource.network.FeedLoader
-import com.github.jetbrains.rssreader.datasource.storage.FeedStorage
+import com.github.jetbrains.rssreader.core.datasource.network.FeedLoader
+import com.github.jetbrains.rssreader.core.datasource.storage.FeedStorage
 import com.russhwolf.settings.AndroidSettings
 import kotlinx.serialization.json.Json
 

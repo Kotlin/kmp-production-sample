@@ -1,4 +1,4 @@
-package com.github.jetbrains.rssreader.entity
+package com.github.jetbrains.rssreader.core.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package com.github.jetbrains.rssreader
+package com.github.jetbrains.rssreader.core
 
 import com.github.aakira.napier.Napier
 import io.ktor.client.*

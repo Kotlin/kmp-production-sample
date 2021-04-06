@@ -1,4 +1,4 @@
-package com.github.jetbrains.rssreader
+package com.github.jetbrains.rssreader.core
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

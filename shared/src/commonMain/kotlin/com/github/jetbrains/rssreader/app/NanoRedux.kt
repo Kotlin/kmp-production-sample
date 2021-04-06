@@ -1,4 +1,4 @@
-package com.github.jetbrains.app
+package com.github.jetbrains.rssreader.app
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow

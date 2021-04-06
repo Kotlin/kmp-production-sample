@@ -2,7 +2,7 @@ package com.github.jetbrains.rssreader.androidApp.sync
 
 import android.content.Context
 import androidx.work.*
-import com.github.jetbrains.rssreader.RssReader
+import com.github.jetbrains.rssreader.core.RssReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinApiExtension
