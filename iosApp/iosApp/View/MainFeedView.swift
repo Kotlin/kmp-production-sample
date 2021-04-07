@@ -18,7 +18,7 @@ struct MainFeedView: ConnectedView {
         case all, feed(Feed)
         
         var title: String {
-            return String((self.feed?.title ?? "All").prefix(20))
+            return String((self.feed?.data.title ?? "All").prefix(20))
         }
         
         var feed: Feed? {
@@ -102,7 +102,7 @@ struct MainFeedView: ConnectedView {
         return Picker("", selection: binding) {
             ForEach(props.feedOptions, id: \.self) { option in
                 HStack {
-                    if let imageUrl = option.feed?.imageUrl, let url = URL(string: imageUrl) {
+                    if let imageUrl = option.feed?.data.imageUrl, let url = URL(string: imageUrl) {
                         
                         URLImage(url: url) { image in
                             image

@@ -9,7 +9,8 @@ import kotlinx.coroutines.coroutineScope
 
 class RssReader internal constructor(
     private val feedLoader: FeedLoader,
-    private val feedStorage: FeedStorage
+    private val feedStorage: FeedStorage,
+    private val feedSettings: FeedSettings = FeedSettings.basic()
 ) {
     @Throws(Exception::class)
     suspend fun getAllFeeds(
@@ -17,24 +18,12 @@ class RssReader internal constructor(
     ): List<Feed> {
         var feeds = feedStorage.getAllFeeds()
 
-        if (forceUpdate) {
-            feeds = feeds.mapAsync { feed ->
-                val new = feedLoader.getFeed(feed.sourceUrl)
-                feedStorage.saveFeed(new)
-                new
-            }
-        }
-
-        //todo dev helper
-        if (feeds.isEmpty()) {
-            feeds = listOf(
-                "https://blog.jetbrains.com/kotlin/feed/",
-                "https://blog.elementary.io/feed.xml",
-                "https://vas3k.ru/rss/"
-            ).mapAsync { url ->
-                val new = feedLoader.getFeed(url)
-                feedStorage.saveFeed(new)
-                new
+        if (forceUpdate || feeds.isEmpty()) {
+            val feedsUrls = if (feeds.isEmpty()) feedSettings.defaults else feeds.map { it.data.sourceUrl }
+            feeds = feedsUrls.mapAsync { url ->
+                getFeed(url).also {
+                    feedStorage.saveFeed(it)
+                }
             }
         }
 
@@ -43,13 +32,17 @@ class RssReader internal constructor(
 
     @Throws(Exception::class)
     suspend fun addFeed(url: String) {
-        val feed = feedLoader.getFeed(url)
+        val feed = getFeed(url)
         feedStorage.saveFeed(feed)
     }
 
     @Throws(Exception::class)
     suspend fun deleteFeed(url: String) {
         feedStorage.deleteFeed(url)
+    }
+
+    private suspend fun getFeed(url: String): Feed {
+        return Feed(feedLoader.getFeedData(url), feedSettings.isRemovable(url))
     }
 
     private suspend fun <A, B> Iterable<A>.mapAsync(f: suspend (A) -> B): List<B> =

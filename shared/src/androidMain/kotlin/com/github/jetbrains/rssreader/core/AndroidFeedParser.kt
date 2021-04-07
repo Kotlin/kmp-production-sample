@@ -3,7 +3,7 @@ package com.github.jetbrains.rssreader.core
 import android.util.Xml
 import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.core.datasource.network.FeedParser
-import com.github.jetbrains.rssreader.core.entity.Feed
+import com.github.jetbrains.rssreader.core.entity.FeedData
 import com.github.jetbrains.rssreader.core.entity.Post
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
@@ -16,12 +16,12 @@ import java.util.*
 internal class AndroidFeedParser : FeedParser {
     private val dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US)
 
-    override suspend fun parse(sourceUrl: String, xml: String): Feed = withContext(Dispatchers.IO) {
+    override suspend fun parse(sourceUrl: String, xml: String): FeedData = withContext(Dispatchers.IO) {
         val parser = Xml.newPullParser().apply {
             setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
         }
 
-        var feed: Feed
+        var feed: FeedData
 
         xml.reader().use { reader ->
             parser.setInput(reader)
@@ -39,7 +39,7 @@ internal class AndroidFeedParser : FeedParser {
         return@withContext feed
     }
 
-    private fun readFeed(sourceUrl: String, parser: XmlPullParser): Feed {
+    private fun readFeed(sourceUrl: String, parser: XmlPullParser): FeedData {
         parser.require(XmlPullParser.START_TAG, null, "channel")
 
         var title: String? = null
@@ -60,7 +60,7 @@ internal class AndroidFeedParser : FeedParser {
             }
         }
 
-        return Feed(title!!, link!!, description!!, imageUrl, posts, sourceUrl)
+        return FeedData(title!!, link!!, description!!, imageUrl, posts, sourceUrl)
     }
 
     private fun readImageUrl(parser: XmlPullParser): String? {

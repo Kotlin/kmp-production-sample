@@ -5,18 +5,24 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Feed(
+    @SerialName("data") val data: FeedData,
+    @SerialName("isPermanent") val isPermanent: Boolean
+)
+
+@Serializable
+data class FeedData(
     @SerialName("title") val title: String,
     @SerialName("link") val link: String,
     @SerialName("description") val desc: String,
     @SerialName("imageUrl") val imageUrl: String?,
     @SerialName("posts") val posts: List<Post>,
-    @SerialName("sourceUrl") val sourceUrl: String
+    @SerialName("sourceUrl") val sourceUrl: String,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as Feed
+        other as FeedData
 
         if (sourceUrl != other.sourceUrl) return false
 

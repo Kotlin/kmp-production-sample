@@ -19,7 +19,7 @@ struct FeedRow: View {
     
     var body: some View {
         HStack {
-            if let imageUrl = feed.imageUrl, let url = URL(string: imageUrl) {
+            if let imageUrl = feed.data.imageUrl, let url = URL(string: imageUrl) {
                 URLImage(url: url) { image in
                     image
                         .resizable()
@@ -31,8 +31,8 @@ struct FeedRow: View {
                 .cornerRadius(Constants.imageWidth / 2.0)
             }
             VStack(alignment: .leading, spacing: 5.0) {
-                Text(feed.title).bold().font(.title3).lineLimit(1)
-                Text(feed.desc).font(.body)
+                Text(feed.data.title).bold().font(.title3).lineLimit(1)
+                Text(feed.data.desc).font(.body)
             }
         }
     }

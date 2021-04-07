@@ -15,7 +15,7 @@ data class FeedState(
     val selectedFeed: Feed? = null //null means selected all
 ) : State
 
-fun FeedState.mainFeedPosts() = (selectedFeed?.posts ?: feeds.flatMap { it.posts }).sortedByDescending { it.date }
+fun FeedState.mainFeedPosts() = (selectedFeed?.data?.posts ?: feeds.flatMap { it.data.posts }).sortedByDescending { it.date }
 
 sealed class FeedAction : Action {
     data class Refresh(val forceLoad: Boolean) : FeedAction()

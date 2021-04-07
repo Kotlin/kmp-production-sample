@@ -3,6 +3,7 @@ package com.github.jetbrains.rssreader.core
 import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.core.datasource.network.FeedParser
 import com.github.jetbrains.rssreader.core.entity.Feed
+import com.github.jetbrains.rssreader.core.entity.FeedData
 import com.github.jetbrains.rssreader.core.entity.Post
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +13,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal class IosFeedParser : FeedParser {
-    override suspend fun parse(sourceUrl: String, xml: String): Feed =
+    override suspend fun parse(sourceUrl: String, xml: String): FeedData =
         withContext(Dispatchers.Default) {
             suspendCoroutine { continuation ->
                 Napier.v(tag = "IosFeedParser", message = "Start parse $sourceUrl")
@@ -24,7 +25,7 @@ internal class IosFeedParser : FeedParser {
 
     private class RssFeedParser(
         private val sourceUrl: String,
-        private val onEnd: (Feed) -> Unit
+        private val onEnd: (FeedData) -> Unit
     ) : NSObject(), NSXMLParserDelegateProtocol {
         private val posts = mutableListOf<Post>()
 
@@ -72,7 +73,7 @@ internal class IosFeedParser : FeedParser {
 
         override fun parserDidEndDocument(parser: NSXMLParser) {
             Napier.v(tag = "IosFeedParser", message = "end parse $sourceUrl")
-            onEnd(Feed.withMap(currentChannelData, posts, sourceUrl))
+            onEnd(FeedData.withMap(currentChannelData, posts, sourceUrl))
         }
 
         private fun Post.Companion.withMap(rssMap: Map<String, String>): Post {
@@ -94,11 +95,11 @@ internal class IosFeedParser : FeedParser {
             )
         }
 
-        private fun Feed.Companion.withMap(
+        private fun FeedData.Companion.withMap(
             rssMap: Map<String, String>,
             posts: List<Post>,
             sourceUrl: String
-        ) = Feed(
+        ) = FeedData(
             rssMap["title"]!!,
             rssMap["link"]!!,
             rssMap["description"]!!,

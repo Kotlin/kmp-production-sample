@@ -18,7 +18,7 @@ class FeedStorage(
         get() {
             return settings.getStringOrNull(KEY_FEED_CACHE)?.let { str ->
                 json.decodeFromString(ListSerializer(Feed.serializer()), str)
-                    .associate { it.sourceUrl to it }
+                    .associate { it.data.sourceUrl to it }
             } ?: mutableMapOf()
         }
         set(value) {
@@ -32,7 +32,7 @@ class FeedStorage(
     suspend fun getFeed(url: String): Feed? = memCache[url]
 
     suspend fun saveFeed(feed: Feed) {
-        memCache[feed.sourceUrl] = feed
+        memCache[feed.data.sourceUrl] = feed
         diskCache = memCache
     }
 
