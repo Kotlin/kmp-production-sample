@@ -4,7 +4,7 @@ import com.github.jetbrains.rssreader.core.entity.Feed
 import io.ktor.http.*
 
 interface FeedParser {
-    suspend fun parse(sourceUrl: String, xml: String): Feed
+    suspend fun parse(sourceUrl: String, xml: String, isDefault: Boolean): Feed
 
     companion object {
         private val imgReg = Regex("<img[^>]+\\bsrc=[\"']([^\"']+)[\"']")

@@ -12,18 +12,19 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal class IosFeedParser : FeedParser {
-    override suspend fun parse(sourceUrl: String, xml: String): Feed =
+    override suspend fun parse(sourceUrl: String, xml: String, isDefault: Boolean): Feed =
         withContext(Dispatchers.Default) {
             suspendCoroutine { continuation ->
                 Napier.v(tag = "IosFeedParser", message = "Start parse $sourceUrl")
                 NSXMLParser((xml as NSString).dataUsingEncoding(NSUTF8StringEncoding)!!).apply {
-                    delegate = RssFeedParser(sourceUrl) { continuation.resume(it) }
+                    delegate = RssFeedParser(sourceUrl, isDefault) { continuation.resume(it) }
                 }.parse()
             }
         }
 
     private class RssFeedParser(
         private val sourceUrl: String,
+        private val isDefault: Boolean,
         private val onEnd: (Feed) -> Unit
     ) : NSObject(), NSXMLParserDelegateProtocol {
         private val posts = mutableListOf<Post>()
@@ -72,7 +73,7 @@ internal class IosFeedParser : FeedParser {
 
         override fun parserDidEndDocument(parser: NSXMLParser) {
             Napier.v(tag = "IosFeedParser", message = "end parse $sourceUrl")
-            onEnd(Feed.withMap(currentChannelData, posts, sourceUrl))
+            onEnd(Feed.withMap(currentChannelData, posts, sourceUrl, isDefault))
         }
 
         private fun Post.Companion.withMap(rssMap: Map<String, String>): Post {
@@ -97,14 +98,16 @@ internal class IosFeedParser : FeedParser {
         private fun Feed.Companion.withMap(
             rssMap: Map<String, String>,
             posts: List<Post>,
-            sourceUrl: String
+            sourceUrl: String,
+            isDefault: Boolean
         ) = Feed(
             rssMap["title"]!!,
             rssMap["link"]!!,
             rssMap["description"]!!,
             null,
             posts,
-            sourceUrl
+            sourceUrl,
+            isDefault
         )
     }
 }

@@ -17,6 +17,7 @@ object PreviewData {
         desc = "blog.jetbrains.com/kotlin/",
         imageUrl = null,
         posts = listOf(post),
-        sourceUrl = "https://blog.jetbrains.com/feed/"
+        sourceUrl = "https://blog.jetbrains.com/feed/",
+        isDefault = true
     )
 }

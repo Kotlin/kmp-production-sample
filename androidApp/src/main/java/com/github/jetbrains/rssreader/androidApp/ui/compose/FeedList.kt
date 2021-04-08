@@ -33,7 +33,7 @@ fun FeedItem(
 ) {
     Row(
         Modifier
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick, enabled = !feed.isDefault)
             .padding(16.dp)
     ) {
         FeedIcon(feed = feed)

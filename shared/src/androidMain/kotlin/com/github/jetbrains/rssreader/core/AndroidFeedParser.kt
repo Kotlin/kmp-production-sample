@@ -16,7 +16,7 @@ import java.util.*
 internal class AndroidFeedParser : FeedParser {
     private val dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US)
 
-    override suspend fun parse(sourceUrl: String, xml: String): Feed = withContext(Dispatchers.IO) {
+    override suspend fun parse(sourceUrl: String, xml: String, isDefault: Boolean): Feed = withContext(Dispatchers.IO) {
         val parser = Xml.newPullParser().apply {
             setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
         }
@@ -33,13 +33,13 @@ internal class AndroidFeedParser : FeedParser {
             }
             parser.nextTag()
 
-            feed = readFeed(sourceUrl, parser)
+            feed = readFeed(sourceUrl, parser, isDefault)
         }
 
         return@withContext feed
     }
 
-    private fun readFeed(sourceUrl: String, parser: XmlPullParser): Feed {
+    private fun readFeed(sourceUrl: String, parser: XmlPullParser, isDefault: Boolean): Feed {
         parser.require(XmlPullParser.START_TAG, null, "channel")
 
         var title: String? = null
@@ -60,7 +60,7 @@ internal class AndroidFeedParser : FeedParser {
             }
         }
 
-        return Feed(title!!, link!!, description!!, imageUrl, posts, sourceUrl)
+        return Feed(title!!, link!!, description!!, imageUrl, posts, sourceUrl, isDefault)
     }
 
     private fun readImageUrl(parser: XmlPullParser): String? {

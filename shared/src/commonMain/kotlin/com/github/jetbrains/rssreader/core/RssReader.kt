@@ -9,7 +9,8 @@ import kotlinx.coroutines.coroutineScope
 
 class RssReader internal constructor(
     private val feedLoader: FeedLoader,
-    private val feedStorage: FeedStorage
+    private val feedStorage: FeedStorage,
+    private val settings: Settings = Settings(setOf("https://blog.jetbrains.com/kotlin/feed/"))
 ) {
     @Throws(Exception::class)
     suspend fun getAllFeeds(
@@ -17,22 +18,10 @@ class RssReader internal constructor(
     ): List<Feed> {
         var feeds = feedStorage.getAllFeeds()
 
-        if (forceUpdate) {
-            feeds = feeds.mapAsync { feed ->
-                val new = feedLoader.getFeed(feed.sourceUrl)
-                feedStorage.saveFeed(new)
-                new
-            }
-        }
-
-        //todo dev helper
-        if (feeds.isEmpty()) {
-            feeds = listOf(
-                "https://blog.jetbrains.com/kotlin/feed/",
-                "https://blog.elementary.io/feed.xml",
-                "https://vas3k.ru/rss/"
-            ).mapAsync { url ->
-                val new = feedLoader.getFeed(url)
+        if (forceUpdate || feeds.isEmpty()) {
+            val feedsUrls = if (feeds.isEmpty()) settings.defaultFeedUrls else feeds.map { it.sourceUrl }
+            feeds = feedsUrls.mapAsync { url ->
+                val new = feedLoader.getFeed(url, settings.isDefault(url))
                 feedStorage.saveFeed(new)
                 new
             }
@@ -43,7 +32,7 @@ class RssReader internal constructor(
 
     @Throws(Exception::class)
     suspend fun addFeed(url: String) {
-        val feed = feedLoader.getFeed(url)
+        val feed = feedLoader.getFeed(url, settings.isDefault(url))
         feedStorage.saveFeed(feed)
     }
 

@@ -10,7 +10,8 @@ data class Feed(
     @SerialName("description") val desc: String,
     @SerialName("imageUrl") val imageUrl: String?,
     @SerialName("posts") val posts: List<Post>,
-    @SerialName("sourceUrl") val sourceUrl: String
+    @SerialName("sourceUrl") val sourceUrl: String,
+    @SerialName("isDefault") val isDefault: Boolean
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
