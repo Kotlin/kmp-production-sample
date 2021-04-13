@@ -1,0 +1,33 @@
+name: iOS tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  ios_tests:
+    runs-on: macos-latest
+
+    steps:
+    - uses: devbotsxyz/xcode-select@v1
+
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '15'
+
+    - name: gradlew
+      run: ./gradlew packForXcode --stacktrace
+
+    - name: xcodebuild
+      run: xcodebuild -project "iosApp/iosApp.xcodeproj" -scheme iosApp test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8' | xcpretty
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: tests.xcresult
+        path: /Users/runner/Library/Developer/Xcode/DerivedData/*/Logs/Test/*.xcresult

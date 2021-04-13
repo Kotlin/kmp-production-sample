@@ -1,5 +1,6 @@
 package com.github.jetbrains.rssreader.core
 
+import android.annotation.SuppressLint
 import android.util.Xml
 import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.core.datasource.network.FeedParser
@@ -13,6 +14,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+@SuppressLint("NewApi")
 internal class AndroidFeedParser : FeedParser {
     private val dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US)
 
