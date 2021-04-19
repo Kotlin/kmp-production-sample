@@ -4,6 +4,8 @@ plugins {
     id("kotlin-parcelize")
 }
 
+val composeVersion = properties["version.compose"] as String
+
 android {
     compileSdkVersion((properties["android.compileSdk"] as String).toInt())
 
@@ -51,7 +53,7 @@ android {
         useIR = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta03"
+        kotlinCompilerExtensionVersion = composeVersion
     }
 }
 
@@ -60,10 +62,10 @@ dependencies {
     //desugar utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     //Compose
-    implementation("androidx.compose.ui:ui:1.0.0-beta03")
-    implementation("androidx.compose.ui:ui-tooling:1.0.0-beta03")
-    implementation("androidx.compose.foundation:foundation:1.0.0-beta03")
-    implementation("androidx.compose.material:material:1.0.0-beta03")
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.compose.foundation:foundation:$composeVersion")
+    implementation("androidx.compose.material:material:$composeVersion")
     //Compose Utils
     implementation("dev.chrisbanes.accompanist:accompanist-coil:0.6.0")
     implementation("dev.chrisbanes.accompanist:accompanist-insets:0.6.0")
