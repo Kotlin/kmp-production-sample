@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -19,6 +21,17 @@ android {
         versionName = "1.0"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("./key/key.jks")
+            gradleLocalProperties(rootDir).apply {
+                storePassword = getProperty("storePwd") as String
+                keyAlias = getProperty("keyAlias") as String
+                keyPassword = getProperty("keyPwd") as String
+            }
+        }
+    }
+
     buildTypes {
         create("debugPG") {
             initWith(getByName("debug"))
@@ -33,7 +46,13 @@ android {
             )
         }
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                file("proguard-rules.pro")
+            )
         }
     }
 

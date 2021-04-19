@@ -10,3 +10,4 @@ captures
 local.properties
 xcuserdata/
 Pods/
+/androidApp/key
