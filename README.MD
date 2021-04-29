@@ -42,7 +42,7 @@ The UI layer is fully native and implemented using SwiftUI for iOS and Jetpack C
 ​
 **On the iOS side,** the `Store` from the KMM library is wrapped into the `ObservableObject` and implements the state as a `@Published` wrapped property. This publishes changes whenever a dispatched action produces a new state after being reduced in the shared module. The store is injected as an `Environment Object` into the root view of the application, and is easily accessible from anywhere in the application. SwiftUI performs all aspects of diffing on the render pass when your state changes.
 ​
-For subscribing to state updates, [the simple wrapper](https://github.com/terrakok/KmmRssReader/blob/master/shared/src/iosMain/kotlin/com/github/jetbrains/rssreader/CFlow.kt) is used. This wrapper allows you to provide a callback that will be called when each new value (the state in our case) is emitted.
+For subscribing to state updates, [the simple wrapper](https://github.com/Kotlin/kmm-production-sample/blob/master/shared/src/iosMain/kotlin/com/github/jetbrains/rssreader/core/CFlow.kt) is used. This wrapper allows you to provide a callback that will be called when each new value (the state in our case) is emitted.
 ​
 ## Multiplatform features used
 ​
