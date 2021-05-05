@@ -87,7 +87,7 @@ dependencies {
     //Compose Utils
     implementation("com.google.accompanist:accompanist-coil:0.8.1")
     implementation("com.google.accompanist:accompanist-insets:0.8.1")
-    implementation("com.puculek.pulltorefresh:pull-to-refresh-compose:1.0.6")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.8.1")
     //UI
     implementation("androidx.appcompat:appcompat:1.3.0-rc01")
     //Coroutines
