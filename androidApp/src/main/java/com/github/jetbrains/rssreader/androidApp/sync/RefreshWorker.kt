@@ -5,12 +5,10 @@ import androidx.work.*
 import com.github.jetbrains.rssreader.core.RssReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 
-@KoinApiExtension
 class RefreshWorker(
     appContext: Context,
     workerParams: WorkerParameters

@@ -16,8 +16,8 @@ import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.entity.Feed
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
 
 @Composable
 fun FeedListScreen(

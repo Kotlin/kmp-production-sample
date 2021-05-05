@@ -1,5 +1,6 @@
 package com.github.jetbrains.rssreader.androidApp.ui.compose
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,8 +17,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.core.entity.Post
-import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.statusBarsHeight
+import com.google.accompanist.coil.rememberCoilPainter
+import com.google.accompanist.insets.statusBarsHeight
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -65,10 +66,10 @@ private fun PostItem(
                 )
                 item.imageUrl?.let { url ->
                     Spacer(modifier = Modifier.size(padding))
-                    CoilImage(
-                        modifier = Modifier.height(180.dp),
-                        contentScale = ContentScale.Crop,
-                        data = url,
+                    Image(
+                        modifier = Modifier.height(180.dp).fillMaxWidth(),
+                        contentScale = ContentScale.FillWidth,
+                        painter = rememberCoilPainter(url),
                         contentDescription = null
                     )
                 }

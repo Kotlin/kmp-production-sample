@@ -9,11 +9,11 @@ plugins {
 val composeVersion = properties["version.compose"] as String
 
 android {
-    compileSdkVersion((properties["android.compileSdk"] as String).toInt())
+    compileSdk = (properties["android.compileSdk"] as String).toInt()
 
     defaultConfig {
-        minSdkVersion((properties["android.minSdk"] as String).toInt())
-        targetSdkVersion((properties["android.targetSdk"] as String).toInt())
+        minSdk = (properties["android.minSdk"] as String).toInt()
+        targetSdk = (properties["android.targetSdk"] as String).toInt()
         buildToolsVersion = properties["android.buildToolsVersion"] as String
 
         applicationId = "com.github.jetbrains.rssreader.androidApp"
@@ -25,16 +25,15 @@ android {
         create("release") {
             storeFile = file("./key/key.jks")
             gradleLocalProperties(rootDir).apply {
-                storePassword = getProperty("storePwd") as String
-                keyAlias = getProperty("keyAlias") as String
-                keyPassword = getProperty("keyPwd") as String
+                storePassword = getProperty("storePwd")
+                keyAlias = getProperty("keyAlias")
+                keyPassword = getProperty("keyPwd")
             }
         }
     }
 
     buildTypes {
         create("debugPG") {
-            initWith(getByName("debug"))
             isDebuggable = false
             isMinifyEnabled = true
             versionNameSuffix = " debugPG"
@@ -86,9 +85,9 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     //Compose Utils
-    implementation("dev.chrisbanes.accompanist:accompanist-coil:0.6.0")
-    implementation("dev.chrisbanes.accompanist:accompanist-insets:0.6.0")
-    implementation("com.puculek.pulltorefresh:pull-to-refresh-compose:1.0.4")
+    implementation("com.google.accompanist:accompanist-coil:0.8.1")
+    implementation("com.google.accompanist:accompanist-insets:0.8.1")
+    implementation("com.puculek.pulltorefresh:pull-to-refresh-compose:1.0.6")
     //UI
     implementation("androidx.appcompat:appcompat:1.3.0-rc01")
     //Coroutines
@@ -96,8 +95,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     //DI
-    implementation("org.koin:koin-core:2.2.2")
-    implementation("org.koin:koin-androidx-scope:2.2.2")
+    implementation("io.insert-koin:koin-core:3.0.1")
+    implementation("io.insert-koin:koin-android:3.0.1")
     //Navigation
     implementation("com.github.terrakok:modo:0.6.1")
     implementation("com.github.terrakok:modo-render-android-fm:0.6.1")

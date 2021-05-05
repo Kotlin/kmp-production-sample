@@ -74,11 +74,11 @@ kotlin {
 }
 
 android {
-    compileSdkVersion((properties["android.compileSdk"] as String).toInt())
+    compileSdk = (properties["android.compileSdk"] as String).toInt()
 
     defaultConfig {
-        minSdkVersion((properties["android.minSdk"] as String).toInt())
-        targetSdkVersion((properties["android.targetSdk"] as String).toInt())
+        minSdk = (properties["android.minSdk"] as String).toInt()
+        targetSdk = (properties["android.targetSdk"] as String).toInt()
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }

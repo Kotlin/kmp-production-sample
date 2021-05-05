@@ -15,9 +15,9 @@ import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.android.launch
 import com.github.terrakok.modo.forward
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsHeight
 import com.puculek.pulltorefresh.PullToRefresh
-import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
