@@ -6,15 +6,15 @@ plugins {
     id("kotlin-parcelize")
 }
 
-val composeVersion = properties["version.compose"] as String
+val composeVersion = findProperty("version.compose") as String
 
 android {
-    compileSdk = (properties["android.compileSdk"] as String).toInt()
+    compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
     defaultConfig {
-        minSdk = (properties["android.minSdk"] as String).toInt()
-        targetSdk = (properties["android.targetSdk"] as String).toInt()
-        buildToolsVersion = properties["android.buildToolsVersion"] as String
+        minSdk = (findProperty("android.minSdk") as String).toInt()
+        targetSdk = (findProperty("android.targetSdk") as String).toInt()
+        buildToolsVersion = findProperty("android.buildToolsVersion") as String
 
         applicationId = "com.github.jetbrains.rssreader.androidApp"
         versionCode = 1
@@ -91,7 +91,7 @@ dependencies {
     //UI
     implementation("androidx.appcompat:appcompat:1.3.0-rc01")
     //Coroutines
-    val coroutinesVersion = properties["version.kotlinx.coroutines"]
+    val coroutinesVersion = findProperty("version.kotlinx.coroutines")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     //DI
