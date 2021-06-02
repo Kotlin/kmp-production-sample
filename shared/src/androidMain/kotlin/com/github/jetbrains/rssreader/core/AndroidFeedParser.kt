@@ -1,10 +1,10 @@
 package com.github.jetbrains.rssreader.core
 
 import android.util.Xml
-import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.core.datasource.network.FeedParser
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.core.entity.Post
+import io.github.aakira.napier.Napier
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

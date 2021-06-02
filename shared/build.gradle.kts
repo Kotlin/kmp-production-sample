@@ -44,11 +44,11 @@ kotlin {
                 //Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${findProperty("version.kotlinx.coroutines")}")
                 //Logger
-                implementation("com.github.aakira:napier:1.4.1")
+                implementation("io.github.aakira:napier:1.5.0")
                 //JSON
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${findProperty("version.kotlinx.serialization")}")
                 //Key-Value storage
-                implementation("com.russhwolf:multiplatform-settings:0.7.4")
+                implementation("com.russhwolf:multiplatform-settings:0.7.7")
             }
         }
 
@@ -66,10 +66,10 @@ kotlin {
             }
         }
 
-        all {
-            languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            languageSettings.useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
-        }
+//        all {
+//            languageSettings.useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+//            languageSettings.useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
+//        }
     }
 }
 

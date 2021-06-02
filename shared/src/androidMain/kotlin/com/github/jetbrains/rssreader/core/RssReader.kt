@@ -1,11 +1,11 @@
 package com.github.jetbrains.rssreader.core
 
 import android.content.Context
-import com.github.aakira.napier.DebugAntilog
-import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.core.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.core.datasource.storage.FeedStorage
 import com.russhwolf.settings.AndroidSettings
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
 
 fun RssReader.Companion.create(ctx: Context, withLog: Boolean) = RssReader(

@@ -1,10 +1,10 @@
 package com.github.jetbrains.rssreader.core
 
-import com.github.aakira.napier.DebugAntilog
-import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.core.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.core.datasource.storage.FeedStorage
 import com.russhwolf.settings.AppleSettings
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
 import platform.Foundation.NSUserDefaults
 

@@ -1,6 +1,6 @@
 package com.github.jetbrains.rssreader.core
 
-import com.github.aakira.napier.Napier
+import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.engine.ios.*
 import io.ktor.client.features.logging.*

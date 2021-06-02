@@ -1,13 +1,15 @@
 package com.github.jetbrains.rssreader.app
 
-import com.github.aakira.napier.Napier
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.core.entity.Feed
-import kotlinx.coroutines.*
+import io.github.aakira.napier.Napier
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 data class FeedState(
     val progress: Boolean,
@@ -30,7 +32,6 @@ sealed class FeedSideEffect : Effect {
     data class Error(val error: Exception) : FeedSideEffect()
 }
 
-@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class FeedStore(
     private val rssReader: RssReader
 ) : Store<FeedState, FeedAction, FeedSideEffect>,

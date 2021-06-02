@@ -14,7 +14,6 @@ android {
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
-        buildToolsVersion = findProperty("android.buildToolsVersion") as String
 
         applicationId = "com.github.jetbrains.rssreader.androidApp"
         versionCode = 1
@@ -89,14 +88,14 @@ dependencies {
     implementation("com.google.accompanist:accompanist-insets:0.10.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.10.0")
     //UI
-    implementation("androidx.appcompat:appcompat:1.3.0-rc01")
+    implementation("androidx.appcompat:appcompat:1.3.0")
     //Coroutines
     val coroutinesVersion = findProperty("version.kotlinx.coroutines")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     //DI
-    implementation("io.insert-koin:koin-core:3.0.1")
-    implementation("io.insert-koin:koin-android:3.0.1")
+    implementation("io.insert-koin:koin-core:3.0.2")
+    implementation("io.insert-koin:koin-android:3.0.2")
     //Navigation
     implementation("com.github.terrakok:modo:0.6.1")
     implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
