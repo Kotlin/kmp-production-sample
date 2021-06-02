@@ -5,9 +5,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${properties["version.kotlin"]}")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:${properties["version.kotlin"]}")
-        classpath("com.android.tools.build:gradle:${properties["version.androidGradlePlugin"]}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${findProperty("version.kotlin")}")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:${findProperty("version.kotlin")}")
+        classpath("com.android.tools.build:gradle:${findProperty("version.androidGradlePlugin")}")
     }
 }
 
