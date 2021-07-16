@@ -84,9 +84,9 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     //Compose Utils
-    implementation("com.google.accompanist:accompanist-coil:0.10.0")
-    implementation("com.google.accompanist:accompanist-insets:0.10.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.10.0")
+    implementation("com.google.accompanist:accompanist-coil:0.14.0")
+    implementation("com.google.accompanist:accompanist-insets:0.14.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.14.0")
     //UI
     implementation("androidx.appcompat:appcompat:1.3.0")
     //Coroutines
@@ -94,8 +94,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     //DI
-    implementation("io.insert-koin:koin-core:3.0.2")
-    implementation("io.insert-koin:koin-android:3.0.2")
+    implementation("io.insert-koin:koin-core:3.1.2")
+    implementation("io.insert-koin:koin-android:3.1.2")
     //Navigation
     implementation("com.github.terrakok:modo:0.6.1")
     implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
