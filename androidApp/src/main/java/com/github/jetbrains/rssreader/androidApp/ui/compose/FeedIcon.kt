@@ -22,9 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.core.entity.Feed
-import com.google.accompanist.coil.rememberCoilPainter
 import java.util.*
 
 @Composable
@@ -60,7 +60,7 @@ fun FeedIcon(
                 Image(
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Fit,
-                    painter = rememberCoilPainter(url),
+                    painter = rememberImagePainter(url),
                     contentDescription = null
                 )
             }
@@ -72,7 +72,7 @@ private fun Feed.shortName(): String =
     title
         .replace(" ", "")
         .take(2)
-        .toUpperCase(Locale.getDefault())
+        .uppercase(Locale.getDefault())
 
 @Composable
 fun EditIcon(

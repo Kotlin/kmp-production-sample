@@ -67,7 +67,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
         kotlinCompilerExtensionVersion = composeVersion
@@ -84,11 +84,11 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     //Compose Utils
-    implementation("com.google.accompanist:accompanist-coil:0.14.0")
-    implementation("com.google.accompanist:accompanist-insets:0.14.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.14.0")
+    implementation("com.google.accompanist:accompanist-coil:0.15.0")
+    implementation("com.google.accompanist:accompanist-insets:0.15.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.15.0")
     //UI
-    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     //Coroutines
     val coroutinesVersion = findProperty("version.kotlinx.coroutines")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")

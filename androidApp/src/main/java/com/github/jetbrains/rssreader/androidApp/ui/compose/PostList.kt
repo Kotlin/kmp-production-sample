@@ -16,8 +16,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.github.jetbrains.rssreader.core.entity.Post
-import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.statusBarsHeight
 import java.text.SimpleDateFormat
 import java.util.*
@@ -69,7 +69,7 @@ private fun PostItem(
                     Image(
                         modifier = Modifier.height(180.dp).fillMaxWidth(),
                         contentScale = ContentScale.FillWidth,
-                        painter = rememberCoilPainter(url),
+                        painter = rememberImagePainter(url),
                         contentDescription = null
                     )
                 }
