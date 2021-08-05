@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "Introspect",
-        "repositoryURL": "git@github.com:siteline/SwiftUI-Introspect.git",
+        "repositoryURL": "https://github.com/siteline/SwiftUI-Introspect.git",
         "state": {
           "branch": null,
-          "revision": "f1ec9da347a7fbe53c520d35434f6c2295650bd5",
-          "version": "0.1.1"
+          "revision": "2e09be8af614401bc9f87d40093ec19ce56ccaf2",
+          "version": "0.1.3"
         }
       },
       {

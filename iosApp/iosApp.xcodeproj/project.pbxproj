@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		210DA2B4255C095800897854 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 210DA2B3255C095800897854 /* Introspect */; };
 		210DA2BC255C229400897854 /* MainFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DA2BB255C229400897854 /* MainFeedView.swift */; };
 		210DA2CD255C256D00897854 /* FeedsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DA2CC255C256D00897854 /* FeedsList.swift */; };
 		210DA2D1255C26C400897854 /* FeedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DA2D0255C26C400897854 /* FeedRow.swift */; };
@@ -17,6 +16,7 @@
 		2183D291254585BD0021EE82 /* PostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183D290254585BD0021EE82 /* PostRow.swift */; };
 		2183D2A3254B75F70021EE82 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2183D2A2254B75F70021EE82 /* URLImage */; };
 		21B3FCA5255ED8360033CEFD /* RSSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B3FCA4255ED8360033CEFD /* RSSApp.swift */; };
+		21B9594E26BC4C57000C5150 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 21B9594D26BC4C57000C5150 /* Introspect */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 		7555FF8B242A565B00829871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF89242A565B00829871 /* LaunchScreen.storyboard */; };
@@ -86,7 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2183D2A3254B75F70021EE82 /* URLImage in Frameworks */,
-				210DA2B4255C095800897854 /* Introspect in Frameworks */,
+				21B9594E26BC4C57000C5150 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +218,7 @@
 			name = iosApp;
 			packageProductDependencies = (
 				2183D2A2254B75F70021EE82 /* URLImage */,
-				210DA2B3255C095800897854 /* Introspect */,
+				21B9594D26BC4C57000C5150 /* Introspect */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* iosApp.app */;
@@ -294,7 +294,7 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				2183D2A1254B75F70021EE82 /* XCRemoteSwiftPackageReference "url-image" */,
-				210DA2B2255C095800897854 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				21B9594C26BC4C57000C5150 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -691,14 +691,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		210DA2B2255C095800897854 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:siteline/SwiftUI-Introspect.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.1;
-			};
-		};
 		2183D2A1254B75F70021EE82 /* XCRemoteSwiftPackageReference "url-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image.git";
@@ -707,18 +699,26 @@
 				minimumVersion = 2.1.1;
 			};
 		};
+		21B9594C26BC4C57000C5150 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		210DA2B3255C095800897854 /* Introspect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 210DA2B2255C095800897854 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = Introspect;
-		};
 		2183D2A2254B75F70021EE82 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2183D2A1254B75F70021EE82 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
+		};
+		21B9594D26BC4C57000C5150 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 21B9594C26BC4C57000C5150 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
