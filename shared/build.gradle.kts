@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -9,17 +7,9 @@ plugins {
 kotlin {
     android()
 
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-            ::iosArm64
-        else
-            ::iosX64
-
-    iosTarget("ios") {
-        binaries {
-            framework {
-                baseName = "RssReader"
-            }
+    ios {
+        binaries.framework {
+            baseName = "RssReader"
         }
     }
 
@@ -32,7 +22,7 @@ kotlin {
                 //Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${findProperty("version.kotlinx.coroutines")}")
                 //Logger
-                implementation("io.github.aakira:napier:1.5.0")
+                implementation("io.github.aakira:napier:2.0.0")
                 //JSON
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${findProperty("version.kotlinx.serialization")}")
                 //Key-Value storage
