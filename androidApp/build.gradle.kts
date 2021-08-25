@@ -84,9 +84,9 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     //Compose Utils
-    implementation("com.google.accompanist:accompanist-coil:0.15.0")
-    implementation("com.google.accompanist:accompanist-insets:0.15.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.15.0")
+    implementation("io.coil-kt:coil-compose:1.3.2")
+    implementation("com.google.accompanist:accompanist-insets:0.17.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.17.0")
     //UI
     implementation("androidx.appcompat:appcompat:1.3.1")
     //Coroutines
