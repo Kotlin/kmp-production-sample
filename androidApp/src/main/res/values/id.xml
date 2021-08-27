@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fa_type_post" type="id" />
+    <item name="fa_type_feed_short" type="id" />
+    <item name="fa_type_feed" type="id" />
+    <item name="fa_type_edit" type="id" />
+</resources>

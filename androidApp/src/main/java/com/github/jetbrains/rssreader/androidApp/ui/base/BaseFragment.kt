@@ -1,4 +1,4 @@
-package com.github.jetbrains.rssreader.androidApp.ui.fragment
+package com.github.jetbrains.rssreader.androidApp.ui.base
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes

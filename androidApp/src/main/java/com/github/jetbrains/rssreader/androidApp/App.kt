@@ -1,31 +1,41 @@
 package com.github.jetbrains.rssreader.androidApp
 
 import android.app.Application
-import com.github.jetbrains.rssreader.androidApp.sync.RefreshWorker
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.RssReader
+import com.github.jetbrains.rssreader.androidApp.sync.RefreshWorker
 import com.github.jetbrains.rssreader.core.create
-import com.github.terrakok.modo.Modo
-import com.github.terrakok.modo.android.AppReducer
+import com.github.terrakok.cicerone.Cicerone
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
+import timber.log.Timber
 
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+        initLogger()
         initKoin()
         launchBackgroundSync()
+    }
+
+    private fun initLogger() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     private val appModule = module {
         single { RssReader.create(get(), BuildConfig.DEBUG) }
         single { FeedStore(get()) }
-        single { Modo(AppReducer(this@App)) }
+
+        val cicerone = Cicerone.create()
+        single { cicerone.router }
+        single { cicerone.getNavigatorHolder() }
     }
 
     private fun initKoin() {
