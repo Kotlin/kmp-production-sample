@@ -85,8 +85,8 @@ dependencies {
     implementation("androidx.compose.material:material:$composeVersion")
     //Compose Utils
     implementation("io.coil-kt:coil-compose:1.3.2")
-    implementation("com.google.accompanist:accompanist-insets:0.17.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.17.0")
+    implementation("com.google.accompanist:accompanist-insets:0.18.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.18.0")
     //UI
     implementation("androidx.appcompat:appcompat:1.3.1")
     //Coroutines
@@ -100,5 +100,5 @@ dependencies {
     implementation("com.github.terrakok:modo:0.6.1")
     implementation("com.github.terrakok:modo-render-android-fm:0.6.1")
     //WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.5.0")
+    implementation("androidx.work:work-runtime-ktx:2.6.0")
 }

@@ -15,9 +15,12 @@ import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.terrakok.modo.Modo
 import com.github.terrakok.modo.android.launch
 import com.github.terrakok.modo.forward
+import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
@@ -35,6 +38,15 @@ fun MainScreen(
             }
             SwipeRefresh(
                 state = rememberSwipeRefreshState(state.value.progress),
+                indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.systemBars),
+                clipIndicatorToPadding = false,
+                indicator = { indicatorState, refreshTriggerDistance ->
+                    SwipeRefreshIndicator(
+                        state = indicatorState,
+                        refreshTriggerDistance = refreshTriggerDistance,
+                        scale = true //https://github.com/google/accompanist/issues/572
+                    )
+                },
                 onRefresh = { store.dispatch(FeedAction.Refresh(true)) }
             ) {
                 Column {
