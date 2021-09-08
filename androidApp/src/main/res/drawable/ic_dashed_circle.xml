@@ -2,7 +2,7 @@
     android:shape="oval">
     <stroke
         android:width="2dp"
-        android:color="@color/purple"
+        android:color="#ff6b70fc"
         android:dashWidth="4dp"
         android:dashGap="4dp" />
 </shape>
