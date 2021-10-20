@@ -83,11 +83,11 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:$composeVersion")
     implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
-    implementation("androidx.activity:activity-compose:$composeVersion")
     //Compose Utils
-    implementation("io.coil-kt:coil-compose:1.3.2")
-    implementation("com.google.accompanist:accompanist-insets:0.18.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.18.0")
+    implementation("io.coil-kt:coil-compose:1.4.0")
+    implementation("androidx.activity:activity-compose:1.3.1")
+    implementation("com.google.accompanist:accompanist-insets:0.20.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.20.0")
     //Coroutines
     val coroutinesVersion = findProperty("version.kotlinx.coroutines")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
@@ -96,7 +96,7 @@ dependencies {
     implementation("io.insert-koin:koin-core:3.1.2")
     implementation("io.insert-koin:koin-android:3.1.2")
     //Navigation
-    implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-beta10")
+    implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-beta13")
     //WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.6.0")
+    implementation("androidx.work:work-runtime-ktx:2.7.0")
 }

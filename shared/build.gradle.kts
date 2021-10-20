@@ -30,7 +30,7 @@ kotlin {
                 //JSON
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${findProperty("version.kotlinx.serialization")}")
                 //Key-Value storage
-                implementation("com.russhwolf:multiplatform-settings:0.8")
+                implementation("com.russhwolf:multiplatform-settings:0.8.1")
             }
         }
 
