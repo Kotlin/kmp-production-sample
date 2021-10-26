@@ -60,7 +60,7 @@ struct MainFeedView: ConnectedView {
     func body(props: Props) -> some View {
         VStack {
             if showSelectFeed {
-                feedPicker(props: props).transition(.move(edge: .top))
+                feedPicker(props: props)
             }
             List(props.items, rowContent: PostRow.init)
         }
@@ -94,6 +94,7 @@ struct MainFeedView: ConnectedView {
         }
     }
     
+    
     func feedPicker(props: Props) -> some View {
         let binding = Binding<FeedPickerOption>(
             get: { props.selectedFeedOption },
@@ -118,7 +119,7 @@ struct MainFeedView: ConnectedView {
             }
         }
         .background(Color("FeedPicker"))
-        .pickerStyle(WheelPickerStyle())
+        .pickerStyle(.wheel)
     }
     
     func refreshButton(props: Props) -> some View {

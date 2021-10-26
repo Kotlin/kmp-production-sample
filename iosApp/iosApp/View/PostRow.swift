@@ -15,7 +15,10 @@ struct PostRow: View {
     
     var body: some View {
         if let postURL = post.linkURL {
-            Link(destination: postURL) { content }
+            Link(destination: postURL) {
+                content
+            }
+            .foregroundColor(.black)
         } else {
             content
         }
