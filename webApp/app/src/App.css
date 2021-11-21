@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+  background-color: #f2f2f2;
+}
+
+.App-post {
+  border-radius: 16px;
+  background-color: #ffffff;
+  padding: 30px;
+  margin-bottom: 50px;
+  box-shadow: -5px 6px 14px -3px #ccc;
+  -webkit-box-shadow: -5px 6px 14px -3px #ccc;
+  -moz-box-shadow: -5px 6px 14px -3px #ccc;
+}

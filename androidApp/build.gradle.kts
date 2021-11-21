@@ -93,8 +93,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     //DI
-    implementation("io.insert-koin:koin-core:3.1.2")
-    implementation("io.insert-koin:koin-android:3.1.2")
+    implementation("io.insert-koin:koin-android:${findProperty("version.koin")}")
     //Navigation
     implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-beta13")
     //WorkManager

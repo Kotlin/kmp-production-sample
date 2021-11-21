@@ -2,7 +2,11 @@ package com.github.jetbrains.rssreader.core.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.js.ExperimentalJsExport
+import kotlin.js.JsExport
 
+@ExperimentalJsExport
+@JsExport
 @Serializable
 data class Feed(
     @SerialName("title") val title: String,
@@ -29,6 +33,8 @@ data class Feed(
     }
 }
 
+@ExperimentalJsExport
+@JsExport
 @Serializable
 data class Post(
     @SerialName("title") val title: String,

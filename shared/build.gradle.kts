@@ -17,6 +17,11 @@ kotlin {
         }
     }
 
+    js(IR) {
+        useCommonJs()
+        browser()
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -31,6 +36,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${findProperty("version.kotlinx.serialization")}")
                 //Key-Value storage
                 implementation("com.russhwolf:multiplatform-settings:0.8.1")
+                // DI
+                api("io.insert-koin:koin-core:${findProperty("version.koin")}")
             }
         }
 
@@ -52,6 +59,12 @@ kotlin {
             dependencies {
                 //Network
                 implementation("io.ktor:ktor-client-ios:${findProperty("version.ktor")}")
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-js:${findProperty("version.ktor")}")
             }
         }
     }
