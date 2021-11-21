@@ -10,5 +10,6 @@ pluginManagement {
 
 include(":shared")
 include(":composeApp")
+include(":webApp")
 
 enableFeaturePreview("VERSION_CATALOGS")

@@ -18,6 +18,11 @@ kotlin {
         }
     }
 
+    js(IR) {
+        useCommonJs()
+        browser()
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -32,6 +37,8 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 //Key-Value storage
                 implementation(libs.multiplatform.settings)
+                // DI
+                api(libs.koin.core)
             }
         }
 
@@ -60,6 +67,12 @@ kotlin {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.ios)
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.js)
             }
         }
     }
