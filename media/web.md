@@ -1,27 +1,27 @@
-# Web
+# webApp
 
-Here are the instructions to follow to start working with the web version of the RSS feed reader.
+Install dependencies \
+(includes the shared module compilation & installation - see `scripts/preinstall.sh`)
 
 ```shell
-# cd to react app
-cd ./webApp/app
-
-# install deps (npm i -g yarn if required)
 yarn
+```
 
-# start WDS (Webpack Dev Server)
-start
+Start webpack dev server
+
+```shell
+yarn start
 ```
 
 Reinstall the module
 
 ```shell
-cd ./webApp/app
-
-yarn remove RssReader-webApp && \
-yarn add file:../build/dist && \
-yarn start
+yarn remove RssReader-shared && \
+yarn add file:../shared/build/dist
 ```
 
-> Note:
-> When accessing a feed without cross origin control allowed you must handle it through a proxy or temporary disable CORS on the browser.
+> Accessing a feed without cross origin control allowed.
+> **Safari**
+> Develop > Disable cross-origin restrictions
+> **Chrome** (extension)
+> https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf

@@ -19,7 +19,12 @@ kotlin {
 
     js(IR) {
         useCommonJs()
-        browser()
+        browser {
+            webpackTask {
+                output.libraryTarget = "commonjs2"
+            }
+        }
+        binaries.executable()
     }
 
     sourceSets {

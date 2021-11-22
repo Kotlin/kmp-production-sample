@@ -9,6 +9,4 @@ pluginManagement {
 }
 
 include(":androidApp")
-include(":webApp")
 include(":shared")
-
