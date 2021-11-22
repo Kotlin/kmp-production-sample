@@ -6,7 +6,8 @@ This is an open-source, mobile, cross-platform application built with [Kotlin Mu
 <img src="/media/ios+android.png"/>
 
 ## Web
-​[Getting started with the web app](/media/web.md)
+​[Getting started with the web app](/webApp/README.md)
+<br />
 <img src="/media/web.png"/>​
 ## Project structure
 ​

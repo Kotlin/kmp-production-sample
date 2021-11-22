@@ -67,10 +67,10 @@ function App() {
   return (
     <RssFeedContextProvider>
       <div className="App">
-      <main>
-        <Feed />
-      </main>
-    </div>
+        <main>
+          <Feed />
+        </main>
+      </div>
     </RssFeedContextProvider>
   )
 }
