@@ -45,8 +45,8 @@ internal class JsFeedParser : FeedParser {
             desc = nodeValue(feed, "description"),
             imageUrl = imageUrl,
             posts = posts,
-            sourceUrl = "https://blog.jetbrains.com/kotlin/feed/",
-            isDefault = false
+            sourceUrl = sourceUrl,
+            isDefault = isDefault
         )
     }
 
