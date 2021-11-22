@@ -45,8 +45,10 @@ The UI layer is fully native and implemented using SwiftUI for iOS, Jetpack Comp
 For subscribing to state updates, [the simple wrapper](https://github.com/Kotlin/kmm-production-sample/blob/master/shared/src/iosMain/kotlin/com/github/jetbrains/rssreader/core/CFlow.kt) is used. This wrapper allows you to provide a callback that will be called when each new value (the state in our case) is emitted.
 
 ## Web
-​[Getting started with the web app](/media/web.md)
-<img src="/media/web.png"/>​
+​
+[Getting started with the web app](/webApp/README.md)
+<img src="/media/web.png"/>
+​
 
 **On the Web side,** the `Store` from the KMM library is exposed through a top level object declaration acting as view model. \
 This is necessary because sealed classes used to represent dispatchable actions are not exportable to JavaScript. \

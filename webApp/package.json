@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "rss-reader-webapp",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -19,7 +19,8 @@
     "preinstall": "./scripts/preinstall.sh",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "compile": "./scripts/compile.sh"
   },
   "eslintConfig": {
     "extends": [
