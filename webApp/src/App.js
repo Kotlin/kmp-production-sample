@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import './App.css';
-import RssReader_webApp from 'RssReader-webApp';
+import SharedRssreader from 'RssReader-shared';
 
 const RssFeedContext = createContext()
 const useRssFeedContext = () => useContext(RssFeedContext)
 
 function RssFeedContextProvider({ children }) {
-  const viewModel = RssReader_webApp.com.github.jetbrains.rssreader.webApp.RssReaderJsViewModel
+  const viewModel = SharedRssreader.com.github.jetbrains.rssreader.app.RssReaderJsViewModel
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedFeed, setSelectedFeed] = useState(null)
