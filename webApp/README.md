@@ -37,7 +37,5 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Development
 
 Accessing a feed without cross origin control allowed.
-> **Safari**
-> Develop > Disable cross-origin restrictions
-> **Chrome** (extension)
-> https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf
+- **Safari**  - Develop > Disable cross-origin restrictions
+- **Chrome** (extension) - https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf
