@@ -7,7 +7,6 @@ import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
 
-@ExperimentalJsExport
 fun createRssReader(withLog: Boolean) = RssReader(
     FeedLoader(
         jsHttpClient(withLog),

@@ -3,8 +3,7 @@ echo 'NPM preinstall hook'
 pwd
 cd ../
 
-# building lib and generating TS definitions
-
+./gradlew shared:clean
 ./gradlew shared:compileProductionExecutableKotlinJs
 
 # shellcheck disable=SC2181
@@ -12,8 +11,6 @@ if [ $? != 0 ]; then
   echo 'Exit with Gradle error'
   exit 1;
 fi;
-
-# generating module's package.json
 
 ./gradlew shared:jsPublicPackageJson
 

@@ -14,26 +14,12 @@ function RssFeedContextProvider({ children }) {
   const onStateUpdate = (state) => {
     setLoading(state.progress)
     setSelectedFeed(state.selectedFeed)
-
-    // EmptyList lacks the `toArray` interface
-    if (typeof state?.feeds?.toArray !== 'undefined') {
-      const feed = state.feeds.toArray()[0]
-      if (typeof feed?.posts?.toArray !== 'undefined') {
-        setPosts(feed.posts.toArray())
-      }
-    }
-
-    // https://youtrack.jetbrains.com/issue/KT-28245 (I commented as App Manager)
-    // The following is possible if prototype chain is extended is cjs module
-    // EmptyList.prototype.toArray = function () {
-    //   return []
-    // };
-    // state.feeds.toArray().forEach(f => setPosts(f.posts.toArray()))
+    setPosts(state.feeds[0]?.posts)
   }
 
   useEffect(() => {
-    viewModel.observeStore(onStateUpdate)
-    viewModel.refreshFeeds()
+    viewModel.observeState(onStateUpdate)
+    viewModel.refreshFeeds(true)
     return () => viewModel.cancel()
   }, [viewModel])
 
@@ -56,9 +42,8 @@ function Feed() {
     </div>
   )
 
-  if (loading) {
-    return <span>Loading feed ...</span>
-  }
+  if (!posts) return null
+  if (loading) return <span>Loading feed ...</span>
 
   return posts.map(renderPost)
 }
