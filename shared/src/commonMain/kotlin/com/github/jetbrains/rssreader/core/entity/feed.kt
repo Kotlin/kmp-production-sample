@@ -5,8 +5,6 @@ import kotlinx.serialization.Serializable
 import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
 
-@ExperimentalJsExport
-@JsExport
 @Serializable
 data class Feed(
     @SerialName("title") val title: String,

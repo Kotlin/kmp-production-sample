@@ -8,7 +8,6 @@ import org.w3c.dom.Element
 import org.w3c.dom.get
 import org.w3c.dom.parsing.DOMParser
 
-@ExperimentalJsExport
 internal class JsFeedParser : FeedParser {
     override suspend fun parse(sourceUrl: String, xml: String, isDefault: Boolean): Feed {
         val parser = DOMParser()

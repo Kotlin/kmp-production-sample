@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
 
-@JsExport
 data class FeedState(
     val progress: Boolean,
     val feeds: List<Feed>,
