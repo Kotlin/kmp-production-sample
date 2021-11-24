@@ -31,17 +31,7 @@ class FeedJsWrapper(
 
 fun FeedState.toJsObject() = FeedStateJsWrapper(
     progress,
-    feeds.map {
-        Feed(
-            it.title,
-            it.link,
-            it.desc,
-            it.imageUrl,
-            it.posts,
-            it.sourceUrl,
-            it.isDefault
-        ).toJsObject()
-    }.toTypedArray(),
+    feeds.map { it.toJsObject() }.toTypedArray(),
     selectedFeed
 )
 
