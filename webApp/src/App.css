@@ -1,12 +1,31 @@
 .App {
-  text-align: center;
   background-color: #f2f2f2;
+  display: flex;
+  flex-direction: row;
+}
+
+.App-feed-description {
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.App-feed-thumbnail {
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+}
+
+.App-posts {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .App-post {
+  max-width: 350px;
   border-radius: 16px;
   background-color: #ffffff;
   padding: 30px;
+  margin: 30px;
   margin-bottom: 50px;
   box-shadow: -5px 6px 14px -3px #ccc;
   -webkit-box-shadow: -5px 6px 14px -3px #ccc;

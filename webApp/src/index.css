@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 0;  
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -7,19 +7,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-main {
-  padding: 20px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+header {
+  position: fixed;
+  height: 100%;
+  padding: 16px;
+  text-align: start;
+  background-color: #d1327d;
 }
 
-h2 {
+main {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 120px;
+  margin-top: 16px;
+
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+h3 {
   font-size: 30px;
+  text-align: center;
 }
 
 p {
-  font-size: 21px;
+  font-size: 20px;
 }
 
 hr {
