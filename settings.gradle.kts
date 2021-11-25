@@ -10,3 +10,4 @@ pluginManagement {
 
 include(":androidApp")
 include(":shared")
+
