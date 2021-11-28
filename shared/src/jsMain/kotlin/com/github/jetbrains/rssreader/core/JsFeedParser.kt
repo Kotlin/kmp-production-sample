@@ -20,28 +20,34 @@ internal class JsFeedParser : FeedParser {
         val items = feed.getElementsByTagName("item")
 
         for (i in 0 until items.length) {
-            val title = elementNodeValue(items[i]!!, "title")
-            val link = elementNodeValue(items[i]!!, "link")
-            val description = elementNodeValue(items[i]!!, "description")
-            val imageUrl = elementNodeValue(items[i]!!, "featuredImage")
-            // TODO: convert as epoch millis for JS
-            val date = elementNodeValue(items[i]!!, "date")
+            // try default `featuredImage` node value
+            var imageSourceUrl = elementNodeValue(items[i], "featuredImage")
+
+            // try different formats of media thumbnails as url attribute
+            var k = 0
+            val mediaAttributes = arrayOf("media:thumbnail", "media:content")
+            while(imageSourceUrl == "") {
+                if (k > mediaAttributes.size) break
+                val node = items[i]?.getElementsByTagName(mediaAttributes[k])?.get(0)
+                imageSourceUrl = node?.getAttribute("url") ?: ""
+                k++
+            }
 
             posts.add(
                 Post(
-                    title,
-                    link,
-                    description,
-                    imageUrl,
-                    date = 100000
+                    title = elementNodeValue(items[i], "title"),
+                    link = elementNodeValue(items[i], "link"),
+                    desc = elementNodeValue(items[i], "description"),
+                    imageUrl = imageSourceUrl,
+                    date = 100000 // TODO: convert as epoch millis for JS
                 )
             )
         }
 
         return Feed(
-            title = nodeValue(feed, "title"),
-            link = nodeValue(feed, "link"),
-            desc = nodeValue(feed, "description"),
+            title = documentNodeValue(feed, "title"),
+            link = documentNodeValue(feed, "link"),
+            desc = documentNodeValue(feed, "description"),
             imageUrl = imageUrl,
             posts = posts,
             sourceUrl = sourceUrl,
@@ -49,9 +55,10 @@ internal class JsFeedParser : FeedParser {
         )
     }
 
-    private fun nodeValue(doc: Document, tagName: String) : String =
+    private fun documentNodeValue(doc: Document, tagName: String) : String =
         doc.getElementsByTagName(tagName)[0]?.childNodes?.get(0)?.nodeValue ?: ""
 
-    private fun elementNodeValue(doc: Element, tagName: String) : String =
-        doc.getElementsByTagName(tagName)[0]?.childNodes?.get(0)?.nodeValue ?: ""
+    private fun elementNodeValue(el: Element?, tagName: String) : String =
+        el?.getElementsByTagName(tagName)?.get(0)?.childNodes?.get(0)?.nodeValue ?: ""
+
 }
