@@ -62,6 +62,16 @@ object RssReaderJsViewModel : KoinComponent {
     }
 
     @Suppress("unused")
+    fun addFeed(url: String) {
+        store.dispatch(FeedAction.Add(url))
+    }
+
+    @Suppress("unused")
+    fun deleteFeed(url: String) {
+        store.dispatch(FeedAction.Delete(url))
+    }
+
+    @Suppress("unused")
     fun refreshFeeds(forceLoad: Boolean = true) {
         store.dispatch(FeedAction.Refresh(forceLoad))
     }
