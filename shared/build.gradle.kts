@@ -26,7 +26,7 @@ kotlin {
                 //Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${findProperty("version.kotlinx.coroutines")}")
                 //Logger
-                implementation("io.github.aakira:napier:2.1.0")
+                implementation("io.github.aakira:napier:2.2.0")
                 //JSON
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${findProperty("version.kotlinx.serialization")}")
                 //Key-Value storage
