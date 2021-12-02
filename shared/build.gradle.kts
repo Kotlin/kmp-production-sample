@@ -5,6 +5,7 @@ plugins {
 }
 
 kotlin {
+    jvm()
     android()
 
     listOf(
@@ -35,6 +36,13 @@ kotlin {
         }
 
         val androidMain by getting {
+            dependencies {
+                //Network
+                implementation("io.ktor:ktor-client-okhttp:${findProperty("version.ktor")}")
+            }
+        }
+
+        val jvmMain by getting {
             dependencies {
                 //Network
                 implementation("io.ktor:ktor-client-okhttp:${findProperty("version.ktor")}")
