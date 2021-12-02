@@ -11,3 +11,4 @@ pluginManagement {
 include(":androidApp")
 include(":shared")
 include(":sharedui")
+include(":desktopApp")
