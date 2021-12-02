@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.core.entity.Post
+import com.github.jetbrains.rssreader.sharedui.AppTheme
 import com.github.jetbrains.rssreader.sharedui.FeedIcon
 import com.github.jetbrains.rssreader.sharedui.FeedItem
 import com.github.jetbrains.rssreader.sharedui.PostItem
