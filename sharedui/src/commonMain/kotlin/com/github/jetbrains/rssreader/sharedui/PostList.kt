@@ -1,6 +1,5 @@
-package com.github.jetbrains.rssreader.androidApp.ui.compose
+package com.github.jetbrains.rssreader.sharedui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,13 +11,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
 import com.github.jetbrains.rssreader.core.entity.Post
-import com.google.accompanist.insets.statusBarsHeight
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +30,7 @@ fun PostList(
         state = listState
     ) {
         itemsIndexed(posts) { i, post ->
-            if (i == 0) Spacer(Modifier.statusBarsHeight())
+            if (i == 0) Spacer(Modifier.systemStatusBarsHeight())
             PostItem(post) { onClick(post) }
             if (i != posts.size - 1) Spacer(modifier = Modifier.size(16.dp))
         }
@@ -45,7 +40,7 @@ fun PostList(
 private val dateFormatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
 
 @Composable
-private fun PostItem(
+fun PostItem(
     item: Post,
     onClick: () -> Unit
 ) {
@@ -66,11 +61,9 @@ private fun PostItem(
                 )
                 item.imageUrl?.let { url ->
                     Spacer(modifier = Modifier.size(padding))
-                    Image(
-                        modifier = Modifier.height(180.dp).fillMaxWidth(),
-                        contentScale = ContentScale.FillWidth,
-                        painter = rememberImagePainter(url),
-                        contentDescription = null
+                    AsyncImage(
+                        url = url,
+                        modifier = Modifier.height(180.dp).fillMaxWidth()
                     )
                 }
                 item.desc?.let { desc ->
@@ -93,13 +86,5 @@ private fun PostItem(
                 Spacer(modifier = Modifier.size(padding))
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun PostPreview() {
-    AppTheme {
-        PostItem(item = PreviewData.post, onClick = {})
     }
 }

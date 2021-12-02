@@ -17,6 +17,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
+import com.github.jetbrains.rssreader.sharedui.MainFeedBottomBar
+import com.github.jetbrains.rssreader.sharedui.MainScreen
+import com.github.jetbrains.rssreader.sharedui.PostList
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -28,17 +31,12 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class MainScreen : Screen, KoinComponent {
-
     @Composable
     override fun Content() {
         val store: FeedStore by inject()
         val context = LocalContext.current
         val navigator = LocalNavigator.currentOrThrow
         val state = store.observeState().collectAsState()
-        val posts = remember(state.value.feeds, state.value.selectedFeed) {
-            (state.value.selectedFeed?.posts ?: state.value.feeds.flatMap { it.posts })
-                .sortedByDescending { it.date }
-        }
         SwipeRefresh(
             state = rememberSwipeRefreshState(state.value.progress),
             indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.systemBars),
@@ -52,33 +50,17 @@ class MainScreen : Screen, KoinComponent {
             },
             onRefresh = { store.dispatch(FeedAction.Refresh(true)) }
         ) {
-            Column {
-                val coroutineScope = rememberCoroutineScope()
-                val listState = rememberLazyListState()
-                PostList(
-                    modifier = Modifier.weight(1f),
-                    posts = posts,
-                    listState = listState
-                ) { post ->
+            MainScreen(
+                store = store,
+                onPostClick = { post ->
                     post.link?.let { url ->
                         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                     }
+                },
+                onEditClick = {
+                    navigator.push(FeedListScreen())
                 }
-                MainFeedBottomBar(
-                    feeds = state.value.feeds,
-                    selectedFeed = state.value.selectedFeed,
-                    onFeedClick = { feed ->
-                        coroutineScope.launch { listState.scrollToItem(0) }
-                        store.dispatch(FeedAction.SelectFeed(feed))
-                    },
-                    onEditClick = { navigator.push(FeedListScreen()) }
-                )
-                Spacer(
-                    Modifier
-                        .navigationBarsHeight()
-                        .fillMaxWidth()
-                )
-            }
+            )
         }
     }
 }

@@ -1,6 +1,5 @@
-package com.github.jetbrains.rssreader.androidApp.ui.compose
+package com.github.jetbrains.rssreader.sharedui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,15 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
-import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.core.entity.Feed
 import java.util.*
 
@@ -33,7 +25,7 @@ fun FeedIcon(
     isSelected: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
-    val txtAll = stringResource(R.string.all)
+    val txtAll = systemString("All")
     val shortName = remember(feed) { feed?.shortName() ?: txtAll }
     Box(
         modifier = Modifier
@@ -57,11 +49,10 @@ fun FeedIcon(
                 text = shortName
             )
             feed?.imageUrl?.let { url ->
-                Image(
+                AsyncImage(
+                    url = url,
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Fit,
-                    painter = rememberImagePainter(url),
-                    contentDescription = null
+                    contentScale = ContentScale.Fit
                 )
             }
         }
@@ -85,27 +76,9 @@ fun EditIcon(
             .background(color = MaterialTheme.colors.secondary)
             .clickable(onClick = onClick)
     ) {
-        Image(
+        LocalImage(
             modifier = Modifier.align(Alignment.Center),
-            imageVector = ImageVector.vectorResource(R.drawable.ic_edit),
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.onSecondary),
-            contentDescription = null
+            resName = "ic_edit.xml"
         )
-    }
-}
-
-@Preview
-@Composable
-private fun FeedIconPreview() {
-    AppTheme {
-        FeedIcon(feed = PreviewData.feed)
-    }
-}
-
-@Preview
-@Composable
-private fun FeedIconSelectedPreview() {
-    AppTheme {
-        FeedIcon(feed = PreviewData.feed, true)
     }
 }

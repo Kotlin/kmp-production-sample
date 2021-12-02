@@ -1,4 +1,4 @@
-package com.github.jetbrains.rssreader.androidApp.ui.compose
+package com.github.jetbrains.rssreader.sharedui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.core.entity.Feed
+import com.github.jetbrains.rssreader.sharedui.EditIcon
+import com.github.jetbrains.rssreader.sharedui.FeedIcon
 
 private sealed class Icons {
     object All : Icons()

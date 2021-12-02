@@ -10,4 +10,4 @@ pluginManagement {
 
 include(":androidApp")
 include(":shared")
-
+include(":sharedui")

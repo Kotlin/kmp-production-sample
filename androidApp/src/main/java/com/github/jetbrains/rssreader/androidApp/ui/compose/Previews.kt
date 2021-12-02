@@ -1,7 +1,44 @@
 package com.github.jetbrains.rssreader.androidApp.ui.compose
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.core.entity.Post
+import com.github.jetbrains.rssreader.sharedui.FeedIcon
+import com.github.jetbrains.rssreader.sharedui.FeedItem
+import com.github.jetbrains.rssreader.sharedui.PostItem
+
+@Preview
+@Composable
+private fun FeedItemPreview() {
+    AppTheme {
+        FeedItem(feed = PreviewData.feed) {}
+    }
+}
+
+@Preview
+@Composable
+private fun PostPreview() {
+    AppTheme {
+        PostItem(item = PreviewData.post, onClick = {})
+    }
+}
+
+@Preview
+@Composable
+private fun FeedIconPreview() {
+    AppTheme {
+        FeedIcon(feed = PreviewData.feed)
+    }
+}
+
+@Preview
+@Composable
+private fun FeedIconSelectedPreview() {
+    AppTheme {
+        FeedIcon(feed = PreviewData.feed, true)
+    }
+}
 
 object PreviewData {
     val post = Post(

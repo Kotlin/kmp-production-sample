@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RSS reader</string>
+    <string name="rss_feed_url">Rss feed url</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
+    <string name="all">All</string>
+</resources>

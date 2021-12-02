@@ -76,6 +76,7 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    implementation(project(":sharedui"))
     //desugar utils
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
     //Compose
