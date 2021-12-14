@@ -5,6 +5,10 @@ plugins {
     id("org.jetbrains.compose")
 }
 
+repositories {
+    mavenLocal() //for voyager desktop
+}
+
 kotlin {
     android()
     jvm()
@@ -19,6 +23,13 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.ui)
                 implementation(compose.uiTooling)
+                //Navigation
+                implementation("cafe.adriel.voyager:voyager-core:2.0.0")
+                implementation("cafe.adriel.voyager:voyager-navigator:2.0.0")
+                //DI
+                implementation("io.insert-koin:koin-core:3.1.4")
+                //Network
+                implementation("io.ktor:ktor-client-okhttp:${findProperty("version.ktor")}")
                 //Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${findProperty("version.kotlinx.coroutines")}")
             }
@@ -33,18 +44,13 @@ kotlin {
                 //Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${findProperty("version.kotlinx.coroutines")}")
                 //DI
-                implementation("io.insert-koin:koin-core:3.1.2")
-                implementation("io.insert-koin:koin-android:3.1.2")
-                //Navigation
-                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-beta13")
+                implementation("io.insert-koin:koin-android:3.1.4")
                 //WorkManager
                 implementation("androidx.work:work-runtime-ktx:2.7.1")
             }
         }
         val jvmMain by getting {
             dependencies {
-                //Network
-                implementation("io.ktor:ktor-client-okhttp:${findProperty("version.ktor")}")
                 //Compose UI
                 implementation(compose.desktop.currentOs)
             }
@@ -55,9 +61,6 @@ kotlin {
 //android app
 android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDir("src/androidMain/res")
-    sourceSets["main"].kotlin.srcDir("src/androidMain/kotlin")
-
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
     defaultConfig {

@@ -3,6 +3,7 @@ package com.github.jetbrains.rssreader.androidApp
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.core.screen.Screen
@@ -10,7 +11,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.github.jetbrains.rssreader.sharedui.MainScreen
+import com.github.jetbrains.rssreader.sharedui.FeedList
+import com.github.jetbrains.rssreader.sharedui.MainFeed
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -26,6 +28,9 @@ class MainScreen : Screen, KoinComponent {
         val context = LocalContext.current
         val navigator = LocalNavigator.currentOrThrow
         val state = store.observeState().collectAsState()
+        LaunchedEffect(store) {
+            store.dispatch(FeedAction.Refresh(true))
+        }
         SwipeRefresh(
             state = rememberSwipeRefreshState(state.value.progress),
             indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.systemBars),
@@ -39,7 +44,7 @@ class MainScreen : Screen, KoinComponent {
             },
             onRefresh = { store.dispatch(FeedAction.Refresh(true)) }
         ) {
-            MainScreen(
+            MainFeed(
                 store = store,
                 onPostClick = { post ->
                     post.link?.let { url ->
@@ -51,5 +56,13 @@ class MainScreen : Screen, KoinComponent {
                 }
             )
         }
+    }
+}
+
+class FeedListScreen : Screen, KoinComponent {
+    @Composable
+    override fun Content() {
+        val store: FeedStore by inject()
+        FeedList(store = store)
     }
 }

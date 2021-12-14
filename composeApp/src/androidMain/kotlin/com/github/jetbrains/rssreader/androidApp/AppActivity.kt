@@ -29,9 +29,6 @@ class AppActivity : ComponentActivity(), CoroutineScope by CoroutineScope(Dispat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            store.dispatch(FeedAction.Refresh(false))
-        }
         setContent {
             AppTheme {
                 ProvideWindowInsets {
