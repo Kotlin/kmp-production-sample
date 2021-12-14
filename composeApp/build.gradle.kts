@@ -1,3 +1,5 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 plugins {
     kotlin("multiplatform")
     id("com.android.application")
@@ -126,5 +128,16 @@ android {
 compose.desktop {
     application {
         mainClass = "com.github.jetbrains.rssreader.desktopApp.AppKt"
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg)
+            packageName = "RSS reader"
+            packageVersion = "1.0"
+            macOS {
+                bundleID = "com.github.jetbrains.rssreader.desktopApp"
+                signing {
+                    sign.set(false)
+                }
+            }
+        }
     }
 }
