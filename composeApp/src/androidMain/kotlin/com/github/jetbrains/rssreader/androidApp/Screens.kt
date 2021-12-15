@@ -28,7 +28,7 @@ class MainScreen : Screen, KoinComponent {
         val context = LocalContext.current
         val navigator = LocalNavigator.currentOrThrow
         val state = store.observeState().collectAsState()
-        LaunchedEffect(store) {
+        LaunchedEffect(Unit) {
             store.dispatch(FeedAction.Refresh(true))
         }
         SwipeRefresh(
