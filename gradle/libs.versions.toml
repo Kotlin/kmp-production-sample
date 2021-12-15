@@ -1,0 +1,47 @@
+[versions]
+plugin-android = "7.0.3"
+plugin-multiplatform-compose = "1.0.1-rc2"
+plugin-kotlin = "1.6.10"
+plugin-gver = "0.39.0"
+
+kotlinx-serialization = "1.3.1"
+kotlinx-coroutines = "1.6.0-RC2"
+ktor = "1.6.7"
+napier = "2.1.0"
+multiplatform-settings = "0.8.1"
+voyager = "2.0.0"
+koin = "3.1.4"
+accompanist = "0.20.0"
+coil = "1.4.0"
+activity-compose = "1.4.0"
+work-runtime-ktx = "2.7.1"
+desugar-jdk-libs = "1.1.5"
+
+[libraries]
+plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
+plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "plugin-kotlin" }
+plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "plugin-kotlin" }
+plugin-multiplatform-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "plugin-multiplatform-compose" }
+plugin-gver = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "plugin-gver" }
+
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
+accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
+work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
+desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+
+[bundles]
+plugins = ["plugin-android", "plugin-kotlin",  "plugin-kotlin-serialization", "plugin-multiplatform-compose", "plugin-gver"]

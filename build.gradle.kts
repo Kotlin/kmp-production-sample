@@ -1,13 +1,12 @@
 buildscript {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${findProperty("version.kotlin")}")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:${findProperty("version.kotlin")}")
-        classpath("com.android.tools.build:gradle:${findProperty("version.androidGradlePlugin")}")
-        classpath("org.jetbrains.compose:compose-gradle-plugin:1.0.0")
+        classpath(libs.bundles.plugins)
     }
 }
 
@@ -15,5 +14,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
+
+    apply(plugin = "com.github.ben-manes.versions")
 }

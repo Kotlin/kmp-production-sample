@@ -26,29 +26,28 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.uiTooling)
                 //Navigation
-                implementation("cafe.adriel.voyager:voyager-core:2.0.0")
-                implementation("cafe.adriel.voyager:voyager-navigator:2.0.0")
+                implementation(libs.voyager.navigator)
                 //DI
-                implementation("io.insert-koin:koin-core:3.1.4")
+                implementation(libs.koin.core)
                 //Network
-                implementation("io.ktor:ktor-client-okhttp:${findProperty("version.ktor")}")
+                implementation(libs.ktor.client.okhttp)
                 //Coroutines
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${findProperty("version.kotlinx.coroutines")}")
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
         val androidMain by getting {
             dependencies {
                 //Compose Utils
-                implementation("io.coil-kt:coil-compose:1.4.0")
-                implementation("androidx.activity:activity-compose:1.4.0")
-                implementation("com.google.accompanist:accompanist-insets:0.20.0")
-                implementation("com.google.accompanist:accompanist-swiperefresh:0.20.0")
+                implementation(libs.coil.compose)
+                implementation(libs.activity.compose)
+                implementation(libs.accompanist.insets)
+                implementation(libs.accompanist.swiperefresh)
                 //Coroutines
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${findProperty("version.kotlinx.coroutines")}")
+                implementation(libs.kotlinx.coroutines.android)
                 //DI
-                implementation("io.insert-koin:koin-android:3.1.4")
+                implementation(libs.koin.android)
                 //WorkManager
-                implementation("androidx.work:work-runtime-ktx:2.7.1")
+                implementation(libs.work.runtime.ktx)
             }
         }
         val jvmMain by getting {
@@ -118,7 +117,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+        coreLibraryDesugaring(libs.desugar.jdk.libs)
     }
 }
 
@@ -134,9 +133,6 @@ compose.desktop {
             packageVersion = "1.0"
             macOS {
                 bundleID = "com.github.jetbrains.rssreader.desktopApp"
-                signing {
-                    sign.set(false)
-                }
             }
         }
     }

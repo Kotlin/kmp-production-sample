@@ -22,30 +22,30 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 //Network
-                implementation("io.ktor:ktor-client-core:${findProperty("version.ktor")}")
-                implementation("io.ktor:ktor-client-logging:${findProperty("version.ktor")}")
+                implementation(libs.ktor.core)
+                implementation(libs.ktor.logging)
                 //Coroutines
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${findProperty("version.kotlinx.coroutines")}")
+                implementation(libs.kotlinx.coroutines.core)
                 //Logger
-                implementation("io.github.aakira:napier:2.2.0")
+                implementation(libs.napier)
                 //JSON
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${findProperty("version.kotlinx.serialization")}")
+                implementation(libs.kotlinx.serialization.json)
                 //Key-Value storage
-                implementation("com.russhwolf:multiplatform-settings:0.8.1")
+                implementation(libs.multiplatform.settings)
             }
         }
 
         val androidMain by getting {
             dependencies {
                 //Network
-                implementation("io.ktor:ktor-client-okhttp:${findProperty("version.ktor")}")
+                implementation(libs.ktor.client.okhttp)
             }
         }
 
         val jvmMain by getting {
             dependencies {
                 //Network
-                implementation("io.ktor:ktor-client-okhttp:${findProperty("version.ktor")}")
+                implementation(libs.ktor.client.okhttp)
             }
         }
 
@@ -59,18 +59,27 @@ kotlin {
             //iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 //Network
-                implementation("io.ktor:ktor-client-ios:${findProperty("version.ktor")}")
+                implementation(libs.ktor.client.ios)
             }
         }
     }
 }
 
 android {
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    dependencies {
+        coreLibraryDesugaring(libs.desugar.jdk.libs)
+    }
 }
