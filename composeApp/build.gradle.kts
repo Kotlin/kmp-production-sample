@@ -7,10 +7,6 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-repositories {
-    mavenLocal() //for voyager desktop
-}
-
 kotlin {
     android()
     jvm()
