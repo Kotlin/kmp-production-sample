@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.jetbrains.rssreader.app.FeedAction
@@ -29,7 +30,7 @@ class MainScreen : Screen, KoinComponent {
         val navigator = LocalNavigator.currentOrThrow
         val state = store.observeState().collectAsState()
         LaunchedEffect(Unit) {
-            store.dispatch(FeedAction.Refresh(true))
+            store.dispatch(FeedAction.Refresh(false))
         }
         SwipeRefresh(
             state = rememberSwipeRefreshState(state.value.progress),
