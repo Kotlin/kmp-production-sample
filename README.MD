@@ -1,6 +1,6 @@
 # KMM RSS Reader
 ​
-<img src="/media/ios+android.png"/>
+<img src="/media/ios+android+desktop.png"/>
 ​
 ​
 This is an open-source, mobile, cross-platform application built with [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/). It's a simple RSS reader, and you can download it from the [App Store](https://apps.apple.com/ru/app/kmm-rss-reader/id1563922264) and [Google Play](https://play.google.com/store/apps/details?id=com.github.jetbrains.rssreader.androidApp). It's been designed to demonstrate how KMM can be used in real production projects.
@@ -8,11 +8,11 @@ This is an open-source, mobile, cross-platform application built with [Kotlin Mu
 ​
 ## Project structure
 ​
-This repository contains a common Kotlin Multiplatform module, an Android project, and an iOS project. The common module is connected with the Android project via the Gradle multi-project mechanism. For use in iOS applications, the shared module compiles into a framework that is exposed to the Xcode project via the `PackForXcode` Gradle task. This framework connects to the Xcode project that builds an iOS application.
+This repository contains a common Kotlin Multiplatform module, a Compose (Android+Desktop) project, and an iOS project. The common module is connected with the Compose project via the Gradle multi-project mechanism. For use in iOS applications, the shared module compiles into a framework that is exposed to the Xcode project via the internal integration Gradle task. This framework connects to the Xcode project that builds an iOS application.
 ​
 You can achieve the same structure by creating a project with the [KMM Plugin project wizard](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) or cloning the [basic sample project](https://github.com/Kotlin/kmm-sample/).
 ​
-<img src="/media/basic-project-structure.png"/>
+<img src="/media/basic-project-structure.jpg"/>
 ​
 ​
 ## Architecture
@@ -33,12 +33,12 @@ There are two types of data sources. The network service is for getting RSS feed
 ​
 The Redux pattern is used for managing the application state. The simplified Redux architecture is implemented in the shared module. The `Store` class dispatches the **actions** that can be produced either by a user or by some async work, and generates the new state. It stores the actual **state** and facilitates subscription to state updates via Kotlin's `StateFlow`. To provide additional information about state updates, the `Store` class also produces **effects** that, for example, can be used to display this information via alerts. This logic is organized in the shared KMM module of the `com.github.jetbrains.rssreader.app` package.
 ​
-<img src="/media/arch-details.jpeg"/>
+<img src="/media/arch-details.jpg"/>
 ​
 ​
 ### Native UI
 ​
-The UI layer is fully native and implemented using SwiftUI for iOS and Jetpack Compose for Android.
+The UI layer is fully native and implemented using SwiftUI for iOS, Jetpack Compose for Android and Compose Multiplatform for Desktop.
 ​
 **On the iOS side,** the `Store` from the KMM library is wrapped into the `ObservableObject` and implements the state as a `@Published` wrapped property. This publishes changes whenever a dispatched action produces a new state after being reduced in the shared module. The store is injected as an `Environment Object` into the root view of the application, and is easily accessible from anywhere in the application. SwiftUI performs all aspects of diffing on the render pass when your state changes.
 ​
