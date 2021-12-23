@@ -48,18 +48,16 @@ fun main() = application {
         state = rememberWindowState(width = 400.dp, height = 800.dp),
         onKeyEvent = { event ->
             if (event.key == Key.Escape && event.type == KeyEventType.KeyUp) {
-                GlobalScope.launch {  backEvents.emit(true) }
+                GlobalScope.launch { backEvents.emit(true) }
                 true
             } else false
         }
     ) {
         AppTheme {
-            val store: FeedStore  = koinApp.koin.get()
-            LaunchedEffect(store) {
-                store.dispatch(FeedAction.Refresh(true))
-            }
             Navigator(MainScreen()) { navigator ->
-                LaunchedEffect(backEvents) {
+                LaunchedEffect(Unit) {
+                    val store: FeedStore  = koinApp.koin.get()
+                    store.dispatch(FeedAction.Refresh(false))
                     backEvents.onEach { navigator.pop() }.launchIn(this)
                 }
                 CurrentScreen()
