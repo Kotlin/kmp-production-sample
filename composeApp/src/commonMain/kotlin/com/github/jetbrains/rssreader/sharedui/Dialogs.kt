@@ -30,7 +30,7 @@ fun AddFeedDialog(
             .padding(16.dp)
     ) {
         val input = remember { mutableStateOf(TextFieldValue()) }
-        Text(text = systemString("Rss feed url"))
+        Text(text = _str("Rss feed url"))
         TextField(
             maxLines = 3,
             value = input.value,
@@ -45,7 +45,7 @@ fun AddFeedDialog(
                 )
             }
         ) {
-            Text(text = systemString("Add"))
+            Text(text = _str("Add"))
         }
     }
 }
@@ -70,7 +70,7 @@ fun DeleteFeedDialog(
             modifier = Modifier.align(Alignment.End),
             onClick = { onDelete() }
         ) {
-            Text(text = systemString("Remove"))
+            Text(text = _str("Remove"))
         }
     }
 }

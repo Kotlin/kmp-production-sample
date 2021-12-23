@@ -25,7 +25,7 @@ internal actual fun Modifier.systemNavigationBarsHeight(additional: Dp): Modifie
 internal actual fun Modifier.systemNavigationBarsWithImePadding(): Modifier = this
 
 @Composable
-internal actual fun systemString(resName: String) = resName
+internal actual fun _str(resName: String) = resName
 
 private val httpClient = HttpClient(OkHttp)
 private suspend fun loadImageBitmap(url: String): Result<ImageBitmap> {

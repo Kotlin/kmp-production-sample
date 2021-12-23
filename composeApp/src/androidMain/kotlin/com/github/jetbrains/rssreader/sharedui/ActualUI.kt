@@ -63,7 +63,7 @@ private fun resNameToId(resName: String): Int = when (resName) {
 }
 
 @Composable
-internal actual fun systemString(resName: String): String = when (resName) {
+internal actual fun _str(resName: String): String = when (resName) {
     "Add" -> stringResource(R.string.add)
     "All" -> stringResource(R.string.all)
     "Remove" -> stringResource(R.string.remove)

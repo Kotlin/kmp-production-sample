@@ -25,7 +25,7 @@ fun FeedIcon(
     isSelected: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
-    val txtAll = systemString("All")
+    val txtAll = _str("All")
     val shortName = remember(feed) { feed?.shortName() ?: txtAll }
     Box(
         modifier = Modifier

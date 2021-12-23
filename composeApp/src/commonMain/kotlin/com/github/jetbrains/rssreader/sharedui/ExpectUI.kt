@@ -36,7 +36,7 @@ internal expect fun Dialog(
 )
 
 @Composable
-internal expect fun systemString(resName: String): String
+internal expect fun _str(resName: String): String
 
 internal expect fun Modifier.systemStatusBarsHeight(additional: Dp = 0.dp): Modifier
 internal expect fun Modifier.systemNavigationBarsHeight(additional: Dp = 0.dp): Modifier
