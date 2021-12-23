@@ -1,7 +1,7 @@
 # KMM RSS Reader
 ​
 <img src="/media/ios+android+desktop.png"/>
-​
+<img src="/media/web.png"/>
 ​
 This is an open-source, mobile, cross-platform application built with [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/). It's a simple RSS reader, and you can download it from the [App Store](https://apps.apple.com/ru/app/kmm-rss-reader/id1563922264) and [Google Play](https://play.google.com/store/apps/details?id=com.github.jetbrains.rssreader.androidApp). It's been designed to demonstrate how KMM can be used in real production projects.
 ​
@@ -12,7 +12,7 @@ This repository contains a common Kotlin Multiplatform module, a Compose (Androi
 ​
 You can achieve the same structure by creating a project with the [KMM Plugin project wizard](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) or cloning the [basic sample project](https://github.com/Kotlin/kmm-sample/).
 ​
-<img src="/media/basic-project-structure.jpg"/>
+<img src="/media/basic-structure.jpg"/>
 ​
 ​
 ## Architecture
@@ -44,12 +44,10 @@ The UI layer is fully native and implemented using SwiftUI for iOS, Jetpack Comp
 ​
 For subscribing to state updates, [the simple wrapper](https://github.com/Kotlin/kmm-production-sample/blob/master/shared/src/iosMain/kotlin/com/github/jetbrains/rssreader/core/CFlow.kt) is used. This wrapper allows you to provide a callback that will be called when each new value (the state in our case) is emitted.
 
-## Web
+## React Web App
 ​
-[Getting started with the web app](/webApp/README.md)
-<img src="/media/web.png"/>
+[Getting started with the react web app](/reactApp/README.md)
 ​
-
 **On the Web side,** the `Store` from the KMM library is exposed through a top level object declaration acting as view model. \
 This is necessary because sealed classes used to represent dispatchable actions are not exportable to JavaScript. \
 In this view model we use `MainScope` to collect `StateFlow` updates and make them avalaible to JavaScript by way of callback. Finally the state is consumed through the React Context API.
