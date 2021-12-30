@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import org.jetbrains.skia.Image
 
 internal actual fun Modifier.systemStatusBarsHeight(additional: Dp): Modifier = this
@@ -30,7 +31,7 @@ internal actual fun _str(resName: String) = resName
 private val httpClient = HttpClient(OkHttp)
 private suspend fun loadImageBitmap(url: String): Result<ImageBitmap> {
     return try {
-        val image = httpClient.get<ByteArray>(url)
+        val image = httpClient.get(url).readBytes()
         Result.success(Image.makeFromEncoded(image).toComposeImageBitmap())
     } catch (e: Exception) {
         Result.failure(e)

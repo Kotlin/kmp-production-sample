@@ -17,5 +17,6 @@ allprojects {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 
+    // ./gradlew dependencyUpdates
     apply(plugin = "com.github.ben-manes.versions")
 }

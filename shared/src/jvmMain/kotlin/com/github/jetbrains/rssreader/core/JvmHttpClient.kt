@@ -3,7 +3,7 @@ package com.github.jetbrains.rssreader.core
 import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
-import io.ktor.client.features.logging.*
+import io.ktor.client.plugins.logging.*
 import java.util.concurrent.TimeUnit
 
 internal fun JvmHttpClient(withLog: Boolean) = HttpClient(OkHttp) {
