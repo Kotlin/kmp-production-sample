@@ -11,3 +11,5 @@ local.properties
 xcuserdata/
 Pods/
 /androidApp/key
+*.jks
+*yarn.lock
