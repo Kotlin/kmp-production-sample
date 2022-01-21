@@ -1,5 +1,5 @@
 [versions]
-plugin-android = "7.2.0-alpha07"
+plugin-android = "7.0.4"
 plugin-multiplatform-compose = "1.0.1"
 plugin-kotlin = "1.6.10"
 plugin-gver = "0.41.0"
