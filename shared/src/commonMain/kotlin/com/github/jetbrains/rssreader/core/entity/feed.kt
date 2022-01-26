@@ -31,8 +31,6 @@ data class Feed(
     }
 }
 
-@ExperimentalJsExport
-@JsExport
 @Serializable
 data class Post(
     @SerialName("title") val title: String,

@@ -5,21 +5,7 @@ plugins {
 }
 
 kotlin {
-    /*
-    Source sets structure
-    common
-     ├─ jvm
-     ├─ android
-     ├─ js
-     ├─ ios
-         ├─ iosX64
-         ├─ iosArm64
-         ├─ iosSimulatorArm64
-     */
-
-    jvm()
     android()
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -30,17 +16,16 @@ kotlin {
         }
     }
 
-    js(IR) {
-        useCommonJs()
-        browser {
-            webpackTask {
-                output.libraryTarget = "commonjs2"
-            }
-        }
-        binaries.executable()
-    }
-
     sourceSets {
+        /*
+        Source sets structure
+        common
+         ├─ android
+         ├─ ios
+             ├─ iosX64
+             ├─ iosArm64
+             ├─ iosSimulatorArm64
+         */
         val commonMain by getting {
             dependencies {
                 //Network
@@ -66,13 +51,6 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
-            dependencies {
-                //Network
-                implementation(libs.ktor.client.okhttp)
-            }
-        }
-
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -84,12 +62,6 @@ kotlin {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.ios)
-            }
-        }
-
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.js)
             }
         }
     }
