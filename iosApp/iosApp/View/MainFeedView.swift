@@ -119,7 +119,7 @@ struct MainFeedView: ConnectedView {
             }
         }
         .background(Color("FeedPicker"))
-        .pickerStyle(.wheel)
+        .pickerStyle(WheelPickerStyle())
     }
     
     func refreshButton(props: Props) -> some View {
