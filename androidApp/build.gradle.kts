@@ -54,7 +54,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.0-rc02"
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.get()
     }
     compileOptions {
         // Flag to enable support for the new language APIs
