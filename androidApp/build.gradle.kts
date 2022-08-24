@@ -74,7 +74,6 @@ android {
         //Compose Utils
         implementation(libs.coil.compose)
         implementation(libs.activity.compose)
-        implementation(libs.accompanist.insets)
         implementation(libs.accompanist.swiperefresh)
         //Coroutines
         implementation(libs.kotlinx.coroutines.core)

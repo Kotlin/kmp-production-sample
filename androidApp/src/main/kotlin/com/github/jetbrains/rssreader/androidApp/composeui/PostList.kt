@@ -16,7 +16,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.github.jetbrains.rssreader.core.entity.Post
-import com.google.accompanist.insets.statusBarsHeight
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +32,7 @@ fun PostList(
         state = listState
     ) {
         itemsIndexed(posts) { i, post ->
-            if (i == 0) Spacer(Modifier.statusBarsHeight())
+            if (i == 0) Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             PostItem(post) { onClick(post) }
             if (i != posts.size - 1) Spacer(modifier = Modifier.size(16.dp))
         }

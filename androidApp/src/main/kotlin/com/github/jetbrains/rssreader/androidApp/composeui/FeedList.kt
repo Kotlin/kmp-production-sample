@@ -18,8 +18,6 @@ import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.entity.Feed
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.insets.statusBarsHeight
 
 @Composable
 fun FeedList(store: FeedStore) {
@@ -36,7 +34,8 @@ fun FeedList(store: FeedStore) {
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
-                .navigationBarsWithImePadding(),
+                .navigationBarsPadding()
+                .imePadding(),
             onClick = { showAddDialog.value = true }
         ) {
             Image(
@@ -78,7 +77,7 @@ fun FeedItemList(
 ) {
     LazyColumn {
         itemsIndexed(feeds) { i, feed ->
-            if (i == 0) Spacer(modifier = Modifier.statusBarsHeight())
+            if (i == 0) Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             FeedItem(feed) { onClick(feed) }
         }
     }

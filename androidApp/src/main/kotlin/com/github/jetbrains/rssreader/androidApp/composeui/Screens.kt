@@ -2,6 +2,9 @@ package com.github.jetbrains.rssreader.androidApp.composeui
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -11,8 +14,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -31,7 +32,7 @@ class MainScreen : Screen, KoinComponent {
         }
         SwipeRefresh(
             state = rememberSwipeRefreshState(state.value.progress),
-            indicatorPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.systemBars),
+            indicatorPadding = WindowInsets.statusBars.asPaddingValues(),
             clipIndicatorToPadding = false,
             indicator = { indicatorState, refreshTriggerDistance ->
                 SwipeRefreshIndicator(

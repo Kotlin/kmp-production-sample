@@ -14,7 +14,6 @@ import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.core.entity.Post
-import com.google.accompanist.insets.navigationBarsHeight
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,7 +46,7 @@ fun MainFeed(
         )
         Spacer(
             Modifier
-                .navigationBarsHeight()
+                .windowInsetsBottomHeight(WindowInsets.navigationBars)
                 .fillMaxWidth()
         )
     }
