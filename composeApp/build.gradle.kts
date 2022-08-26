@@ -12,6 +12,7 @@ plugins {
 }
 
 kotlin {
+    jvm("desktop")
     android()
 
     listOf(
@@ -40,6 +41,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.compose.image.loader)
             }
         }
         val androidMain by getting {
@@ -47,6 +49,11 @@ kotlin {
                 implementation(libs.activity.compose)
                 implementation(libs.kotlinx.coroutines.android)
                 implementation(libs.coil.compose)
+            }
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
             }
         }
         val commonTest by getting {
@@ -60,9 +67,6 @@ kotlin {
             dependsOn(commonMain)
             uikitX64Main.dependsOn(this)
             uikitArm64Main.dependsOn(this)
-            dependencies {
-                implementation(libs.compose.image.loader)
-            }
         }
         val uikitX64Test by getting
         val uikitArm64Test by getting
@@ -88,6 +92,18 @@ compose.experimental {
                 //teamId="***"
                 //Usage: ./gradlew iosDeployDeviceRelease
             }
+        }
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.github.jetbrains.rssreader.composeapp.DesktopAppKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg)
+            packageName = "RSS Reader"
+            packageVersion = "1.0.0"
         }
     }
 }

@@ -5,6 +5,7 @@ plugins {
 }
 
 kotlin {
+    jvm()
     android()
     listOf(
         iosX64(),
@@ -20,6 +21,7 @@ kotlin {
         /*
         Source sets structure
         common
+         ├─ jvm
          ├─ android
          ├─ ios
              ├─ iosX64
@@ -45,6 +47,13 @@ kotlin {
         }
 
         val androidMain by getting {
+            dependencies {
+                //Network
+                implementation(libs.ktor.client.okhttp)
+            }
+        }
+
+        val jvmMain by getting {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.okhttp)
