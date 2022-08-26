@@ -7,7 +7,9 @@ import androidx.compose.ui.window.singleWindowApplication
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.core.create
+import com.seiko.imageloader.ImageLoaderBuilder
 
+actual fun buildImageLoader() = ImageLoaderBuilder().build()
 actual val AppStore: FeedStore = FeedStore(RssReader.create(true))
 
 fun main() = singleWindowApplication(

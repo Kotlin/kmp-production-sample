@@ -9,10 +9,12 @@ import androidx.compose.ui.window.Application
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.core.create
+import com.seiko.imageloader.ImageLoaderBuilder
 import kotlinx.cinterop.*
 import platform.Foundation.NSStringFromClass
 import platform.UIKit.*
 
+actual fun buildImageLoader() = ImageLoaderBuilder().build()
 actual val AppStore: FeedStore = FeedStore(RssReader.create(true))
 
 fun main() {

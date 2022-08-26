@@ -7,7 +7,9 @@ import androidx.activity.compose.setContent
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.core.create
+import com.seiko.imageloader.ImageLoaderBuilder
 
+actual fun buildImageLoader() = ImageLoaderBuilder(AndroidApp.INSTANCE).build()
 actual val AppStore: FeedStore by lazy {
     FeedStore(RssReader.create(AndroidApp.INSTANCE, true))
 }
