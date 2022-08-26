@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.github.jetbrains.rssreader.composeapp">
+
+    <application
+            android:label="RSS Reader"
+            android:name=".AndroidApp">
+        <activity
+                android:name=".AppActivity"
+                android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+                android:launchMode="singleInstance"
+                android:windowSoftInputMode="adjustResize"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
