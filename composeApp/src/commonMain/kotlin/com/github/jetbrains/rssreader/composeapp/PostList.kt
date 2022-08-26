@@ -10,7 +10,11 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.core.entity.Post
@@ -31,7 +35,6 @@ fun PostList(
         state = listState
     ) {
         itemsIndexed(posts) { i, post ->
-//            if (i == 0) Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
             PostItem(post) { onClick(post) }
             if (i != posts.size - 1) Spacer(modifier = Modifier.size(16.dp))
         }
@@ -63,6 +66,8 @@ fun PostItem(
                     RemoteImage(
                         url,
                         modifier = Modifier.height(180.dp).fillMaxWidth(),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Fit,
                         contentDescription = null
                     )
                 }
@@ -81,10 +86,14 @@ fun PostItem(
                     modifier = Modifier.padding(start = padding, end = padding),
                     style = MaterialTheme.typography.body2,
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
-                    text = Instant.fromEpochSeconds(item.date, 0).toLocalDateTime(TimeZone.currentSystemDefault()).toString()
+                    text = Instant.fromEpochMilliseconds(item.date).format()
                 )
                 Spacer(modifier = Modifier.size(padding))
             }
         }
     }
+}
+
+private fun Instant.format() = toLocalDateTime(TimeZone.currentSystemDefault()).let {
+    "${it.dayOfMonth} ${it.month.name.lowercase().capitalize(Locale.current)} ${it.year}"
 }

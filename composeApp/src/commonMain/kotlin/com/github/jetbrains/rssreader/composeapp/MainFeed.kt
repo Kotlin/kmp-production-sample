@@ -44,11 +44,6 @@ fun MainFeed(
             },
             onEditClick = onEditClick
         )
-//        Spacer(
-//            Modifier
-//                .windowInsetsBottomHeight(WindowInsets.navigationBars)
-//                .fillMaxWidth()
-//        )
     }
 }
 

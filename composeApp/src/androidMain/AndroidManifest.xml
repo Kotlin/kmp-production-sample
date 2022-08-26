@@ -6,6 +6,7 @@
             android:label="RSS Reader"
             android:name=".AndroidApp">
         <activity
+                android:theme="@android:style/Theme.Material.Light.NoActionBar"
                 android:name=".AppActivity"
                 android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
                 android:launchMode="singleInstance"

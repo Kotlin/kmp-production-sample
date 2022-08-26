@@ -26,13 +26,7 @@ private val DarkColors = darkColors(
 )
 
 @Composable
-fun AppTheme(
-    content: @Composable () -> Unit
-) {
-    MaterialTheme(
-        colors = if (isSystemInDarkTheme()) DarkColors else LightColors,
-        content = {
-            Surface(content = content)
-        }
-    )
-}
+fun AppTheme(content: @Composable () -> Unit) = MaterialTheme(
+    colors = if (isSystemInDarkTheme()) DarkColors else LightColors,
+    content = { Surface(content = content) }
+)

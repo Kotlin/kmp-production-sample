@@ -39,7 +39,6 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.datetime)
-                implementation(libs.compose.image.loader)
                 implementation(libs.kotlinx.coroutines.core)
             }
         }
@@ -47,6 +46,7 @@ kotlin {
             dependencies {
                 implementation(libs.activity.compose)
                 implementation(libs.kotlinx.coroutines.android)
+                implementation(libs.coil.compose)
             }
         }
         val commonTest by getting {
@@ -60,6 +60,9 @@ kotlin {
             dependsOn(commonMain)
             uikitX64Main.dependsOn(this)
             uikitArm64Main.dependsOn(this)
+            dependencies {
+                implementation(libs.compose.image.loader)
+            }
         }
         val uikitX64Test by getting
         val uikitArm64Test by getting

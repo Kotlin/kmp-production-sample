@@ -3,23 +3,23 @@ package com.github.jetbrains.rssreader.composeapp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.core.entity.Feed
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material.icons.rounded.Menu
 
 @Composable
 fun FeedIcon(
@@ -52,7 +52,9 @@ fun FeedIcon(
             feed?.imageUrl?.let { url ->
                 RemoteImage(
                     url,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxSize(),
+                    alignment = Alignment.Center,
+                    contentScale = ContentScale.Fit,
                     contentDescription = null
                 )
             }
@@ -78,7 +80,7 @@ fun EditIcon(
             .clickable(onClick = onClick)
     ) {
         Icon(
-            Icons.Rounded.Edit,
+            Icons.Default.Edit,
             modifier = Modifier.align(Alignment.Center),
             contentDescription = null,
             tint = MaterialTheme.colors.onPrimary
