@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace = "com.github.jetbrains.rssreader.androidApp"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
     defaultConfig {

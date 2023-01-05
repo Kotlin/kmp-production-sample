@@ -68,6 +68,7 @@ kotlin {
 }
 
 android {
+    namespace = "com.github.jetbrains.rssreader"
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
