@@ -12,6 +12,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal class IosFeedParser : FeedParser {
+    @Suppress("CAST_NEVER_SUCCEEDS")
     override suspend fun parse(sourceUrl: String, xml: String, isDefault: Boolean): Feed =
         withContext(Dispatchers.Default) {
             suspendCoroutine { continuation ->
