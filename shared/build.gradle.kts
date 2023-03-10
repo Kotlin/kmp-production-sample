@@ -22,11 +22,14 @@ kotlin {
         }
     }
 
+    jvm("desktop")
+
     sourceSets {
         /*
         Source sets structure
         common
          ├─ android
+         ├─ desktop
          ├─ ios
              ├─ iosX64
              ├─ iosArm64
@@ -68,6 +71,13 @@ kotlin {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.ios)
+            }
+        }
+
+        val desktopMain by getting {
+            dependencies {
+                //Network
+                implementation(libs.ktor.client.okhttp)
             }
         }
     }
