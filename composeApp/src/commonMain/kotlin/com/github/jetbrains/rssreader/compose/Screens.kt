@@ -20,7 +20,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 
-class MainScreen : Screen, KoinComponent {
+internal class MainScreen : Screen, KoinComponent {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
@@ -53,7 +53,7 @@ class MainScreen : Screen, KoinComponent {
     }
 }
 
-class FeedListScreen : Screen, KoinComponent {
+internal class FeedListScreen : Screen, KoinComponent {
     @Composable
     override fun Content() {
         val store: FeedStore by inject()
