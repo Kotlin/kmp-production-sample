@@ -2,7 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<<<<<<<< HEAD:iosApp/iosApp.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 	<key>IDEDidComputeMac32BitWarning</key>
 	<true/>
+========
+	<key>SchemeUserState</key>
+	<dict>
+		<key>LibresComposeApp.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>iosApp.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+>>>>>>>> 23a8057 (Setup iOS build):iosApp/iosApp.xcodeproj/xcuserdata/konstantin.tskhovrebov.xcuserdatad/xcschemes/xcschememanagement.plist
 </dict>
 </plist>
