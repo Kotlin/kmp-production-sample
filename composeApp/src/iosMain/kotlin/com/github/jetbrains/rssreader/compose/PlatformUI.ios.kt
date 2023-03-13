@@ -3,6 +3,8 @@ package com.github.jetbrains.rssreader.compose
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import platform.Foundation.NSURL
+import platform.UIKit.UIApplication
 
 internal actual val WindowInsets.Companion.navigationBars: WindowInsets
     @Composable
@@ -32,5 +34,6 @@ internal actual fun Dialog(
 ) {}
 
 internal actual fun openUrl(url: String?) {
-
+    val nsUrl = url?.let { NSURL.URLWithString(it) } ?: return
+    UIApplication.sharedApplication.openURL(nsUrl)
 }
