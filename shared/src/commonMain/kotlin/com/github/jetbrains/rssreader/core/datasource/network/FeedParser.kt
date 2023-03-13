@@ -29,7 +29,7 @@ internal class FeedParser(
             channel.title,
             channel.link,
             channel.description,
-            channel.image.url,
+            channel.image?.url,
             channel.items.map { item ->
                 Post(
                     item.title ?: channel.title,
@@ -86,7 +86,7 @@ internal class FeedParser(
         @XmlElement(true) val title: String,
         @XmlElement(true) val link: String,
         @XmlElement(true) val description: String,
-        @XmlElement(true) val image: XmlChannelImage,
+        @XmlElement(true) val image: XmlChannelImage?,
         @XmlElement(true) val items: List<XmlChannelItem>
     )
 
