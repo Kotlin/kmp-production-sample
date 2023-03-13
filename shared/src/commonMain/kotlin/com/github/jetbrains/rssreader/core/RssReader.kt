@@ -46,3 +46,5 @@ class RssReader internal constructor(
 
     companion object
 }
+
+internal expect fun parseDateTimeString(string: String): Long

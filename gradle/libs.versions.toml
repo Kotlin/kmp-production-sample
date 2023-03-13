@@ -17,6 +17,7 @@ voyager = "1.0.0-rc07"
 koin = "3.3.3"
 accompanist = "0.28.0"
 coil = "2.2.2"
+xml-serialization = "0.85.0"
 activity-compose = "1.6.1"
 work-runtime-ktx = "2.8.0"
 desugar-jdk-libs = "2.0.2"
@@ -39,6 +40,7 @@ napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 compose-libres = { module = "io.github.skeptick.libres:libres-compose", version.ref = "libres" }
 compose-image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+xml-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xml-serialization" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-ios = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }

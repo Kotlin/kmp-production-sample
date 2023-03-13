@@ -50,6 +50,10 @@ kotlin {
                 implementation(libs.multiplatform.settings)
                 // DI
                 api(libs.koin.core)
+                //Datetime
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.xml.serialization)
+
             }
         }
 
