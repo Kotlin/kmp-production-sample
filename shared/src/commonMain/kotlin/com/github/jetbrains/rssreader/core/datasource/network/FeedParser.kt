@@ -2,7 +2,6 @@ package com.github.jetbrains.rssreader.core.datasource.network
 
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.core.entity.Post
-import com.github.jetbrains.rssreader.core.parseDateTimeString
 import io.ktor.http.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -12,7 +11,9 @@ import nl.adaptivity.xmlutil.serialization.XmlConfig
 import nl.adaptivity.xmlutil.serialization.XmlElement
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
-internal class FeedParser {
+internal class FeedParser(
+    private val dateParser: DateParser
+) {
     private val parser = XML {
         defaultPolicy {
             repairNamespaces = true
@@ -35,7 +36,7 @@ internal class FeedParser {
                     item.link,
                     cleanTextCompact(item.description),
                     pullPostImageUrl(item.link, item.description, item.encoded),
-                    parseDateTimeString(item.pubDate)
+                    dateParser.parse(item.pubDate) * 1000
                 )
             },
             sourceUrl,

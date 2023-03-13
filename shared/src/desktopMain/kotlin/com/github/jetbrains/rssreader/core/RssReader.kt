@@ -1,5 +1,6 @@
 package com.github.jetbrains.rssreader.core
 
+import com.github.jetbrains.rssreader.core.datasource.network.DateParser
 import com.github.jetbrains.rssreader.core.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.core.datasource.network.FeedParser
 import com.github.jetbrains.rssreader.core.datasource.storage.FeedStorage
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit
 fun RssReader.Companion.create(withLog: Boolean) = RssReader(
     FeedLoader(
         JvmHttpClient(withLog),
-        FeedParser()
+        FeedParser(JvmDateParser())
     ),
     FeedStorage(
         PreferencesSettings.Factory().create("test"),
@@ -51,6 +52,10 @@ private fun JvmHttpClient(withLog: Boolean) = HttpClient(OkHttp) {
     }
 }
 
-private val dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US)
-internal actual fun parseDateTimeString(string: String): Long =
-    ZonedDateTime.parse(string, dateFormat).toEpochSecond() * 1000
+@Suppress("NewApi")
+private class JvmDateParser : DateParser {
+    private val dateFormat = DateTimeFormatter.ofPattern(DateParser.DATE_FORMAT, Locale.US)
+    override fun parse(date: String): Long =
+        ZonedDateTime.parse(date, dateFormat).toEpochSecond()
+
+}

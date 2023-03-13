@@ -1,5 +1,6 @@
 package com.github.jetbrains.rssreader.core
 
+import com.github.jetbrains.rssreader.core.datasource.network.DateParser
 import com.github.jetbrains.rssreader.core.datasource.network.FeedLoader
 import com.github.jetbrains.rssreader.core.datasource.network.FeedParser
 import com.github.jetbrains.rssreader.core.datasource.storage.FeedStorage
@@ -22,7 +23,7 @@ import platform.Foundation.timeZoneForSecondsFromGMT
 fun RssReader.Companion.create(withLog: Boolean) = RssReader(
     FeedLoader(
         IosHttpClient(withLog),
-        FeedParser()
+        FeedParser(IosDateParser())
     ),
     FeedStorage(
         NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults()),
@@ -52,10 +53,13 @@ private fun IosHttpClient(withLog: Boolean) = HttpClient(Darwin) {
     }
 }
 
-private val dateFormatter = NSDateFormatter().apply {
-    setLocale(NSLocale("en_US_POSIX"))
-    setTimeZone(NSTimeZone.timeZoneForSecondsFromGMT(0))
-    dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z"
+private class IosDateParser : DateParser {
+    private val dateFormatter = NSDateFormatter().apply {
+        setLocale(NSLocale("en_US_POSIX"))
+        setTimeZone(NSTimeZone.timeZoneForSecondsFromGMT(0))
+        dateFormat = DateParser.DATE_FORMAT
+    }
+
+    override fun parse(date: String): Long =
+        dateFormatter.dateFromString(date)?.timeIntervalSince1970?.toLong() ?: 0L
 }
-internal actual fun parseDateTimeString(string: String): Long =
-    dateFormatter.dateFromString(string)?.timeIntervalSince1970?.toLong() ?: 0L
