@@ -46,51 +46,53 @@ internal fun App() = AppTheme {
             )
         }
     }
-    Box(
-        Modifier.padding(
-            WindowInsets.systemBars
-                .only(WindowInsetsSides.Start + WindowInsetsSides.End)
-                .asPaddingValues()
-        )
-    ) {
-        Navigator(MainScreen()) { navigator ->
-            Scaffold(
-                scaffoldState = scaffoldState,
-                snackbarHost = { hostState ->
-                    SnackbarHost(
-                        hostState = hostState,
-                        modifier = Modifier.padding(
-                            WindowInsets.systemBars
-                                .only(WindowInsetsSides.Bottom)
-                                .asPaddingValues()
-                        )
-                    )
-                },
-                topBar = {
-                    TopAppBar(
-                        navigationIcon = {
-                            Image(
-                                painter = painterResource(
-                                    if (navigator.canPop) MRImages.ic_arrow_back else MRImages.ic_home
-                                ),
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .clip(CircleShape)
-                                    .clickable { navigator.pop() }
-                                    .padding(8.dp),
-                                contentDescription = null
+    CommonDialogHandleableApplication {
+        Box(
+            Modifier.padding(
+                WindowInsets.systemBars
+                    .only(WindowInsetsSides.Start + WindowInsetsSides.End)
+                    .asPaddingValues()
+            )
+        ) {
+            Navigator(MainScreen()) { navigator ->
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    snackbarHost = { hostState ->
+                        SnackbarHost(
+                            hostState = hostState,
+                            modifier = Modifier.padding(
+                                WindowInsets.systemBars
+                                    .only(WindowInsetsSides.Bottom)
+                                    .asPaddingValues()
                             )
-                        },
-                        title = {
-                            Text(MRStrings.app_name)
-                        },
-                        modifier = Modifier
-                            .background(MaterialTheme.colors.primary)
-                            .padding(WindowInsets.statusBars.asPaddingValues())
-                    )
+                        )
+                    },
+                    topBar = {
+                        TopAppBar(
+                            navigationIcon = {
+                                Image(
+                                    painter = painterResource(
+                                        if (navigator.canPop) MRImages.ic_arrow_back else MRImages.ic_home
+                                    ),
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .clip(CircleShape)
+                                        .clickable { navigator.pop() }
+                                        .padding(8.dp),
+                                    contentDescription = null
+                                )
+                            },
+                            title = {
+                                Text(MRStrings.app_name)
+                            },
+                            modifier = Modifier
+                                .background(MaterialTheme.colors.primary)
+                                .padding(WindowInsets.statusBars.asPaddingValues())
+                        )
+                    }
+                ) {
+                    CurrentScreen()
                 }
-            ) {
-                CurrentScreen()
             }
         }
     }

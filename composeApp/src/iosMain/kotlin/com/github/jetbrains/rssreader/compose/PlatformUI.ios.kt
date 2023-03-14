@@ -27,12 +27,6 @@ internal actual fun Modifier.statusBarsPadding(): Modifier = this
 @Composable
 internal actual fun Modifier.imePadding(): Modifier = this
 
-@Composable
-internal actual fun Dialog(
-    onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit
-) {}
-
 internal actual fun openUrl(url: String?) {
     val nsUrl = url?.let { NSURL.URLWithString(it) } ?: return
     UIApplication.sharedApplication.openURL(nsUrl)

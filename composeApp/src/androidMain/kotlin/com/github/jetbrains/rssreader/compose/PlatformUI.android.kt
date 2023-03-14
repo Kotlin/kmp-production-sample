@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.window.Dialog
 import com.github.jetbrains.rssreader.App
 
 internal actual val WindowInsets.Companion.navigationBars: WindowInsets
@@ -36,12 +35,6 @@ internal actual fun Modifier.statusBarsPadding(): Modifier = statusBarsPadding()
 
 @Composable
 internal actual fun Modifier.imePadding(): Modifier = imePadding()
-
-@Composable
-internal actual fun Dialog(
-    onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit
-) = Dialog(onDismissRequest = onDismissRequest, content = content)
 
 internal actual fun openUrl(url: String?) {
     val uri = url?.let { Uri.parse(it) } ?: return

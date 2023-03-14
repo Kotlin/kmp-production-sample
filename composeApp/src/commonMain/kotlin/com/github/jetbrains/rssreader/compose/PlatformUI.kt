@@ -23,10 +23,4 @@ internal expect fun Modifier.statusBarsPadding(): Modifier
 @Composable
 internal expect fun Modifier.imePadding(): Modifier
 
-@Composable
-internal expect fun Dialog(
-    onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit
-)
-
 internal expect fun openUrl(url: String?)

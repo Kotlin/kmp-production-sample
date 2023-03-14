@@ -23,13 +23,11 @@ import com.github.jetbrains.rssreader.strings.MRStrings
 
 @Composable
 internal fun AddFeedDialog(
-    onAdd: (String) -> Unit,
-    onDismiss: () -> Unit
-) = Dialog(
-    onDismissRequest = onDismiss
-) {
+    onAdd: (String) -> Unit
+) = CommonDialog<Unit> { _, close ->
     Column(
         modifier = Modifier
+            .padding(16.dp)
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
             .padding(16.dp)
@@ -45,6 +43,7 @@ internal fun AddFeedDialog(
         Button(
             modifier = Modifier.align(Alignment.End),
             onClick = {
+                close()
                 onAdd(
                     input.value.text.replace("http://", "https://")
                 )
@@ -57,14 +56,11 @@ internal fun AddFeedDialog(
 
 @Composable
 internal fun DeleteFeedDialog(
-    feed: Feed,
-    onDelete: () -> Unit,
-    onDismiss: () -> Unit
-) = Dialog(
-    onDismissRequest = onDismiss
-) {
+    onDelete: (String) -> Unit
+) = CommonDialog<Feed> { feed, close ->
     Column(
         modifier = Modifier
+            .padding(16.dp)
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface, shape = RoundedCornerShape(8.dp))
             .padding(16.dp)
@@ -73,7 +69,10 @@ internal fun DeleteFeedDialog(
         Spacer(modifier = Modifier.size(16.dp))
         Button(
             modifier = Modifier.align(Alignment.End),
-            onClick = { onDelete() }
+            onClick = {
+                close()
+                onDelete(feed.sourceUrl)
+            }
         ) {
             Text(text = MRStrings.remove)
         }

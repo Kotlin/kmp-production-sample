@@ -17,10 +17,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,10 +33,12 @@ internal fun FeedList(store: FeedStore) {
         modifier = Modifier.fillMaxSize()
     ) {
         val state = store.observeState().collectAsState()
-        val showAddDialog = remember { mutableStateOf(false) }
-        val feedForDelete = remember<MutableState<Feed?>> { mutableStateOf(null) }
+
+        val addFeedDialog = AddFeedDialog { url -> store.dispatch(FeedAction.Add(url)) }
+        val deleteFeedDialog = DeleteFeedDialog { url -> store.dispatch(FeedAction.Delete(url)) }
+
         FeedItemList(feeds = state.value.feeds) {
-            feedForDelete.value = it
+            deleteFeedDialog.show(it)
         }
         FloatingActionButton(
             modifier = Modifier
@@ -47,35 +46,12 @@ internal fun FeedList(store: FeedStore) {
                 .padding(16.dp)
                 .navigationBarsPadding()
                 .imePadding(),
-            onClick = { showAddDialog.value = true }
+            onClick = { addFeedDialog.show(Unit) }
         ) {
             Image(
                 painter = painterResource(MRImages.ic_add),
                 modifier = Modifier.align(Alignment.Center),
                 contentDescription = null
-            )
-        }
-        if (showAddDialog.value) {
-            AddFeedDialog(
-                onAdd = {
-                    store.dispatch(FeedAction.Add(it))
-                    showAddDialog.value = false
-                },
-                onDismiss = {
-                    showAddDialog.value = false
-                }
-            )
-        }
-        feedForDelete.value?.let { feed ->
-            DeleteFeedDialog(
-                feed = feed,
-                onDelete = {
-                    store.dispatch(FeedAction.Delete(feed.sourceUrl))
-                    feedForDelete.value = null
-                },
-                onDismiss = {
-                    feedForDelete.value = null
-                }
             )
         }
     }
