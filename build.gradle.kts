@@ -1,24 +1,13 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    }
-    dependencies {
-        classpath(libs.bundles.plugins)
-    }
+plugins {
+    id("com.github.ben-manes.versions").apply(false)
+    kotlin("multiplatform").apply(false)
+    id("com.android.application").apply(false)
+    id("com.android.library").apply(false)
 }
 
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    }
-
     // ./gradlew dependencyUpdates
     // Report: build/dependencyUpdates/report.txt
     apply(plugin = "com.github.ben-manes.versions")
