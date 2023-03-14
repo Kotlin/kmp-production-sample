@@ -8,6 +8,12 @@ you can download it from the [App Store](https://apps.apple.com/ru/app/kmm-rss-r
 and [Google Play](https://play.google.com/store/apps/details?id=com.github.jetbrains.rssreader.androidApp).
 It's been designed to demonstrate how KMM can be used in real production projects.
 
+## Compose multiplatform experiment
+
+iOS and Desktop clients were implemented as experimental features and can be viewed [here](https://github.com/Kotlin/kmm-production-sample/tree/compose-app).
+
+<img src="/media/Android+iOS+Desktop.png"/>
+
 ## Desktop and Web experiment
 
 Desktop and Web clients were implemented as experimental features and can be viewed [here](https://github.com/Kotlin/kmm-production-sample/tree/c6a0d9182802490d17729ae634fb59268f68a447).
