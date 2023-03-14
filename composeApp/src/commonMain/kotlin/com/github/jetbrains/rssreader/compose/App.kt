@@ -54,7 +54,18 @@ internal fun App() = AppTheme {
                     .asPaddingValues()
             )
         ) {
-            Navigator(MainScreen()) { navigator ->
+            val globalDialogState = LocalMutableFullScreenState.current
+            Navigator(
+                screen = MainScreen(),
+                onBackPressed = {
+                    if (globalDialogState.state.value == FullScreenState.Active) {
+                        globalDialogState.state.value = FullScreenState.Inactive
+                        return@Navigator false
+                    } else {
+                        return@Navigator true
+                    }
+                }
+            ) { navigator ->
                 Scaffold(
                     scaffoldState = scaffoldState,
                     snackbarHost = { hostState ->

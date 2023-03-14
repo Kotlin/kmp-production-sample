@@ -21,19 +21,19 @@ import androidx.compose.ui.graphics.Color
  * Main idea was found here: https://github.com/LucasAlfare/FullscreenComposable
  */
 
-private enum class FullScreenState { Active, Inactive }
+internal enum class FullScreenState { Active, Inactive }
 
-private class MutableFullScreenState(
+internal class MutableFullScreenState(
     var state: MutableState<FullScreenState> = mutableStateOf(FullScreenState.Inactive)
 )
 
-private class FullScreenComposableRef(
+internal class FullScreenComposableRef(
     var composableReference: @Composable () -> Unit = {}
 )
 
-private val LocalMutableFullScreenState = compositionLocalOf { MutableFullScreenState() }
+internal val LocalMutableFullScreenState = compositionLocalOf { MutableFullScreenState() }
 
-private val LocalFullScreenComposableReference = compositionLocalOf { FullScreenComposableRef() }
+internal val LocalFullScreenComposableReference = compositionLocalOf { FullScreenComposableRef() }
 
 @Composable
 internal fun CommonDialogHandleableApplication(
