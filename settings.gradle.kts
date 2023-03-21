@@ -22,8 +22,8 @@ pluginManagement {
         id("com.android.library").version(agp)
 
         id("com.github.ben-manes.versions").version("0.46.0")
-        id("org.jetbrains.compose").version("1.4.0-alpha01-dev975")
-        id("io.github.skeptick.libres").version("1.1.5")
+        id("org.jetbrains.compose").version("1.4.0-alpha01-dev980")
+        id("io.github.skeptick.libres").version("1.1.6")
     }
 }
 
@@ -38,9 +38,9 @@ dependencyResolutionManagement {
             //Compose
             library("androidx-compose-ui-tooling", "androidx.compose.ui:ui-tooling:1.3.3")
             library("activity-compose", "androidx.activity:activity-compose:1.6.1")
-            library("compose-libres", "io.github.skeptick.libres:libres-compose:1.1.5")
+            library("compose-libres", "io.github.skeptick.libres:libres-compose:1.1.6")
             library("compose-image-loader", "io.github.qdsfdhvh:image-loader:1.2.10")
-            library("voyager-navigator", "ca.gosyer:voyager-navigator:1.0.0-rc07")
+            library("voyager-navigator", "cafe.adriel.voyager:voyager-navigator:1.0.0-rc04")
 
             val ktor = "2.2.4"
             library("ktor-core", "io.ktor:ktor-client-core:$ktor")
