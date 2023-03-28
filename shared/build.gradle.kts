@@ -24,6 +24,10 @@ kotlin {
 
     jvm("desktop")
 
+    js {
+        browser()
+    }
+
     sourceSets {
         /*
         Source sets structure
@@ -53,7 +57,6 @@ kotlin {
                 //Datetime
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.xml.serialization)
-
             }
         }
 
@@ -84,6 +87,13 @@ kotlin {
                 implementation(libs.ktor.client.okhttp)
             }
         }
+
+        val jsMain by getting {
+            dependencies {
+                //Network
+                implementation(libs.ktor.client.js)
+            }
+        }
     }
 }
 
@@ -94,7 +104,6 @@ android {
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
         // Flag to enable support for the new language APIs

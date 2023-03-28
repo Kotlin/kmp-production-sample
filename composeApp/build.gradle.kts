@@ -4,7 +4,6 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.application")
-    kotlin("plugin.serialization")
     id("org.jetbrains.compose")
     id("io.github.skeptick.libres")
 }
@@ -22,6 +21,11 @@ kotlin {
     iosSimulatorArm64()
 
     jvm("desktop")
+
+    js {
+        browser()
+        binaries.executable()
+    }
 
     cocoapods {
         version = "1.0.0"
@@ -91,6 +95,13 @@ kotlin {
                 implementation(compose.desktop.currentOs)
             }
         }
+
+        val jsMain by getting {
+            dependencies {
+                //Compose
+                implementation(compose.web.core)
+            }
+        }
     }
 }
 
@@ -123,6 +134,7 @@ android {
 }
 
 tasks.getByPath("desktopProcessResources").dependsOn("libresGenerateResources")
+tasks.getByPath("jsProcessResources").dependsOn("libresGenerateResources")
 
 compose.desktop {
     application {
@@ -134,4 +146,13 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+compose.experimental {
+    web.application {}
+}
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile>().configureEach {
+    kotlinOptions.freeCompilerArgs += listOf(
+        "-Xklib-enable-signature-clash-checks=false",
+    )
 }
