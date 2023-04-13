@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
@@ -49,6 +50,7 @@ internal fun FeedList(store: FeedStore) {
             Image(
                 painter = painterResource(MRImages.ic_add),
                 modifier = Modifier.align(Alignment.Center),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary),
                 contentDescription = null
             )
         }

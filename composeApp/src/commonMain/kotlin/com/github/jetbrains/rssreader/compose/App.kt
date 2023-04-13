@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
@@ -90,6 +91,7 @@ internal fun App() = AppTheme {
                                         .clip(CircleShape)
                                         .clickable { navigator.pop() }
                                         .padding(8.dp),
+                                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onSecondary),
                                     contentDescription = null
                                 )
                             },

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.images.MRImages
@@ -82,6 +83,7 @@ internal fun EditIcon(
         Image(
             painter = painterResource(MRImages.ic_edit),
             modifier = Modifier.align(Alignment.Center),
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary),
             contentDescription = null
         )
     }
