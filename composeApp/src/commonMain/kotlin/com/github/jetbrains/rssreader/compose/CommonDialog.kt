@@ -16,6 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.moriatsushi.insetsx.ExperimentalSoftwareKeyboardApi
+import com.moriatsushi.insetsx.imePadding
 
 /**
  * Main idea was found here: https://github.com/LucasAlfare/FullscreenComposable
@@ -65,6 +67,7 @@ internal interface DialogRunner<T> {
     fun show(data: T)
 }
 
+@OptIn(ExperimentalSoftwareKeyboardApi::class)
 @Composable
 internal fun <T> CommonDialog(
     content: @Composable (data: T, close: () -> Unit) -> Unit
@@ -80,6 +83,7 @@ internal fun <T> CommonDialog(
         globalDialogView.composableReference = {
             Box(
                 modifier = Modifier
+                    .imePadding()
                     .background(outerBoxBackground)
                     .fillMaxSize()
                     .clickable(

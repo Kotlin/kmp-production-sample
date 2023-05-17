@@ -10,6 +10,7 @@ import com.github.jetbrains.rssreader.compose.App
 import com.github.jetbrains.rssreader.core.RssReader
 import com.github.jetbrains.rssreader.core.create
 import com.github.jetbrains.rssreader.sync.RefreshWorker
+import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

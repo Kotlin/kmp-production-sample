@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,6 +23,8 @@ import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.core.entity.Post
+import com.moriatsushi.insetsx.ExperimentalSoftwareKeyboardApi
+import com.moriatsushi.insetsx.safeDrawing
 import kotlinx.coroutines.launch
 
 @Composable
@@ -64,6 +69,7 @@ private sealed class Icons {
     object Edit : Icons()
 }
 
+@OptIn(ExperimentalSoftwareKeyboardApi::class)
 @Composable
 internal fun MainFeedBottomBar(
     feeds: List<Feed>,
@@ -77,7 +83,11 @@ internal fun MainFeedBottomBar(
         add(Icons.Edit)
     }
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().windowInsetsPadding(
+            WindowInsets.safeDrawing.only(
+                WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal
+            )
+        ),
         contentPadding = PaddingValues(16.dp)
     ) {
         this.items(items) { item ->
@@ -87,11 +97,13 @@ internal fun MainFeedBottomBar(
                     isSelected = selectedFeed == null,
                     onClick = { onFeedClick(null) }
                 )
+
                 is Icons.FeedIcon -> FeedIcon(
                     feed = item.feed,
                     isSelected = selectedFeed == item.feed,
                     onClick = { onFeedClick(item.feed) }
                 )
+
                 is Icons.Edit -> EditIcon(onClick = onEditClick)
             }
             Spacer(modifier = Modifier.size(16.dp))

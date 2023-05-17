@@ -6,17 +6,14 @@ import ComposeApp
 struct iOSApp: App {
 	var body: some Scene {
 		WindowGroup {
-		    ZStack {
-		        Color(#colorLiteral(red: 0.973, green: 0.529, blue: 0.235, alpha: 1)).ignoresSafeArea(.all)
-			    ContentView()
-			}.preferredColorScheme(.dark)
+			ContentView()
 		}
 	}
 }
 
 struct ContentView: View {
     var body: some View {
-        ComposeView().ignoresSafeArea(.all, edges: .bottom)
+        ComposeView().ignoresSafeArea(.all)
     }
 }
 
