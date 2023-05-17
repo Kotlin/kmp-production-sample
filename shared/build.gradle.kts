@@ -4,7 +4,9 @@ plugins {
     kotlin("plugin.serialization")
 }
 
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targetHierarchy.default()
     android {
         compilations.all {
             kotlinOptions {
@@ -25,16 +27,6 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
-        /*
-        Source sets structure
-        common
-         ├─ android
-         ├─ desktop
-         ├─ ios
-             ├─ iosX64
-             ├─ iosArm64
-             ├─ iosSimulatorArm64
-         */
         val commonMain by getting {
             dependencies {
                 //Network
@@ -64,14 +56,7 @@ kotlin {
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+        val iosMain by getting {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.ios)
@@ -94,7 +79,6 @@ android {
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
         // Flag to enable support for the new language APIs

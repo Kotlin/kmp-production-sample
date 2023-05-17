@@ -9,7 +9,9 @@ plugins {
     id("io.github.skeptick.libres")
 }
 
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targetHierarchy.default()
     android {
         compilations.all {
             kotlinOptions {
@@ -35,16 +37,6 @@ kotlin {
     }
 
     sourceSets {
-        /*
-        Source sets structure
-        common
-         ├─ android
-         ├─ desktop
-         ├─ ios
-             ├─ iosX64
-             ├─ iosArm64
-             ├─ iosSimulatorArm64
-         */
         val commonMain by getting {
             dependencies {
                 implementation(project(":shared"))
@@ -72,16 +64,6 @@ kotlin {
                 //DI
                 implementation(libs.koin.android)
             }
-        }
-
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
         }
 
         val desktopMain by getting {
@@ -124,14 +106,19 @@ android {
 
 tasks.getByPath("desktopProcessResources").dependsOn("libresGenerateResources")
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
+compose {
+    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin("1.8.20"))
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.8.21")
 
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "KotlinMultiplatformComposeDesktopApplication"
-            packageVersion = "1.0.0"
+    desktop {
+        application {
+            mainClass = "MainKt"
+
+            nativeDistributions {
+                targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+                packageName = "KotlinMultiplatformComposeDesktopApplication"
+                packageVersion = "1.0.0"
+            }
         }
     }
 }
