@@ -29,18 +29,17 @@ android {
     }
 
     buildTypes {
-        create("debugPG") {
-            isDebuggable = false
+        debug {
+            isDebuggable = true
             isMinifyEnabled = true
-            versionNameSuffix = " debugPG"
-            matchingFallbacks.add("debug")
+            versionNameSuffix = " debug"
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 file("proguard-rules.pro")
             )
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
 
