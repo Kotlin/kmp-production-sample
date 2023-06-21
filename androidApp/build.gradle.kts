@@ -30,9 +30,10 @@ android {
 
     buildTypes {
         create("debugPG") {
-            isDebuggable = true
+            isDebuggable = false
             isMinifyEnabled = true
-            versionNameSuffix = " debug"
+            versionNameSuffix = "debugPG"
+            matchingFallbacks.add("debug")
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
