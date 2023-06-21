@@ -29,7 +29,7 @@ android {
     }
 
     buildTypes {
-        debug {
+        create("debugPG") {
             isDebuggable = true
             isMinifyEnabled = true
             versionNameSuffix = " debug"
@@ -59,11 +59,11 @@ android {
     compileOptions {
         // Flag to enable support for the new language APIs
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
     dependencies {
         implementation(project(":shared"))
