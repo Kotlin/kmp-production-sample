@@ -5,6 +5,8 @@ plugins {
 }
 
 kotlin {
+    targetHierarchy.default()
+
     android {
         compilations.all {
             kotlinOptions {
@@ -60,7 +62,7 @@ kotlin {
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by creating {
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -80,7 +82,6 @@ android {
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
         // Flag to enable support for the new language APIs
