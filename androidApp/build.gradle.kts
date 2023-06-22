@@ -29,7 +29,7 @@ android {
     }
 
     buildTypes {
-        create("debugPG") {
+        create(" debugPG") {
             isDebuggable = false
             isMinifyEnabled = true
             versionNameSuffix = "debugPG"
@@ -53,6 +53,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()

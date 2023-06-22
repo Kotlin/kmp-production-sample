@@ -76,12 +76,18 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
     }
     compileOptions {
         // Flag to enable support for the new language APIs
         isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     dependencies {
         coreLibraryDesugaring(libs.desugar.jdk.libs)
