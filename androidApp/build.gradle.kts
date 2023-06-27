@@ -40,7 +40,7 @@ android {
                 file("proguard-rules.pro")
             )
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
 
@@ -53,6 +53,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()

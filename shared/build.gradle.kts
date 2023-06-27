@@ -5,6 +5,8 @@ plugins {
 }
 
 kotlin {
+    targetHierarchy.default()
+
     android {
         compilations.all {
             kotlinOptions {
@@ -57,14 +59,7 @@ kotlin {
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+        val iosMain by getting {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.ios)
@@ -78,9 +73,12 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
         // Flag to enable support for the new language APIs
