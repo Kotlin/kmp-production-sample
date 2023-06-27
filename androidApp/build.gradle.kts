@@ -29,10 +29,10 @@ android {
     }
 
     buildTypes {
-        create(" debugPG") {
+        create("debugPG") {
             isDebuggable = false
             isMinifyEnabled = true
-            versionNameSuffix = "debugPG"
+            versionNameSuffix = " debugPG"
             matchingFallbacks.add("debug")
 
             proguardFiles(
