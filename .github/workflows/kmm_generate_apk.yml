@@ -1,0 +1,42 @@
+name: Kmm production sample Build and Test
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Set up Kotlin
+        uses: actions/setup-kotlin@v1
+        with:
+          kotlin-version: '1.8.20'
+
+      - name: Build and Test
+        run: |
+          ./gradlew :shared:build
+          ./gradlew :androidApp:testDebug
+
+      - name: Build Android APK
+        run: ./gradlew :androidApp:assembleDebug # assembled apk
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: |
+            shared/build
+            androidApp/build/reports/tests/testDebugUnitTest
+      
