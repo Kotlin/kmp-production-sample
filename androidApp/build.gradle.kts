@@ -13,8 +13,8 @@ android {
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
 
         applicationId = "com.github.jetbrains.rssreader.androidApp"
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
     }
 
     signingConfigs {
