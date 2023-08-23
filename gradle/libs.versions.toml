@@ -1,30 +1,25 @@
 [versions]
-plugin-android = "8.1.0"
-plugin-kotlin = "1.8.22"
-plugin-gver = "0.47.0"
+agp = "8.1.1"
+kotlin = "1.9.0"
+dependencyUpdates = "0.47.0"
 
-androidx-compose-compiler = "1.4.8"
-androidx-compose = "1.4.3"
-androidx-compose-ui = "1.4.3"
-kotlinx-serialization = "1.5.1"
-kotlinx-coroutines = "1.7.2"
-ktor = "2.3.2"
+androidx-compose-compiler = "1.5.1"
+androidx-compose = "1.5.0"
+androidx-compose-ui = "1.5.0"
+kotlinx-serialization = "1.6.0"
+kotlinx-coroutines = "1.7.3"
+ktor = "2.3.3"
 napier = "2.6.1"
 multiplatform-settings = "1.0.0"
 voyager = "1.0.0-rc06"
-koin = "3.4.2"
-accompanist = "0.30.1"
+koin = "3.4.3"
+accompanist = "0.32.0"
 coil = "2.4.0"
 activity-compose = "1.7.2"
 work-runtime-ktx = "2.8.1"
 desugar-jdk-libs = "2.0.3"
 
 [libraries]
-plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "plugin-kotlin" }
-plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "plugin-kotlin" }
-plugin-gver = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "plugin-gver" }
-
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose" }
@@ -48,5 +43,11 @@ accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiper
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 
-[bundles]
-plugins = ["plugin-android", "plugin-kotlin",  "plugin-kotlin-serialization", "plugin-gver"]
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+dependencyUpdates = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdates" }

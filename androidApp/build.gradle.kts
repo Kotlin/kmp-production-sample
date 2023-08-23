@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("kotlin-parcelize")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {

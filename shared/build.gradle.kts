@@ -1,13 +1,12 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 kotlin {
     targetHierarchy.default()
-
-    android {
+    androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -25,15 +24,7 @@ kotlin {
     }
 
     sourceSets {
-        /*
-        Source sets structure
-        common
-         ├─ android
-         ├─ ios
-             ├─ iosX64
-             ├─ iosArm64
-             ├─ iosSimulatorArm64
-         */
+        targetHierarchy.default()
         val commonMain by getting {
             dependencies {
                 //Network
@@ -72,10 +63,6 @@ android {
     namespace = "com.github.jetbrains.rssreader"
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-
-    buildFeatures {
-        buildConfig = true
-    }
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()

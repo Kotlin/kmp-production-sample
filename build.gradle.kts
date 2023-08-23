@@ -1,37 +1,15 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath(libs.bundles.plugins)
-    }
+plugins {
+    alias(libs.plugins.android.application).apply(false)
+    alias(libs.plugins.android.library).apply(false)
+    alias(libs.plugins.kotlinx.serialization).apply(false)
+    alias(libs.plugins.kotlin.multiplatform).apply(false)
+    alias(libs.plugins.kotlin.android).apply(false)
+    alias(libs.plugins.kotlin.parcelize).apply(false)
+    alias(libs.plugins.dependencyUpdates).apply(false)
 }
 
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
     // ./gradlew dependencyUpdates
     // Report: build/dependencyUpdates/report.txt
     apply(plugin = "com.github.ben-manes.versions")
-}
-
-//https://github.com/ben-manes/gradle-versions-plugin#rejectversionsif-and-componentselection
-fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(version)
-    return isStable.not()
-}
-
-tasks.withType<DependencyUpdatesTask> {
-    rejectVersionIf {
-        isNonStable(candidate.version) && !isNonStable(currentVersion)
-    }
 }
