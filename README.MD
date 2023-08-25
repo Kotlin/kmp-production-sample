@@ -3,10 +3,7 @@
 <img src="/media/ios+android.png"/>  
 
 This is an open-source, mobile, cross-platform application built
-with [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/). It's a simple RSS reader, and
-you can download it from the [App Store](https://apps.apple.com/ru/app/kmm-rss-reader/id1563922264)
-and [Google Play](https://play.google.com/store/apps/details?id=com.github.jetbrains.rssreader.androidApp).
-It's been designed to demonstrate how KMM can be used in real production projects.
+with [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/).
 
 ## Compose multiplatform experiment
 
