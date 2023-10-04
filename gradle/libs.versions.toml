@@ -1,9 +1,9 @@
 [versions]
 agp = "8.1.1"
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 dependencyUpdates = "0.47.0"
 
-androidx-compose-compiler = "1.5.1"
+androidx-compose-compiler = "1.5.3"
 androidx-compose = "1.5.0"
 androidx-compose-ui = "1.5.0"
 kotlinx-serialization = "1.6.0"
