@@ -5,11 +5,10 @@ plugins {
 }
 
 kotlin {
-    targetHierarchy.default()
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
     }
@@ -24,8 +23,7 @@ kotlin {
     }
 
     sourceSets {
-        targetHierarchy.default()
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 //Network
                 implementation(libs.ktor.core)
@@ -43,14 +41,14 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.okhttp)
             }
         }
 
-        val iosMain by getting {
+        iosMain {
             dependencies {
                 //Network
                 implementation(libs.ktor.client.ios)
@@ -70,8 +68,8 @@ android {
     compileOptions {
         // Flag to enable support for the new language APIs
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     dependencies {
         coreLibraryDesugaring(libs.desugar.jdk.libs)
