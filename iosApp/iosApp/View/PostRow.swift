@@ -31,7 +31,7 @@ struct PostRow: View {
                 URLImage(url: url) { image in
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .aspectRatio(contentMode: .fit)
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .clipped()
