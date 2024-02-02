@@ -23,36 +23,30 @@ kotlin {
     }
 
     sourceSets {
-        commonMain {
-            dependencies {
-                //Network
-                implementation(libs.ktor.core)
-                implementation(libs.ktor.logging)
-                //Coroutines
-                implementation(libs.kotlinx.coroutines.core)
-                //Logger
-                implementation(libs.napier)
-                //JSON
-                implementation(libs.kotlinx.serialization.json)
-                //Key-Value storage
-                implementation(libs.multiplatform.settings)
-                // DI
-                api(libs.koin.core)
-            }
+        commonMain.dependencies {
+            //Network
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.logging)
+            //Coroutines
+            implementation(libs.kotlinx.coroutines.core)
+            //Logger
+            implementation(libs.napier)
+            //JSON
+            implementation(libs.kotlinx.serialization.json)
+            //Key-Value storage
+            implementation(libs.multiplatform.settings)
+            // DI
+            api(libs.koin.core)
         }
 
-        androidMain {
-            dependencies {
-                //Network
-                implementation(libs.ktor.client.okhttp)
-            }
+        androidMain.dependencies {
+            //Network
+            implementation(libs.ktor.client.okhttp)
         }
 
-        iosMain {
-            dependencies {
-                //Network
-                implementation(libs.ktor.client.ios)
-            }
+        iosMain.dependencies {
+            //Network
+            implementation(libs.ktor.client.ios)
         }
     }
 }
