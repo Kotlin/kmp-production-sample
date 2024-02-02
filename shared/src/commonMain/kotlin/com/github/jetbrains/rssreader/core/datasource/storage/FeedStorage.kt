@@ -23,6 +23,7 @@ class FeedStorage(
         }
         set(value) {
             val list = value.map { it.value }
+            settings.remove(KEY_FEED_CACHE)
             settings[KEY_FEED_CACHE] =
                 json.encodeToString(ListSerializer(Feed.serializer()), list)
         }

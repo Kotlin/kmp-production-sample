@@ -8,18 +8,19 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "1.8"
             }
         }
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "RssReader"
-        }
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    jvm()
+
+    js {
+        browser()
     }
 
     sourceSets {
@@ -33,10 +34,14 @@ kotlin {
             implementation(libs.napier)
             //JSON
             implementation(libs.kotlinx.serialization.json)
+            //XML
+            implementation(libs.xml.serialization)
             //Key-Value storage
             implementation(libs.multiplatform.settings)
             // DI
             api(libs.koin.core)
+            //Datetime
+            implementation(libs.kotlinx.datetime)
         }
 
         androidMain.dependencies {
@@ -47,6 +52,18 @@ kotlin {
         iosMain.dependencies {
             //Network
             implementation(libs.ktor.client.ios)
+        }
+
+        jvmMain.dependencies {
+            //Network
+            implementation(libs.ktor.client.okhttp)
+        }
+
+        jsMain.dependencies {
+            //Network
+            implementation(libs.ktor.client.js)
+            //okio fix
+            implementation(devNpm("node-polyfill-webpack-plugin", "^2.0.1"))
         }
     }
 }
@@ -62,8 +79,8 @@ android {
     compileOptions {
         // Flag to enable support for the new language APIs
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     dependencies {
         coreLibraryDesugaring(libs.desugar.jdk.libs)
