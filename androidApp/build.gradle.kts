@@ -1,7 +1,10 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -20,7 +23,7 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("./key/key.jks")
-            com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir).apply {
+            gradleLocalProperties(rootDir, providers).apply {
                 storePassword = getProperty("storePwd")
                 keyAlias = getProperty("keyAlias")
                 keyPassword = getProperty("keyPwd")
@@ -54,9 +57,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
     compileOptions {
         // Flag to enable support for the new language APIs
