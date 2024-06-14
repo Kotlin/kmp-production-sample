@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android).apply(false)
     alias(libs.plugins.kotlin.parcelize).apply(false)
     alias(libs.plugins.dependencyUpdates).apply(false)
+    alias(libs.plugins.compose.compiler).apply(false)
 }
 
 allprojects {
