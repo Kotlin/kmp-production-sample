@@ -11,11 +11,11 @@ import SwiftUI
 import RssReader
 
 @main
-class RSSApp: App {
+struct RSSApp: App {
     let rss: RssReader
     let store: ObservableFeedStore
     
-    required init() {
+    init() {
         rss = RssReader.Companion().create(withLog: true)
         store = ObservableFeedStore(store: FeedStore(rssReader: rss))
     }
