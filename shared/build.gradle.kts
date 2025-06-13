@@ -11,9 +11,10 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -21,6 +22,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "RssReader"
+            isStatic = true
         }
     }
 
@@ -54,20 +56,14 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.jetbrains.rssreader"
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
-
-    defaultConfig {
-        minSdk = (findProperty("android.minSdk") as String).toInt()
-    }
+    namespace = "org.example.project.shared"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
-        // Flag to enable support for the new language APIs
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    dependencies {
-        coreLibraryDesugaring(libs.desugar.jdk.libs)
+    defaultConfig {
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }
+

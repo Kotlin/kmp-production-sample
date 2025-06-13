@@ -1,4 +1,4 @@
-package com.github.jetbrains.rssreader.androidApp.composeui
+package com.github.jetbrains.rssreader.composeui
 
 import android.content.Intent
 import android.net.Uri
