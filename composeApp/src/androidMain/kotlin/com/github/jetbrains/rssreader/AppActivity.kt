@@ -59,9 +59,9 @@ class AppActivity : ComponentActivity() {
                         snackbarHost = { hostState ->
                             SnackbarHost(
                                 hostState = hostState,
-                                modifier = Modifier.Companion.padding(
-                                    WindowInsets.Companion.systemBars
-                                        .only(WindowInsetsSides.Companion.Bottom)
+                                modifier = Modifier.padding(
+                                    WindowInsets.systemBars
+                                        .only(WindowInsetsSides.Bottom)
                                         .asPaddingValues()
                                 )
                             )

@@ -18,7 +18,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":shared"))
+            implementation(projects.shared)
             //Compose
             implementation(compose.runtime)
             implementation(compose.foundation)

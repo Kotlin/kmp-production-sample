@@ -20,7 +20,7 @@ class App : Application() {
     }
 
     private val appModule = module {
-        single { RssReader.Companion.create(get(), BuildConfig.DEBUG) }
+        single { RssReader.create(get(), BuildConfig.DEBUG) }
         single { FeedStore(get()) }
     }
 
