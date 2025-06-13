@@ -1,9 +1,9 @@
-package com.github.jetbrains.rssreader.androidApp.composeui
+package com.github.jetbrains.rssreader.composeui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.github.jetbrains.rssreader.core.entity.Feed
 import com.github.jetbrains.rssreader.core.entity.Post
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable

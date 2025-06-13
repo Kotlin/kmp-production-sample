@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "RssReader"
 
 pluginManagement {
@@ -17,4 +19,4 @@ dependencyResolutionManagement {
 
 
 include(":shared")
-include(":androidApp")
+include(":composeApp")

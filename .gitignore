@@ -13,3 +13,4 @@ Pods/
 /androidApp/key
 *.jks
 *yarn.lock
+.kotlin
