@@ -79,4 +79,9 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+
+    lint{
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
 }

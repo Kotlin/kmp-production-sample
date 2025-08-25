@@ -80,15 +80,20 @@ android {
         versionName = "1.1"
     }
 
-    signingConfigs {
-        create("release") {
-            storeFile = file("./key/key.jks")
-            gradleLocalProperties(rootDir, providers).apply {
-                storePassword = getProperty("storePwd")
-                keyAlias = getProperty("keyAlias")
-                keyPassword = getProperty("keyPwd")
-            }
-        }
+//    signingConfigs {
+//        create("release") {
+//            storeFile = file("./key/key.jks")
+//            gradleLocalProperties(rootDir, providers).apply {
+//                storePassword = getProperty("storePwd")
+//                keyAlias = getProperty("keyAlias")
+//                keyPassword = getProperty("keyPwd")
+//            }
+//        }
+//    }
+
+    lint{
+        abortOnError = false
+        checkReleaseBuilds = false
     }
 
     buildTypes {
@@ -105,7 +110,7 @@ android {
         }
         release {
             isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("release")
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

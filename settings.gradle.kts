@@ -11,9 +11,9 @@ pluginManagement {
         val kotlin_repo_url: String? by settings
         kotlin_repo_url?.let { maven(url = it) }
     }
-    plugins {
-        kotlin("jvm") version "2.2.0"
-    }
+//    plugins {
+//        kotlin("jvm") version "2.2.0"
+//    }
 }
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
@@ -21,9 +21,11 @@ plugins {
 
 dependencyResolutionManagement {
     versionCatalogs {
-        val kotlin_version: String by settings
+
         create("libs") {
-            version("kotlin", kotlin_version)
+
+            val kotlin_version: String? by settings
+            kotlin_version?.let { version("kotlin", it) }
         }
     }
     repositories {
