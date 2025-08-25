@@ -34,6 +34,10 @@ kotlin {
 
     jvm()
 
+    compilerOptions {
+        freeCompilerArgs.add("-Xpartial-linkage-loglevel=ERROR")
+    }
+
     sourceSets {
         commonMain.dependencies {
             //Compose
