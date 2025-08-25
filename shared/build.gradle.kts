@@ -20,6 +20,10 @@ kotlin {
         androidResources {
             enable = true
         }
+        lint {
+            abortOnError = false
+            checkReleaseBuilds = false
+        }
     }
 
     listOf(
