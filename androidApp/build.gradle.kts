@@ -10,6 +10,7 @@ plugins {
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_11
+        freeCompilerArgs.add("-Xpartial-linkage-loglevel=ERROR")
     }
     dependencies {
         implementation(projects.shared)

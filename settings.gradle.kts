@@ -12,10 +12,21 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+
+        val kotlin_repo_url: String? by settings
+        kotlin_repo_url?.let { maven(url = it) }
     }
 }
 
 dependencyResolutionManagement {
+    versionCatalogs {
+
+        create("libs") {
+
+            val kotlin_version: String? by settings
+            kotlin_version?.let { version("kotlin", it) }
+        }
+    }
     repositories {
         google {
             mavenContent {
@@ -25,6 +36,8 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        val kotlin_repo_url: String? by settings
+        kotlin_repo_url?.let { maven(url = it) }
     }
 }
 

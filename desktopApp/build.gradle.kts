@@ -7,6 +7,10 @@ plugins {
 }
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xpartial-linkage-loglevel=ERROR")
+    }
+
     dependencies {
         implementation(projects.shared)
         implementation(compose.desktop.currentOs)
