@@ -7,6 +7,9 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
+
+        val kotlin_repo_url: String? by settings
+        kotlin_repo_url?.let { maven(url = it) }
     }
     plugins {
         kotlin("jvm") version "2.2.0"
@@ -17,9 +20,17 @@ plugins {
 }
 
 dependencyResolutionManagement {
+    versionCatalogs {
+        val kotlin_version: String by settings
+        create("libs") {
+            version("kotlin", kotlin_version)
+        }
+    }
     repositories {
         google()
         mavenCentral()
+        val kotlin_repo_url: String? by settings
+        kotlin_repo_url?.let { maven(url = it) }
     }
 }
 
