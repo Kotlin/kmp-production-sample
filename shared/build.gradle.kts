@@ -96,3 +96,7 @@ compose.resources {
     packageOfResClass = "com.github.jetbrains.rssreader"
     generateResClass = auto
 }
+
+tasks.named("linkReleaseFrameworkIosSimulatorArm64"){
+    enabled = false
+}
