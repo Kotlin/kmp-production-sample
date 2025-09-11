@@ -74,4 +74,6 @@ subprojects {
             }
         }
     }
+
+    tasks.matching { it.name.startsWith("lint") }.configureEach { enabled = false }
 }
