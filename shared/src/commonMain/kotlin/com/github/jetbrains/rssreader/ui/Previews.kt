@@ -1,12 +1,14 @@
+@file:Suppress("DEPRECATION")
+
 package com.github.jetbrains.rssreader.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.github.jetbrains.rssreader.domain.Channel
 import com.github.jetbrains.rssreader.domain.Image
 import com.github.jetbrains.rssreader.domain.Item
 import com.github.jetbrains.rssreader.domain.MediaContent
 import com.github.jetbrains.rssreader.domain.RssFeed
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
