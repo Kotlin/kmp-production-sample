@@ -62,6 +62,9 @@ jobs:
       - name: Gradle setup
         uses: ./.github/actions/gradle-setup
 
+      - name: Select Xcode 26.0
+        run: sudo xcode-select -s /Applications/Xcode_26.0.app
+
       - name: Build iOS simulator app
         run: |
           xcodebuild build \
@@ -71,7 +74,7 @@ jobs:
           -sdk iphonesimulator \
           -arch arm64 \
           -derivedDataPath ./build \
-          -verbose
+          CODE_SIGNING_ALLOWED=NO
 
       - name: Upload App Folder
         uses: actions/upload-artifact@v4
@@ -91,7 +94,7 @@ jobs:
         uses: ./.github/actions/gradle-setup
 
       - name: Build macOS DMG
-        run: ./gradlew :desktop:packageDmg
+        run: ./gradlew :desktopApp:packageDmg
 
       - name: Upload macOS DMG
         uses: actions/upload-artifact@v4
@@ -107,11 +110,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5.0.0
+      - name: Gradle setup
+        uses: ./.github/actions/gradle-setup
 
       - name: Build Windows MSI
-        run: ./gradlew :desktop:packageMsi
+        run: ./gradlew :desktopApp:packageMsi
 
       - name: Upload Windows MSI
         uses: actions/upload-artifact@v4
