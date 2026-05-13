@@ -1,45 +1,31 @@
 [![official project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
-# KMM RSS Reader
+# KMP RSS Reader
 
 <img src="/media/ios+android.png"/>  
 
-This is an open-source, mobile, cross-platform application built
-with [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/).
-
-## Compose multiplatform experiment
-
-iOS and Desktop clients were implemented as experimental features and can be viewed [here](https://github.com/Kotlin/kmm-production-sample/tree/compose-app).
-
-<img src="/media/Android+iOS+Desktop.png"/>
-
-## Desktop and Web experiment
-
-Desktop and Web clients were implemented as experimental features and can be viewed [here](https://github.com/Kotlin/kmm-production-sample/tree/c6a0d9182802490d17729ae634fb59268f68a447).
+This is an open-source cross-platform application built
+with [Kotlin Multiplatform](https://kotlinlang.org/multiplatform/).
 
 <img src="/media/desktop+web.png"/>
 
 ## Project structure
 
-This repository contains a common Kotlin Multiplatform module, a Android project
-and an iOS project. The common module is connected with the Android project via the
-Gradle multi-project mechanism. For use in iOS applications, the shared module compiles into a
-framework that is exposed to the Xcode project via the internal integration Gradle task. This
-framework connects to the Xcode project that builds an iOS application.
+This repository contains a common Kotlin Multiplatform module, an Android project, an iOS project, and a desktop project.
+The common module is connected with the Android project via the Gradle multi-project mechanism. 
+For use in iOS applications, the shared module compiles into a framework that is exposed to the Xcode project via the internal integration Gradle task. 
+This framework connects to the Xcode project that builds an iOS application.
 
-You can achieve the same structure by creating a project with
-the [KMM Plugin project wizard](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
-or cloning the [basic sample project](https://github.com/Kotlin/kmm-sample/).
+You can achieve the same structure by creating a project with the [KMP project wizard](https://kmp.jetbrains.com/?android=true&ios=true&iosui=compose&desktop=true&includeTests=true)
+or via plugin available for Android Studio and IntelliJ IDEA(https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile).
 
 <img src="/media/basic-structure.png"/>
 
 ## Architecture
 
-Kotlin Multiplatform Mobile is a flexible technology that allows you to share only what you want to
-share, from the core layer to UI layers.
+Kotlin Multiplatform is a flexible technology that allows you to share only what you want to share, from the core layer to UI layers.
 
-This sample demonstrates sharing not only the data and domain layers of the app but also the
-application state:
+This sample demonstrates sharing not only the data and domain layers of the app but also the application state:
 
 <img src="/media/top-level-arch.jpeg"/>
 
@@ -50,7 +36,7 @@ local storage is for caching the feed, which makes it possible to use the applic
 offline. [Ktor HTTP Client](https://ktor.io/docs/client.html) is used for making API
 requests. [Kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) is used to
 serialize feed data and store it locally
-with [MultiplaformSettings](https://github.com/russhwolf/multiplatform-settings). This logic is
+with [MultiplatformSettings](https://github.com/russhwolf/multiplatform-settings). This logic is
 organized in the shared module of the `com.github.jetbrains.rssreader.core` package.
 
 ### Shared application state
