@@ -1,24 +1,23 @@
 [versions]
-accompanist = "0.36.0"
-agp = "9.0.1"
-android-compileSdk = "36"
+agp = "9.1.0"
+android-compileSdk = "37"
 android-minSdk = "26"
-android-targetSdk = "36"
+android-targetSdk = "37"
 androidx-activity = "1.13.0"
 androidx-core-splashscreen = "1.2.0"
-androidx-lifecycle = "2.10.0"
+androidx-lifecycle = "2.11.0-beta01"
 androidx-navigation = "2.9.2"
 androidx-work = "2.11.2"
-coil = "3.4.0"
+coil = "3.5.0"
 compose-material-icons = "1.7.3"
 compose-material3 = "1.11.0-alpha07"
-compose-multiplatform = "1.11.0"
-koin = "4.2.1"
-kotlin = "2.3.21"
+compose-multiplatform = "1.11.1"
+koin = "4.2.2"
+kotlin = "2.4.10"
 kotlinx-coroutines = "1.11.0"
 kotlinx-datetime = "0.8.0"
 kotlinx-serialization = "1.11.0"
-ktor = "3.4.3"
+ktor = "3.5.1"
 multiplatform-settings = "1.3.0"
 napier = "2.7.1"
 xmlutil = "0.91.3"
@@ -45,7 +44,6 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
-accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 work-runtime = { module = "androidx.work:work-runtime", version.ref = "androidx-work" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
