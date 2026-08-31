@@ -73,3 +73,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+androidComponents {
+    beforeVariants { variant ->
+        variant.enable = variant.buildType == "debugPG"
+    }
+}
